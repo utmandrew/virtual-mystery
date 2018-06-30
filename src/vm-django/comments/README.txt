@@ -1,0 +1,2 @@
+This application has to do with the comment system structure:
+ - Whether a framework is used or the comment system is implemented,    anything that has to do with commenting will be within this application 
