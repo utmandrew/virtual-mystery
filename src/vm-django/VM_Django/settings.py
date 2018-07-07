@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # new apps
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders',
     'comments.apps.CommentsConfig',
     'mystery.apps.MysteryConfig',
     'system.apps.SystemConfig',
@@ -48,6 +49,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    # new middleware
+    'corsheaders.middleware.CorsMiddleware',
+    # default middleware
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -122,6 +126,21 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     )
 }
+
+# Django CORS Headers
+# https://github.com/ottoyiu/django-cors-headers/
+
+# allow any host to make http requests with the django-rest-framework api.
+# comment out the CORS_ORIGIN_WHITELIST if you want to use this feature.
+CORS_ORIGIN_ALLOW_ALL = True
+
+# list of authorized hosts allowed to make http requests with the
+# django-rest-framework api.
+# comment the CORS_ORIGIN_ALLOW_ALL (default to False) if using the whitelist.
+# CORS_ORIGIN_WHITELIST = (
+#     'localhost:4200',
+#     '127.0.0.1:4200',
+# )
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
