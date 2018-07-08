@@ -1,4 +1,5 @@
 <form (ngSubmit)="f.form.valid && getToken()" #f="ngForm">
+	<p *ngIf="error"> Login was unsuccessful. </p>
 	<div class="form-group">
 		<label for="username"> Username </label>
 		<input type="text" class="form-control" name="username" placeholder="Username" [(ngModel)]="model.username" #username="ngModel">
