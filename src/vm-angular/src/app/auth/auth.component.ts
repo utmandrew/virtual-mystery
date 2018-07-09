@@ -28,7 +28,10 @@ export class AuthComponent implements OnInit {
 		  this.userService.setToken(response['token'])
 	  },
 	  // sets error flag to true iff an error occurs with the request
-	  error => this.error = true);
+	  error => {
+		  this.error = true;
+		  console.log(error);
+	  });
   };
 
 }
