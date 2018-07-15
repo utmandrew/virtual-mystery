@@ -21,4 +21,9 @@ export class AuthService {
 	  return this.httpClient.get(`${this.API_URL}/auth/logout`);
   }
   
+  // returns true iff user is logged in, otherwise returns false
+  getUser() {
+	  return sessionStorage.getItem('currentUser') != null;
+  }
+  
 }

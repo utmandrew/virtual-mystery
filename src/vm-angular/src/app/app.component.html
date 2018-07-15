@@ -19,7 +19,7 @@
 </ul> -->
 <nav class="navbar navbar-inverse bg-primary">
 	<a class="navbar-brand font-weight-bold text-white">Virtual Mystery</a>
-	<app-logout *ngIf="user" ></app-logout>
+	<app-logout *ngIf="authService.getUser()" ></app-logout>
 </nav>
 
 <div class="container">

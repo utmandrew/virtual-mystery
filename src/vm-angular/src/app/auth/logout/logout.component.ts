@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-logout',
@@ -8,7 +9,7 @@ import { AuthService } from '../auth.service';
 })
 export class LogoutComponent implements OnInit {
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, public router: Router) { }
 
   ngOnInit() {
   }
@@ -18,8 +19,12 @@ export class LogoutComponent implements OnInit {
   
   deleteToken() {
 	  this.authService.deleteToken().subscribe((response) => {
+		  // removes current user info from session storage
 		  sessionStorage.removeItem('currentUser');
+		  // sets error flag
 		  this.error = false;
+		  // redirects user to login page
+		  this.router.navigate(['auth']);
 	  },
 	  // sets error flag to true iff an error occurs with the request
 	  error => {

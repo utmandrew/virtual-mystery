@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
 	  this.authService.getToken(this.model).subscribe((response) => {
 		  // logs response token onto console (for testing only)
 		  console.log(response['token']);
+		  // sets error flag
 		  this.error = false;
 		  // sets current user token value into browsers session storage
 		  sessionStorage.setItem('currentUser', JSON.stringify({ token: response['token'] }));
