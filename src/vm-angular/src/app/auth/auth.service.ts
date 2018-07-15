@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpService } from './http.service';
+import { HttpService } from '../http.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,4 +15,10 @@ export class AuthService {
   getToken(data){
 	  return this.httpClient.post(`${this.API_URL}/auth/token`,data);
   }
+  
+  deleteToken(){
+	  // log user out 
+	  return this.httpClient.get(`${this.API_URL}/auth/logout`);
+  }
+  
 }

@@ -7,4 +7,16 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
+  // authenticated user flag (default = false)
+  user: boolean = false;
+  
+  constructor() {
+	// sets user flag
+	if (sessionStorage.getItem('currentUser')) {
+		this.user = true;
+	} else {
+		this.user = false;
+	}
+  }
+  
 }

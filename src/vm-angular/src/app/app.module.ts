@@ -10,14 +10,19 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
 // custom components
 import { AppComponent } from './app.component';
 import { AuthComponent } from './auth/auth.component';
+import { LoginComponent } from './auth/login/login.component';
+import { LogoutComponent } from './auth/logout/logout.component';
 
 // custom services/interceptors
 import { AuthInterceptor } from './auth/auth.interceptor';
 
+
 @NgModule({
   declarations: [
     AppComponent,
-    AuthComponent
+    AuthComponent,
+    LoginComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,
