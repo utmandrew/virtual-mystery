@@ -6,6 +6,7 @@ import { tap } from 'rxjs/operators';
 
 @Injectable()
 
+// checks for http_401_unauthorized responses and redirects user back to login page
 export class AuthInterceptor implements HttpInterceptor {
 
   constructor(public router: Router) {}

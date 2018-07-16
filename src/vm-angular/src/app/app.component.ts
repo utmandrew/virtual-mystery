@@ -9,6 +9,7 @@ import { AuthService } from './auth/auth.service';
 export class AppComponent {
   title = 'app';
   
+  // AuthService is used in the html
   constructor(private authService: AuthService) {  }
   
 }

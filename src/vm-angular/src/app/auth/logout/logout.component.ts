@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
   templateUrl: './logout.component.html',
   styleUrls: ['./logout.component.css']
 })
+
+// component that deals with user logout
 export class LogoutComponent implements OnInit {
 
   constructor(private authService: AuthService, public router: Router) { }
@@ -14,7 +16,7 @@ export class LogoutComponent implements OnInit {
   ngOnInit() {
   }
   
-  // error flag
+  // error flag (currently not used)
   error: boolean = false;
   
   deleteToken() {
@@ -29,7 +31,7 @@ export class LogoutComponent implements OnInit {
 	  // sets error flag to true iff an error occurs with the request
 	  error => {
 		  this.error = true;
-		  console.log(error);
+		  // console.log(error);
 	  });
   }
 

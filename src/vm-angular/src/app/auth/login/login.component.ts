@@ -6,6 +6,8 @@ import { AuthService } from '../auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+
+// componenet that handels user login
 export class LoginComponent implements OnInit {
 
   constructor(private authService: AuthService) { }
@@ -20,19 +22,23 @@ export class LoginComponent implements OnInit {
   
   getToken(){
 	  // logs authentication info onto console (for testing only)
-	  console.log(JSON.stringify(this.model));
+	  // console.log(JSON.stringify(this.model));
+	  
 	  this.authService.getToken(this.model).subscribe((response) => {
+		  
 		  // logs response token onto console (for testing only)
-		  console.log(response['token']);
+		  // console.log(response['token']);
+		  
 		  // sets error flag
 		  this.error = false;
+		  
 		  // sets current user token value into browsers session storage
 		  sessionStorage.setItem('currentUser', JSON.stringify({ token: response['token'] }));
 	  },
 	  // sets error flag to true iff an error occurs with the request
 	  error => {
 		  this.error = true;
-		  console.log(error);
+		  // console.log(error);
 	  });
   };
 
