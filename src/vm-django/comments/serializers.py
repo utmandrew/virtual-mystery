@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import Comment, Reply
 
 
-class ReplySerializer(serializers.ModelSerializer):
+class ReplyViewSerializer(serializers.ModelSerializer):
     """
     Serializes/Deserializes Reply class objects.
     """
@@ -13,17 +13,34 @@ class ReplySerializer(serializers.ModelSerializer):
         fields = ('id', 'username', 'text')
 
 
-class CommentSerializer(serializers.ModelSerializer):
+class CommentViewSerializer(serializers.ModelSerializer):
     """
-    Serializes/Deserializes Comment class objects.
+    Serializes Comment class objects.
 
     Note:
-        - Do not need to include instance
+        - Used for sending specific comment object data at api endpoints
 
     """
-    reply = ReplySerializer(many=True, read_only=True)
+    reply = ReplyViewSerializer(many=True, read_only=True)
     username = serializers.CharField(source='owner.username')
 
     class Meta:
         model = Comment
-        fields = ('id', 'username', 'instance', 'text', 'reply')
+        fields = ('id', 'username', 'text', 'reply')
+
+
+class CommentCreateSerializer(serializers.ModelSerializer):
+    """
+    Deserializes and creates comment class objects from json data.
+
+    Note:
+        - Used for creating comment objects from specific data received through
+          api endpoint post requests.
+
+        - Add support for release (clue)
+
+    """
+
+    class Meta:
+        model = Comment
+        fields = ('owner', 'instance', 'text')
