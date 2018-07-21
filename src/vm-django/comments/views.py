@@ -1,14 +1,55 @@
 from django.core.exceptions import ObjectDoesNotExist
-from .serializers import CommentCreateSerializer, ReplyCreateSerializer
-from .models import Comment
+from django.http import HttpResponseRedirect
+
 from rest_framework import status, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authentication import TokenAuthentication
+
+from .serializers import CommentCreateSerializer, ReplyCreateSerializer, \
+    CommentViewSerializer
+from .models import Comment
 from mystery.models import Instance
 
 
 # Create your views here.
+
+class CommentList(APIView):
+    """
+    Returns a list of comment objects.
+
+    Notes:
+        - Add support for release (clue)
+    """
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request):
+        """
+        Returns a list of comment form the users instance.
+        """
+        try:
+            instance = request.user.profile.group.instance.all()[0].id
+            comments = Comment.objects.filter(instance=instance)
+        except AttributeError:
+            # catches if an attribute does not exist
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        except ObjectDoesNotExist:
+            # catches if an object (instance) does not exist
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        serializer = CommentViewSerializer(comments, many=True)
+        return Response(serializer.data)
+
+
+    # def post(self, request):
+    #     """
+    #     Returns a list of comments based on the release/clue number sent.
+    #
+    #     Notes:
+    #          - check if the release/clue has been released
+    #
+    #     """
+    #     pass
 
 
 class CommentCreate(APIView):
@@ -51,6 +92,8 @@ class ReplyCreate(APIView):
     """
     Creates a new reply.
     """
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (permissions.IsAuthenticated,)
 
     def post(self, request):
         """
