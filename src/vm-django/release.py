@@ -9,12 +9,12 @@ from django.conf import settings
 
 def get_current_release():
     """
-    Gets the current release number based on the current time and the specified
-    release time interval.
+    Returns the current release number, otherwise returns zero if
+    START_DATETIME not yet reached.
 
     Note:
-        - release time and time interval are set in the main settings file
-        - times are in the TIME_ZONE timezone, set in the main settings file
+        - START_DATETIME and RELEASE_INTERVAL are set in the main settings file
+        - times are in the timezone TIME_ZONE, set in the main settings file
 
     Test:
         - before start date (pass)
