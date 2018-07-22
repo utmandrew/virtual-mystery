@@ -161,7 +161,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
-# Custom Variables
+# DateTime for clue release
+# https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior
 
 DATETIME_FORMAT = "%d/%m/%Y %H:%M:%S"
 # mystery start datetime (in datetime format)
