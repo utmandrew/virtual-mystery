@@ -159,3 +159,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# DateTime for clue release
+# https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior
+
+DATETIME_FORMAT = "%d/%m/%Y %H:%M:%S"
+# mystery start datetime (in datetime format)
+START_DATETIME = "22/06/2018 12:00:00"
+# time interval in days
+RELEASE_INTERVAL = "7"
