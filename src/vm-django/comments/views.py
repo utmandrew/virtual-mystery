@@ -9,7 +9,8 @@ from rest_framework.authentication import TokenAuthentication
 from .serializers import CommentCreateSerializer, ReplyCreateSerializer, \
     CommentViewSerializer
 from .models import Comment
-from mystery.models import Instance
+# from mystery.models import Instance
+from release import get_current_release
 
 
 # Create your views here.
@@ -17,39 +18,36 @@ from mystery.models import Instance
 class CommentList(APIView):
     """
     Returns a list of comment objects.
-
-    Notes:
-        - Add support for release (clue)
     """
     authentication_classes = (TokenAuthentication,)
     permission_classes = (permissions.IsAuthenticated,)
 
-    def get(self, request):
+    def get(self, request, release):
         """
-        Returns a list of comment form the users instance.
+        Returns a list of comments from the users instance and specified
+        release.
+        :param release: a release id, passed in the url.
         """
+
         try:
             instance = request.user.profile.group.instance.all()[0].id
-            comments = Comment.objects.filter(instance=instance)
+
+            # checks if user has commented on the current release
+            if Comment.objects.filter(instance=instance, release=release,
+                                      owner=request.user.id):
+                comments = Comment.objects.filter(instance=instance,
+                                                  release=release)
+                serializer = CommentViewSerializer(comments, many=True)
+                return Response(serializer.data)
+            else:
+                return Response(status=status.HTTP_403_FORBIDDEN)
+
         except AttributeError:
             # catches if an attribute does not exist
             return Response(status=status.HTTP_400_BAD_REQUEST)
         except ObjectDoesNotExist:
             # catches if an object (instance) does not exist
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        serializer = CommentViewSerializer(comments, many=True)
-        return Response(serializer.data)
-
-
-    # def post(self, request):
-    #     """
-    #     Returns a list of comments based on the release/clue number sent.
-    #
-    #     Notes:
-    #          - check if the release/clue has been released
-    #
-    #     """
-    #     pass
 
 
 class CommentCreate(APIView):
@@ -62,30 +60,32 @@ class CommentCreate(APIView):
     def post(self, request):
         """
         Creates a comment through info submitted in a post request.
-
-        Note:
-            - Add support for release (clue)
-            - Add required error checks
-
         """
-
         try:
-            data = request.data
-            data['owner'] = request.user.pk
-            data['instance'] = Instance.objects.filter(
-                group=request.user.profile.group.id)[0].id
-            serializer = CommentCreateSerializer(data=data)
+            instance = request.user.profile.group.instance.all()[0].id
+            release = get_current_release()
+            # checks if user has already commented
+            if not Comment.objects.filter(instance=instance,
+                                          release=release,
+                                          owner=request.user.id):
+                data = request.data
+                data['owner'] = request.user.id
+                data['instance'] = instance
+                data['release'] = release
+                serializer = CommentCreateSerializer(data=data)
+                if serializer.is_valid():
+                    # creates comment
+                    serializer.save()
+                    return Response(status=status.HTTP_201_CREATED)
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+            else:
+                return Response(status=status.HTTP_403_FORBIDDEN)
         except AttributeError:
             # catches if an attribute does not exist
             return Response(status=status.HTTP_400_BAD_REQUEST)
         except ObjectDoesNotExist:
             # catches if an object (instance) does not exist
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        if serializer.is_valid():
-            # creates comment
-            serializer.save()
-            return Response(status=status.HTTP_201_CREATED)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 class ReplyCreate(APIView):
@@ -101,15 +101,15 @@ class ReplyCreate(APIView):
         """
 
         try:
+            # data sent in post request
             data = request.data
+
             # current user instance
-            instance = Instance.objects.filter(
-                group=request.user.profile.group.id)[0].id
+            instance = request.user.profile.group.instance.all()[0].id
 
             # checks if reply owner and reply parent are in the same instance
-            if (Comment.objects.filter(owner=data['parent'],
-                                       instance=instance)):
-                data['owner'] = request.user.pk
+            if Comment.objects.filter(instance=instance, id=data['parent']):
+                data['owner'] = request.user.id
                 serializer = ReplyCreateSerializer(data=data)
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST)

@@ -16,7 +16,7 @@ class Comment(models.Model):
     instance = models.ForeignKey('mystery.Instance', related_name='comment',
                                  on_delete=models.CASCADE)
     # mystery release (clue/week)
-    # release = models.PositiveIntegerField()
+    release = models.PositiveIntegerField()
     # comment text (no max char count)
     text = models.TextField()
 
@@ -37,7 +37,7 @@ class Reply(models.Model):
     text = models.TextField()
     # refers to parent comment
     parent = models.ForeignKey(Comment, on_delete=models.CASCADE,
-                               related_name="reply")
+                               related_name='reply')
 
     class Meta:
         ordering = ('created',)

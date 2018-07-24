@@ -54,11 +54,8 @@ class CommentCreateSerializer(serializers.ModelSerializer):
     Note:
         - Used for creating comment objects from specific data received through
           api endpoint post requests.
-
-        - Add support for release (clue)
-
     """
 
     class Meta:
         model = Comment
-        fields = ('owner', 'instance', 'text')
+        fields = ('owner', 'instance', 'release', 'text')
