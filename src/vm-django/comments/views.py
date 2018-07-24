@@ -64,12 +64,13 @@ class CommentCreate(APIView):
         try:
             instance = request.user.profile.group.instance.all()[0].id
             release = get_current_release()
-            # checks if user has already commented
-            if not Comment.objects.filter(instance=instance,
+            commented = Comment.objects.filter(instance=instance,
                                           release=release,
-                                          owner=request.user.id):
+                                          owner=request.user.pk).exists()
+            # checks if user has already commented
+            if not commented and release > 0:
                 data = request.data
-                data['owner'] = request.user.id
+                data['owner'] = request.user.pk
                 data['instance'] = instance
                 data['release'] = release
                 serializer = CommentCreateSerializer(data=data)
@@ -107,7 +108,7 @@ class ReplyCreate(APIView):
             # current user instance
             instance = request.user.profile.group.instance.all()[0].id
 
-            # checks if reply owner and reply parent are in the same instance
+            # checks if reply owner and parent comment are in the same instance
             if Comment.objects.filter(instance=instance, id=data['parent']):
                 data['owner'] = request.user.id
                 serializer = ReplyCreateSerializer(data=data)

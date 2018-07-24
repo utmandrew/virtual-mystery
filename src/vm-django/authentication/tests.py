@@ -157,10 +157,6 @@ class LogoutTest(TestCase):
         If the authentication credential (token) matches that of a registered
         user, the user's authentication token is deleted and http_200_ok is
         returned in the response.
-
-        Note:
-            - Test fails possibly due to improper auth header/format
-
         """
         # test case setup
         user = User.objects.create_user(username="Test1",
@@ -181,17 +177,26 @@ class LogoutTest(TestCase):
         self.assertEqual(response.data['token'], token1.key)
 
         # auth header
-        header = {'Authorization': "Token " + token1.key}
+        header = {'HTTP_AUTHORIZATION': 'Token {}'.format(token1.key)}
 
         # send logout request
-        response = self.client.get(reverse('authentication:logout'), **header)
-
-        # get new token value
-        token2 = Token.objects.get(user__username='Test1')
+        response = self.client.get(reverse('authentication:logout'), {},
+                                   **header)
 
         # logout test
         # proper status code test
         self.assertEqual(response.status_code, 200)
+
+        # sends login request
+        response = self.client.post(reverse('authentication:token'), data)
+
+        # login test
+        # proper status code test
+        self.assertEqual(response.status_code, 200)
+
+        # get new token
+        token2 = Token.objects.get(user__username='Test1')
+
         # user token test
         self.assertNotEqual(token2.key, token1.key)
 
@@ -203,10 +208,6 @@ class LogoutTest(TestCase):
         If the authentication credential (token) does not matches that of a
         registered user, the user's authentication token is not deleted and
         http_401_unauthorized is returned in the response.
-
-        Note:
-            - http+401_unauthorized possibly due to improper auth header/format
-
         """
         # test case setup
         user = User.objects.create_user(username="Test1",
@@ -226,9 +227,13 @@ class LogoutTest(TestCase):
         # user token test
         self.assertEqual(response.data['token'], token1.key)
 
+        # auth header
+        header = {'HTTP_AUTHORIZATION': 'Token {}'.format(
+            'abc123def456ghi789jkl123abc456def789ghi0')}
+
         # send logout request
-        response = self.client.get(reverse('authentication:logout'),
-        **{'Authorization': "Token abc123def456ghi789jkl123abc456def789ghi0"})
+        response = self.client.get(reverse('authentication:logout'), {},
+                                   **header)
 
         # new token
         token2 = Token.objects.get(user__username='Test1')
