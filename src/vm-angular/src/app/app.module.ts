@@ -15,6 +15,9 @@ import { LogoutComponent } from './auth/logout/logout.component';
 
 // custom services/interceptors
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { CommentComponent } from './comment/comment.component';
+import { CommentcreateComponent } from './comment/commentcreate/commentcreate.component';
+import { CommentlistComponent } from './comment/commentlist/commentlist.component';
 
 
 @NgModule({
@@ -22,7 +25,10 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     AppComponent,
     AuthComponent,
     LoginComponent,
-    LogoutComponent
+    LogoutComponent,
+    CommentComponent,
+    CommentcreateComponent,
+    CommentlistComponent
   ],
   imports: [
     BrowserModule,
