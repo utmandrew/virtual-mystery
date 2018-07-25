@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommentService } from '../comment.service';
-import { CommentInterface } from '../comment-interface';
+import { Comment } from '../comment.interface';
 
 @Component({
   selector: 'app-commentlist',
@@ -17,12 +17,12 @@ export class CommentlistComponent implements OnInit {
   }
   
   // list of comments
-  private comments: Array<CommentInterface> = [];
+  private comments: Array<Comment> = [];
   error: boolean = false;
   
   public listComment(release) {
 	  // requests and displays mystery comments for a specific release
-	  this.commentService.listComment(release).subscribe((data: Array<CommentInterface>) => {
+	  this.commentService.listComment(release).subscribe((data: Array<Comment>) => {
 		  this.comments = data;
 		  this.error = false;
 	  },
@@ -44,6 +44,14 @@ export class CommentlistComponent implements OnInit {
 		  } else {
 			  comment.show_replies = true;
 		  }
+	  }
+  }
+  
+  private recieveReply($event) {
+	  // finds parent comment and adds new reply
+	  var comment = this.comments.find(c => c.id === $event[0]);
+	  if (comment) {
+		  comment.reply.push($event[1]);
 	  }
   }
 

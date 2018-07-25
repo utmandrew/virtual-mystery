@@ -63,7 +63,7 @@ JSON:
 
 ** Definiton **
 
-Create a new reply for a specific comment.
+Create a new reply for a specific comment and return the newly created reply.
 
 ** Request **
 
@@ -82,3 +82,13 @@ JSON:
 
  - 201 Created on Success
  - 400 BAD REQUEST on Failure
+
+JSON:
+
+ [
+     {
+	"id": replyid,
+	"text": replytext,
+	"username": replyowner
+     }
+ ]

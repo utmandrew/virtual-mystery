@@ -1,13 +1,11 @@
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponseRedirect
 
 from rest_framework import status, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authentication import TokenAuthentication
 
-from .serializers import CommentCreateSerializer, ReplyCreateSerializer, \
-    CommentViewSerializer
+from .serializers import ReplySerializer, CommentSerializer
 from .models import Comment
 # from mystery.models import Instance
 from release import get_current_release
@@ -37,7 +35,7 @@ class CommentList(APIView):
                                       owner=request.user.id):
                 comments = Comment.objects.filter(instance=instance,
                                                   release=release)
-                serializer = CommentViewSerializer(comments, many=True)
+                serializer = CommentSerializer(comments, many=True)
                 return Response(serializer.data)
             else:
                 return Response(status=status.HTTP_403_FORBIDDEN)
@@ -73,7 +71,7 @@ class CommentCreate(APIView):
                 data['owner'] = request.user.pk
                 data['instance'] = instance
                 data['release'] = release
-                serializer = CommentCreateSerializer(data=data)
+                serializer = CommentSerializer(data=data)
                 if serializer.is_valid():
                     # creates comment
                     serializer.save()
@@ -111,7 +109,7 @@ class ReplyCreate(APIView):
             # checks if reply owner and parent comment are in the same instance
             if Comment.objects.filter(instance=instance, id=data['parent']):
                 data['owner'] = request.user.id
-                serializer = ReplyCreateSerializer(data=data)
+                serializer = ReplySerializer(data=data)
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
         except AttributeError:
@@ -121,7 +119,7 @@ class ReplyCreate(APIView):
             # catches if an object (instance) does not exist
             return Response(status=status.HTTP_400_BAD_REQUEST)
         if serializer.is_valid():
-            # creates comment
+            # creates reply
             serializer.save()
-            return Response(status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(status=status.HTTP_400_BAD_REQUEST)

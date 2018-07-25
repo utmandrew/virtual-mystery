@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { CommentService } from '../../comment.service';
+import { Reply } from '../../reply.interface';
 
 @Component({
   selector: 'app-replycreate',
@@ -7,9 +9,34 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReplycreateComponent implements OnInit {
 
-  constructor() { }
+  constructor(private commentService: CommentService) { }
 
   ngOnInit() {
   }
-
+  
+  @Input() parentId: string;
+  @Output() replyEvent = new EventEmitter<Array<any>>();
+  
+  // reply
+  model: any = {};
+  // error flag
+  error: boolean = false;
+  
+  public sendReply(reply: Reply) {
+	  // sends new reply to comment list component
+	  this.replyEvent.emit([this.parentId, reply]);
+  }
+  
+  public createReply() {
+	  // reply parent comment
+	  this.model.parent = this.parentId;
+	  this.commentService.createReply(this.model).subscribe((data: Reply) => {
+		 this.sendReply(data);
+		 this.error = false; 
+	  },
+	  error => {
+		  this.error = true;
+	  });
+  }
+  
 }

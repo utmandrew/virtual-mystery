@@ -6,7 +6,8 @@
 			<p>
 				{{ comment.text }}
 				<!-- Toggle Replies Button -->
-				<span *ngIf="comment.reply.length" class="float-right"> 
+				<span class="float-right"> 
+				<!-- Shows replies button only if replies exist <span *ngIf="comment.reply.length" class="float-right"> -->
 					<button type="button" class="btn btn-sm" (click)="toggleReply(comment.id)" > replies </button> 
 				</span>
 			</p>
@@ -22,5 +23,6 @@
 				</div>
 			</div>
 		</div>
+		<app-replycreate [parentId]="comment.id"  (replyEvent)="recieveReply($event)" ></app-replycreate>
 	</div>
 </div>

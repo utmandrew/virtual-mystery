@@ -2,60 +2,62 @@ from rest_framework import serializers
 from .models import Comment, Reply
 
 
-class ReplyViewSerializer(serializers.ModelSerializer):
+class ReplySerializer(serializers.ModelSerializer):
     """
-    Serializes Reply class objects.
-
-    Note:
-        - Used for sending specific reply object data at api endpoints.
-
+    Serializes/Deserializes and creates reply class objects.
     """
-    username = serializers.CharField(source='owner.username')
+    username = serializers.CharField(source='owner.username', read_only=True)
 
     class Meta:
         model = Reply
-        fields = ('id', 'username', 'text')
+        fields = ('id', 'username', 'owner', 'text', 'parent')
+        read_only_fields = ('id', 'username')
+        extra_kwargs = {'owner': {'write_only': True},
+                        'parent': {'write_only': True}}
 
 
-class ReplyCreateSerializer(serializers.ModelSerializer):
+class CommentSerializer(serializers.ModelSerializer):
     """
-    Deserializes and creates reply class objects from json data.
-
-    Note:
-        - Used for creating reply objects from specific data received through
-          api endpoint post requests.
+    Serializes/Deserializes Comment class objects.
     """
-
-    class Meta:
-        model = Reply
-        fields = ('owner', 'text', 'parent')
-
-
-class CommentViewSerializer(serializers.ModelSerializer):
-    """
-    Serializes Comment class objects.
-
-    Note:
-        - Used for sending specific comment object data at api endpoints.
-
-    """
-    reply = ReplyViewSerializer(many=True, read_only=True)
-    username = serializers.CharField(source='owner.username')
+    reply = ReplySerializer(many=True, read_only=True)
+    username = serializers.CharField(source='owner.username', read_only=True)
 
     class Meta:
         model = Comment
-        fields = ('id', 'username', 'text', 'reply')
+        fields = ('id', 'username', 'text', 'reply', 'owner', 'instance',
+                  'release')
+        read_only_fields = ('id', 'username', 'reply')
+        extra_kwargs = {'owner': {'write_only': True},
+                        'release': {'write_only': True},
+                        'instance': {'write_only': True}}
 
 
-class CommentCreateSerializer(serializers.ModelSerializer):
-    """
-    Deserializes and creates comment class objects from json data.
-
-    Note:
-        - Used for creating comment objects from specific data received through
-          api endpoint post requests.
-    """
-
-    class Meta:
-        model = Comment
-        fields = ('owner', 'instance', 'release', 'text')
+# class CommentViewSerializer(serializers.ModelSerializer):
+#     """
+#     Serializes Comment class objects.
+#
+#     Note:
+#         - Used for sending specific comment object data at api endpoints.
+#
+#     """
+#     reply = ReplyViewSerializer(many=True, read_only=True)
+#     username = serializers.CharField(source='owner.username')
+#
+#     class Meta:
+#         model = Comment
+#         fields = ('id', 'username', 'text', 'reply')
+#
+#
+# class CommentCreateSerializer(serializers.ModelSerializer):
+#     """
+#     Deserializes and creates comment class objects from json data.
+#
+#     Note:
+#         - Used for creating comment objects from specific data received through
+#           api endpoint post requests.
+#     """
+#
+#     class Meta:
+#         model = Comment
+#         fields = ('owner', 'instance', 'release', 'text')
