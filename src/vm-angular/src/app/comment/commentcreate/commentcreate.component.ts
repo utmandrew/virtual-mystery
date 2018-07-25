@@ -20,10 +20,10 @@ export class CommentcreateComponent implements OnInit {
    // error flag
    error: boolean = false;
    
-   createComment() {
+   public createComment() {
 	   this.commentService.createComment(this.model).subscribe((response) => {
 		   // redirect to comment list component
-		   // this.router.navigate(['auth']);
+		   this.router.navigate(['comment/list']);
 		   
 		   console.log("Comment Created!");
 		   
@@ -34,7 +34,7 @@ export class CommentcreateComponent implements OnInit {
 			   // 403 indicates that user has already submitted a comment
 			   
 			   // redirect to comment list component
-			   // this.router.navigate(['auth']);
+			   this.router.navigate(['comment/list']);
 			   
 			   console.log("User already commented!");
 		   }

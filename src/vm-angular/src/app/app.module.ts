@@ -18,6 +18,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 import { CommentComponent } from './comment/comment.component';
 import { CommentcreateComponent } from './comment/commentcreate/commentcreate.component';
 import { CommentlistComponent } from './comment/commentlist/commentlist.component';
+import { ReplycreateComponent } from './comment/commentlist/replycreate/replycreate.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { CommentlistComponent } from './comment/commentlist/commentlist.componen
     LogoutComponent,
     CommentComponent,
     CommentcreateComponent,
-    CommentlistComponent
+    CommentlistComponent,
+    ReplycreateComponent
   ],
   imports: [
     BrowserModule,
