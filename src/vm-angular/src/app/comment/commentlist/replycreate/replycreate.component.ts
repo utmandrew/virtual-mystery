@@ -32,6 +32,8 @@ export class ReplycreateComponent implements OnInit {
 	  this.model.parent = this.parentId;
 	  this.commentService.createReply(this.model).subscribe((data: Reply) => {
 		 this.sendReply(data);
+		 // clear text box
+		 this.model.text = '';
 		 this.error = false; 
 	  },
 	  error => {

@@ -13,6 +13,7 @@ export class CommentlistComponent implements OnInit {
   constructor(private commentService: CommentService, public router: Router) { }
 
   ngOnInit() {
+	  // replace 1 with the current reply (from upper level component)
 	  this.listComment(1);
   }
   
