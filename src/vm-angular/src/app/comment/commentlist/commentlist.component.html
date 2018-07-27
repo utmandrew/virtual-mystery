@@ -1,5 +1,5 @@
-<!-- Top Level Comments --> 
 <div class="container m-0 p-0" *ngFor="let comment of comments">
+	<!-- Top Level Comments -->
 	<div class="alert alert-primary p-2 m-1" >
 		<p class="alert-heading font-weight-bold" >{{ comment.username }}</p>
 		<div class="pl-4" >
@@ -23,6 +23,7 @@
 				</div>
 			</div>
 		</div>
+		<!-- ReplyCreate Component -->
 		<app-replycreate [parentId]="comment.id"  (replyEvent)="recieveReply($event)" ></app-replycreate>
 	</div>
 </div>

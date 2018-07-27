@@ -20,13 +20,20 @@ class CommentCreateTest(TestCase):
         """
         cls.user = User.objects.create_user(username='test1',
                                              password='test1')
-        # self.practical = Practical.objects.create()
+        print(cls.user)
+        # cls.practical = Practical.objects.create()
         cls.group = Group.objects.create(name='group1')
-        cls.user.profile.group = cls.group
-        cls.user.profile.save()
+        print(cls.group)
+        # cls.user.profile.group = cls.group
+        cls.profile = Profile.objects.filter(user=cls.user.id)
+        print(cls.profile)
+        cls.profile[0].group = cls.group
+        cls.profile[0].save()
         cls.mystery = Mystery.objects.create(name='mystery1')
+        print(cls.mystery)
         cls.instance = Instance.objects.create(group=cls.group,
                                                 mystery=cls.mystery)
+        print(cls.instance)
 
     def test_invalid_authentication(self):
         """

@@ -8,6 +8,8 @@ import { CommentService } from '../comment.service';
   templateUrl: './commentcreate.component.html',
   styleUrls: ['./commentcreate.component.css']
 })
+
+/* component for creating a user comment */
 export class CommentcreateComponent implements OnInit {
 
   constructor(private commentService: CommentService, public router: Router) { }
@@ -20,12 +22,11 @@ export class CommentcreateComponent implements OnInit {
    // error flag
    error: boolean = false;
    
+   /* creates user comment with comment info in model variable */
    public createComment() {
 	   this.commentService.createComment(this.model).subscribe((response) => {
 		   // redirect to comment list component
 		   this.router.navigate(['comment/list']);
-		   
-		   console.log("Comment Created!");
 		   
 		   this.error = false;
 	   },
@@ -36,7 +37,6 @@ export class CommentcreateComponent implements OnInit {
 			   // redirect to comment list component
 			   this.router.navigate(['comment/list']);
 			   
-			   console.log("User already commented!");
 		   }
 		   
 		   this.error = true;

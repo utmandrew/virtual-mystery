@@ -23,12 +23,12 @@ export class ReplycreateComponent implements OnInit {
   error: boolean = false;
   
   public sendReply(reply: Reply) {
-	  // sends new reply to comment list component
+	  // sends new reply and parent id to commentlist component
 	  this.replyEvent.emit([this.parentId, reply]);
   }
   
+  /* creates user reply with info in model and parentId variables */
   public createReply() {
-	  // reply parent comment
 	  this.model.parent = this.parentId;
 	  this.commentService.createReply(this.model).subscribe((data: Reply) => {
 		 this.sendReply(data);

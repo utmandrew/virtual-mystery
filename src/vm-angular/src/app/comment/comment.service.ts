@@ -5,7 +5,7 @@ import { HttpService } from '../http.service';
   providedIn: 'root'
 })
 
-/* Service that allows access to all of comment component  functions dealing with api */
+/* Service that allows access to all of comment component functions dealing with api */
 export class CommentService {
   API_URL = 'http://localhost:8000';
 

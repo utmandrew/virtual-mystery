@@ -68,7 +68,7 @@ class CommentCreate(APIView):
             # checks if user has already commented
             if not commented and release > 0:
                 data = request.data
-                data['owner'] = request.user.pk
+                data['owner'] = request.user.id
                 data['instance'] = instance
                 data['release'] = release
                 serializer = CommentSerializer(data=data)
@@ -96,7 +96,8 @@ class ReplyCreate(APIView):
 
     def post(self, request):
         """
-        Creates a reply to a comment through info submitted in a post request.
+        Creates a reply to a comment through info submitted in a post request
+        and returns the newly created reply.
         """
 
         try:
