@@ -66,21 +66,25 @@ class CommentCreate(APIView):
                                           release=release,
                                           owner=request.user.id).exists()
 
-            # checks if user has already commented
-            if not commented and release > 0:
-                # (.copy returns a mutable QueryDict object)
-                data = request.data.copy()
-                data['owner'] = request.user.id
-                data['instance'] = instance
-                data['release'] = release
-                serializer = CommentSerializer(data=data)
-                if serializer.is_valid():
-                    # creates comment
-                    serializer.save()
-                    return Response(status=status.HTTP_201_CREATED)
-                return Response(status=status.HTTP_400_BAD_REQUEST)
+            # checks if mystery start date has been reached
+            if release > 0:
+                # checks if user has already commented
+                if not commented:
+                    # (.copy returns a mutable QueryDict object)
+                    data = request.data.copy()
+                    data['owner'] = request.user.id
+                    data['instance'] = instance
+                    data['release'] = release
+                    serializer = CommentSerializer(data=data)
+                    if serializer.is_valid():
+                        # creates comment
+                        serializer.save()
+                        return Response(status=status.HTTP_201_CREATED)
+                    return Response(status=status.HTTP_400_BAD_REQUEST)
+                else:
+                    return Response(status=status.HTTP_403_FORBIDDEN)
             else:
-                return Response(status=status.HTTP_403_FORBIDDEN)
+                return Response(status=status.HTTP_400_BAD_REQUEST)
         except AttributeError:
             # catches if an attribute does not exist
             return Response(status=status.HTTP_400_BAD_REQUEST)

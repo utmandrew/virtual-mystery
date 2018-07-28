@@ -154,7 +154,7 @@ class CommentCreateTest(TestCase):
     def test_no_release(self):
         """
         If a registered user is commenting before the mystery is released,
-        http_403_forbidden is returned in the response and no comment is
+        http_400_forbidden is returned in the response and no comment is
         created.
         """
         time = datetime.datetime.now()
@@ -174,7 +174,7 @@ class CommentCreateTest(TestCase):
 
             # run test
             # proper status code test
-            self.assertEqual(response.status_code, 403)
+            self.assertEqual(response.status_code, 400)
             # comment created test
             self.assertFalse(Comment.objects.filter(owner=self.user,
                                                 instance=self.instance,

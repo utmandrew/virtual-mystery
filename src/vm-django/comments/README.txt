@@ -58,7 +58,7 @@ JSON:
 
  - 201 Created on Success
  - 400 BAD REQUEST on Failure
- - 403 FORBIDDEN if user has previously commented or mystery start date has    not been reached
+ - 403 FORBIDDEN if user has previously commented
 
 
 ** Definiton **
