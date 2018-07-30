@@ -2,7 +2,6 @@ from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
-# from django.contrib.auth.models import User
 
 # Create your tests here.
 
