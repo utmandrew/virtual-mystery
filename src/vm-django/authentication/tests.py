@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
+from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
-from django.contrib.auth.models import User
 
 # Create your tests here.
 
@@ -11,6 +11,13 @@ class LoginTest(TestCase):
     Login tests.
     """
 
+    @classmethod
+    def setUpTestData(cls):
+        """
+        Run once before the tests.
+        """
+        cls.User = get_user_model()
+
     def test_valid_credentials(self):
         """
         If username and password credentials match that of a registered user,
@@ -18,7 +25,7 @@ class LoginTest(TestCase):
         response.
         """
         # test case setup
-        user = User.objects.create_user(username="Test1",
+        user = self.User.objects.create_user(username="Test1",
                                         email="Test1@example.com",
                                         password="12345")
         token = Token.objects.get(user__username='Test1')
@@ -42,7 +49,7 @@ class LoginTest(TestCase):
         user, http_400_bad_request is returned in the response.
         """
         # test case setup
-        user = User.objects.create_user(username="Test1",
+        user = self.User.objects.create_user(username="Test1",
                                         email="Test1@example.com",
                                         password="12345")
 
@@ -64,7 +71,7 @@ class LoginTest(TestCase):
         registered user, http_400_bad_request is returned in the response.
         """
         # test case setup
-        user = User.objects.create_user(username="Test1",
+        user = self.User.objects.create_user(username="Test1",
                                         email="Test1@example.com",
                                         password="12345")
 
@@ -86,7 +93,7 @@ class LoginTest(TestCase):
         returned in the response.
         """
         # test case setup
-        user = User.objects.create_user(username="Test1",
+        user = self.User.objects.create_user(username="Test1",
                                         email="Test1@example.com",
                                         password="12345")
 
@@ -108,7 +115,7 @@ class LoginTest(TestCase):
         response.
         """
         # test case setup
-        user = User.objects.create_user(username="Test1",
+        user = self.User.objects.create_user(username="Test1",
                                         email="Test1@example.com",
                                         password="12345")
 
@@ -130,7 +137,7 @@ class LoginTest(TestCase):
         response.
         """
         # test case setup
-        user = User.objects.create_user(username="Test1",
+        user = self.User.objects.create_user(username="Test1",
                                         email="Test1@example.com",
                                         password="12345")
 
@@ -152,6 +159,14 @@ class LogoutTest(TestCase):
     Logout Tests.
     """
 
+    @classmethod
+    def setUpTestData(cls):
+        """
+        Run once before the tests.
+        """
+        # gets custom user model
+        cls.User = get_user_model()
+
     def test_valid_logout(self):
         """
         If the authentication credential (token) matches that of a registered
@@ -159,7 +174,7 @@ class LogoutTest(TestCase):
         returned in the response.
         """
         # test case setup
-        user = User.objects.create_user(username="Test1",
+        user = self.User.objects.create_user(username="Test1",
                                         email="Test1@example.com",
                                         password="12345")
 
@@ -210,7 +225,7 @@ class LogoutTest(TestCase):
         http_401_unauthorized is returned in the response.
         """
         # test case setup
-        user = User.objects.create_user(username="Test1",
+        user = self.User.objects.create_user(username="Test1",
                                         email="Test1@example.com",
                                         password="12345")
 

@@ -28,7 +28,7 @@ class CommentList(APIView):
         """
 
         try:
-            instance = request.user.profile.group.instance.all()[0].id
+            instance = request.user.group.instance.all()[0].id
 
             # checks if user has commented on the current release
             if Comment.objects.filter(instance=instance, release=release,
@@ -60,7 +60,7 @@ class CommentCreate(APIView):
         Creates a comment through info submitted in a post request.
         """
         try:
-            instance = request.user.profile.group.instance.all()[0].id
+            instance = request.user.group.instance.all()[0].id
             release = get_current_release()
             commented = Comment.objects.filter(instance=instance,
                                           release=release,
@@ -111,7 +111,7 @@ class ReplyCreate(APIView):
             data = request.data.copy()
 
             # current user instance
-            instance = request.user.profile.group.instance.all()[0].id
+            instance = request.user.group.instance.all()[0].id
 
             # checks if reply owner and parent comment are in the same instance
             if Comment.objects.filter(instance=instance, id=data.get('parent',

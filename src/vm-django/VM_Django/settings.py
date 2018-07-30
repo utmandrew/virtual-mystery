@@ -27,6 +27,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Custom user model settings
+# refer to https://docs.djangoproject.com/en/2.0/topics/auth/customizing/
+AUTH_USER_MODEL = 'system.User'
+
 
 # Application definition
 

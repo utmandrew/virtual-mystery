@@ -1,11 +1,11 @@
 import datetime
 from django.test import TestCase
 from django.urls import reverse
+from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
-from django.contrib.auth.models import User
 from .models import Comment, Reply
 from mystery.models import Mystery, Instance
-from system.models import Profile, Group, Practical
+from system.models import Group, Practical
 
 # Create your tests here.
 
@@ -20,13 +20,18 @@ class CommentCreateTest(TestCase):
         """
         Sets up any models and relationships the tests depend on.
         """
-        cls.user = User.objects.create_user(username='test1',
+        # custom user model
+        cls.User = get_user_model()
+        # test dependencies
+        cls.user = cls.User.objects.create_user(username='test1',
                                              password='test1password')
         cls.practical = Practical.objects.create()
         cls.group = Group.objects.create(name='group1',
                                          practical=cls.practical)
-        cls.user.profile.group = cls.group
-        cls.user.profile.save()
+        cls.user.group = cls.group
+        cls.user.save()
+        # cls.user.profile.group = cls.group
+        # cls.user.profile.save()
         cls.mystery = Mystery.objects.create(name='mystery1')
         cls.instance = Instance.objects.create(group=cls.group,
                                                 mystery=cls.mystery)
@@ -109,7 +114,6 @@ class CommentCreateTest(TestCase):
                                             instance=self.instance,
                                                 text='first comment').exists())
 
-
     def test_multi_comment(self):
         """
         If a registered user is commenting on a current release more than one
@@ -191,29 +195,32 @@ class CommentListTest(TestCase):
         """
         Sets up any models and relationships the tests depend on.
         """
+        # custom user model
+        cls.User = get_user_model()
+
         # commented
-        cls.user = User.objects.create_user(username='test1',
+        cls.user = cls.User.objects.create_user(username='test1',
                                             password='test1password')
 
         # commented
-        cls.user2 = User.objects.create_user(username='test2',
+        cls.user2 = cls.User.objects.create_user(username='test2',
                                             password='test2password')
 
         # not commented
-        cls.user3 = User.objects.create_user(username='test3',
+        cls.user3 = cls.User.objects.create_user(username='test3',
                                              password='test3password')
 
         cls.practical = Practical.objects.create()
         cls.group = Group.objects.create(name='group1',
                                          practical=cls.practical)
-        cls.user.profile.group = cls.group
-        cls.user.profile.save()
+        cls.user.group = cls.group
+        cls.user.save()
 
-        cls.user2.profile.group = cls.group
-        cls.user2.profile.save()
+        cls.user2.group = cls.group
+        cls.user2.save()
 
-        cls.user3.profile.group = cls.group
-        cls.user3.profile.save()
+        cls.user3.group = cls.group
+        cls.user3.save()
 
         cls.mystery = Mystery.objects.create(name='mystery1')
         cls.instance = Instance.objects.create(group=cls.group,
@@ -445,13 +452,16 @@ class ReplyCreateTest(TestCase):
         Sets up any models and relationships the tests depend on.
         Run once at the beginning.
         """
-        cls.user = User.objects.create_user(username='test1',
+        # custom user model
+        cls.User = get_user_model()
+
+        cls.user = cls.User.objects.create_user(username='test1',
                                             password='test1password')
         cls.practical = Practical.objects.create()
         cls.group = Group.objects.create(name='group1',
                                          practical=cls.practical)
-        cls.user.profile.group = cls.group
-        cls.user.profile.save()
+        cls.user.group = cls.group
+        cls.user.save()
         cls.mystery = Mystery.objects.create(name='mystery1')
         cls.instance = Instance.objects.create(group=cls.group,
                                                mystery=cls.mystery)
