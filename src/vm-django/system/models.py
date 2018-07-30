@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save
 
 # Create your models here.
@@ -25,26 +25,36 @@ class Group(models.Model):
                                   on_delete=models.CASCADE)
 
 
-class Profile(models.Model):
+class User(AbstractUser):
     """
-    Extension of default django user model. (no inheritance)
-    User profile info.
+    Custom user model.
     """
-    # link to the default django user model
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
     # refers to a users group
     # remove null=True when in production (used for admin accounts)
     group = models.ForeignKey(Group, null=True, related_name='profile',
-                                 on_delete=models.CASCADE)
+                              on_delete=models.CASCADE)
 
 
-# Delete depending on whether a user should have their profile info filled out
-# on signup or not
-def create_user_profile(sender, instance, created, **kwargs):
-    """
-    Creates a Profile object for each user.
-    """
-    if created:
-        Profile.objects.create(user=instance)
-
-post_save.connect(create_user_profile, sender=User)
+# class Profile(models.Model):
+#     """
+#     Extension of default django user model. (no inheritance)
+#     User profile info.
+#     """
+#     # link to the default django user model
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
+#     # refers to a users group
+#     # remove null=True when in production (used for admin accounts)
+#     group = models.ForeignKey(Group, null=True, related_name='profile',
+#                                  on_delete=models.CASCADE)
+#
+#
+# # Delete depending on whether a user should have their profile info filled out
+# # on signup or not
+# def create_user_profile(sender, instance, created, **kwargs):
+#     """
+#     Creates a Profile object for each user.
+#     """
+#     if created:
+#         Profile.objects.create(user=instance)
+#
+# post_save.connect(create_user_profile, sender=User)

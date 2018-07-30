@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 # Create your models here.
 
@@ -10,7 +11,7 @@ class Comment(models.Model):
     # datetime created
     created = models.DateTimeField(auto_now_add=True)
     # comment owner
-    owner = models.ForeignKey('auth.User', related_name='comment',
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='comment',
                               on_delete=models.CASCADE)
     # mystery instance
     instance = models.ForeignKey('mystery.Instance', related_name='comment',
@@ -31,7 +32,7 @@ class Reply(models.Model):
     # datetime created
     created = models.DateTimeField(auto_now_add=True)
     # reply owner
-    owner = models.ForeignKey('auth.User', related_name='reply',
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='reply',
                               on_delete=models.CASCADE)
     # reply text (no max char count)
     text = models.TextField()
