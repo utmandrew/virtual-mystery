@@ -170,6 +170,6 @@ STATIC_URL = '/static/'
 
 DATETIME_FORMAT = "%d/%m/%Y %H:%M:%S"
 # mystery start datetime (in datetime format)
-START_DATETIME = "24/07/2018 00:00:00"
+START_DATETIME = "30/07/2018 00:00:00"
 # time interval in days
 RELEASE_INTERVAL = "7"
