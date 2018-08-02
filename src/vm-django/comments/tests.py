@@ -30,8 +30,6 @@ class CommentCreateTest(TestCase):
                                          practical=cls.practical)
         cls.user.group = cls.group
         cls.user.save()
-        # cls.user.profile.group = cls.group
-        # cls.user.profile.save()
         cls.mystery = Mystery.objects.create(name='mystery1')
         cls.instance = Instance.objects.create(group=cls.group,
                                                 mystery=cls.mystery)

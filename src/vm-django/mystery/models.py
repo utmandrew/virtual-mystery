@@ -46,19 +46,26 @@ class Release(models.Model):
     # release number
     number = models.PositiveIntegerField()
     # release number (hashed)
-    hash = models.CharField(max_length=64, blank=True, null=True, default=None)
+    # hash = models.CharField(max_length=64, blank=True, null=True, default=None)
     # clue.txt
     clue = models.TextField()
     # ans.txt
     answer = models.TextField()
 
-    def save(self, *args, **kwargs):
+    @property
+    def hash(self):
         """
-        overriding the default save method.
+        Returns a 64 hex-character sha256 hash of the release id (unique).
         """
-        # automatically fills in release hash value
-        if self.hash is None:
-            self.hash = hashlib.sha256(bytes(str(self.number), 'utf-8'))\
-                .hexdigest()
-        # calling the default save method
-        super().save(*args, **kwargs)
+        return hashlib.sha256(bytes(str(self.id), 'utf-8')).hexdigest()
+
+    # def save(self, *args, **kwargs):
+    #     """
+    #     overriding the default save method.
+    #     """
+    #     # automatically fills in release hash value
+    #     if self.hash is None:
+    #         self.hash = hashlib.sha256(bytes(str(self.number), 'utf-8'))\
+    #             .hexdigest()
+    #     # calling the default save method
+    #     super().save(*args, **kwargs)
