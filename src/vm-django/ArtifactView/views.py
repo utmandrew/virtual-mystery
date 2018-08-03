@@ -21,6 +21,7 @@ from . import models
 class ArtifactViewData(APIView):
     """
     Return all the data related to the artifact viewing for a single person
+
     """
 
     serializer_class = serializers.HelloSerializer
@@ -29,20 +30,17 @@ class ArtifactViewData(APIView):
     image="image1.jpg"
     clue = "clue.txt"
     answer = "ans.txt"
-
+    
     def get(self, request, format=None):
         
         print("checkpoint 1")
+
+
         return Response({
                     'images': self.image,
                     'clue': self.clue,
-                    'answer': self.answer}, 
+                    'answer': self.answer,
+                    'user': str(request.user),
+                    'group': str(request.user.group.name)
+                    }, 
                     status=status.HTTP_200_OK)
-
-    
-
-
-
-    
-
-
