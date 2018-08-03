@@ -18,9 +18,6 @@ from .serializers import HelloSerializer
 from . import models
 
 
-
-
-
 class ArtifactViewData(APIView):
     """
     Return all the data related to the artifact viewing for a single person
@@ -35,16 +32,13 @@ class ArtifactViewData(APIView):
 
     def get(self, request, format=None):
         
+        print("checkpoint 1")
         return Response({
-                    'images': image,
-                    'clue': mystery,
-                    'answer': answer}, 
+                    'images': self.image,
+                    'clue': self.clue,
+                    'answer': self.answer}, 
                     status=status.HTTP_200_OK)
 
-    def delete(self, request, pk=None):
-        """Deletes and object."""
-
-        return Response({'method': 'delete'})
     
 
 
