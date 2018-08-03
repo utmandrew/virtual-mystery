@@ -20,4 +20,5 @@ urlpatterns = [
     url(r'admin/', admin.site.urls),
     url(r'auth/', include('authentication.urls')),
     url(r'comment/', include('comments.urls')),
+    url(r'hello/', include('ArtifactView.urls')),
 ]

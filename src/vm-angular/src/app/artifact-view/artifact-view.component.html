@@ -1,0 +1,14 @@
+<table  style="width:100%">
+    <tr>
+        <th>IMAGE</th>
+        <th>CLUE</th>
+        <th>ANSWER</th>
+
+    </tr>
+    <tr *ngFor = "let contact of contacts">
+      <td>  {{ contact.images }}  </td>
+      <td>  {{ contact.clue }}  </td>
+      <td>  {{ contact.answer }}  </td>
+    
+    </tr>
+    </table>

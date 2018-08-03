@@ -10,7 +10,7 @@ export class CommentService {
   API_URL = 'http://localhost:8000';
 
   constructor(private httpClient: HttpService) { }
-  
+
   
   createComment(data) {
 	  // sends comment data to create a new comment

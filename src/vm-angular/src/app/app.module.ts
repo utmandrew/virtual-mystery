@@ -20,6 +20,7 @@ import { CommentcreateComponent } from './comment/commentcreate/commentcreate.co
 import { CommentlistComponent } from './comment/commentlist/commentlist.component';
 import { ReplycreateComponent } from './comment/commentlist/replycreate/replycreate.component';
 import { NotFoundComponent } from './not-found.component';
+import { ArtifactViewComponent } from './artifact-view/artifact-view.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { NotFoundComponent } from './not-found.component';
     CommentcreateComponent,
     CommentlistComponent,
     ReplycreateComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    ArtifactViewComponent
   ],
   imports: [
     BrowserModule,
