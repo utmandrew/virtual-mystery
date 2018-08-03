@@ -1,12 +1,10 @@
 <nav class="navbar navbar-inverse bg-primary">
 	<a class="navbar-brand font-weight-bold text-white">Virtual Mystery</a>
 	<app-logout *ngIf="authService.getUser()" >
-
-
 	</app-logout>
 </nav>
 
-<app-artifact-view></app-artifact-view>
+
 <div class="container">
 	<div class="jumbotron">
 		<router-outlet></router-outlet>
