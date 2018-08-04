@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { CommentService } from '../comment.service';
 
 
@@ -12,11 +12,17 @@ import { CommentService } from '../comment.service';
 /* component for creating a user comment */
 export class CommentcreateComponent implements OnInit {
 
-  constructor(private commentService: CommentService, public router: Router) { }
+  constructor(private commentService: CommentService, private route: ActivatedRoute, public router: Router) { }
   
   ngOnInit() {
+	  // Gets release id from url
+	  this.route.parent.paramMap.subscribe((params: ParamMap) => { 
+		this.release = parseInt(params.get('release'));
+	  });
   }
    
+   // release id for navigation
+   release: number;
    // comment
    model: any = {};
    // error flag
@@ -26,7 +32,7 @@ export class CommentcreateComponent implements OnInit {
    public createComment() {
 	   this.commentService.createComment(this.model).subscribe((response) => {
 		   // redirect to comment list component
-		   this.router.navigate(['comment/list']);
+		   this.router.navigate(['comment', this.release, 'list']);
 		   
 		   this.error = false;
 	   },
@@ -35,7 +41,7 @@ export class CommentcreateComponent implements OnInit {
 			   // 403 indicates that user has already submitted a comment
 			   
 			   // redirect to comment list component
-			   this.router.navigate(['comment/list']);
+			   this.router.navigate(['comment', this.release, 'list']);
 			   
 		   }
 		   

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { CommentService } from '../comment.service';
 import { Comment } from '../comment.interface';
 
@@ -10,14 +10,18 @@ import { Comment } from '../comment.interface';
 })
 export class CommentlistComponent implements OnInit {
 
-  constructor(private commentService: CommentService, public router: Router) { }
+  constructor(private commentService: CommentService, private route: ActivatedRoute, public router: Router) { }
 
   ngOnInit() {
-	  // replace 1 with the current release (variable) (from upper level component)
-	  this.listComment(1);
+	  // Gets release id from url
+	  this.route.parent.paramMap.subscribe((params: ParamMap) => { 
+		this.release = parseInt(params.get('release'));
+		this.listComment(this.release);
+	  });	  
   }
   
   // list of comments
+  release: number;
   private comments: Array<Comment> = [];
   error: boolean = false;
   
@@ -33,7 +37,7 @@ export class CommentlistComponent implements OnInit {
 			  // 403 indicates that user has not submitted a comment
 			  
 			  // redirect to comment create component
-			  this.router.navigate(['comment/create']);
+			  this.router.navigate(['comment', this.release, 'create']);
 		  }
 		  this.error = true
 	  });

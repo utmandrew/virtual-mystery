@@ -7,6 +7,9 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 // custom modules
 import { AppRoutingModule } from './app-routing/app-routing.module';
 
+// custom services/interceptors
+import { AuthInterceptor } from './auth/auth.interceptor';
+
 // custom components
 import { AppComponent } from './app.component';
 import { AuthComponent } from './auth/auth.component';
@@ -16,10 +19,8 @@ import { CommentComponent } from './comment/comment.component';
 import { CommentcreateComponent } from './comment/commentcreate/commentcreate.component';
 import { CommentlistComponent } from './comment/commentlist/commentlist.component';
 import { ReplycreateComponent } from './comment/commentlist/replycreate/replycreate.component';
+import { MysteryComponent } from './mystery/mystery.component';
 import { NotFoundComponent } from './not-found.component';
-
-// custom services/interceptors
-import { AuthInterceptor } from './auth/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     CommentcreateComponent,
     CommentlistComponent,
     ReplycreateComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    MysteryComponent
   ],
   imports: [
     BrowserModule,
