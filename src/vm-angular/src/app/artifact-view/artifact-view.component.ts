@@ -13,6 +13,8 @@ export class ArtifactViewComponent implements OnInit {
 
 
   private  contacts:  Array<object> = [];
+  private image : string;
+
 
   constructor(private artifactService: ArtifactserviceService ) { }
 
@@ -29,6 +31,8 @@ export class ArtifactViewComponent implements OnInit {
   
     this.artifactService.getData().subscribe((data:  Array<object>) => {
         this.contacts  =  data;
+
+
         console.log(data);
     });
 

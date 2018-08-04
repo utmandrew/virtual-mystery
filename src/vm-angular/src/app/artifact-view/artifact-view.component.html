@@ -1,18 +1,47 @@
 <table  style="width:100%">
     <tr>
+
         <th>USER</th>
-        <th>IMAGE</th>
-        <th>CLUE</th>
-        <th>ANSWER</th>
+        <th> PATH</th>
 
 
     </tr>
     <tr>
-        <td> {{ contacts.group }}</td>
-        <td> {{ contacts.user }} </td>
-      <td>  {{ contacts.images }}  </td>
-      <td>  {{ contacts.clue }}  </td>
-      <td>  {{ contacts.answer }}  </td>
-    
+
+      <td> {{ contacts.user }} </td>
+      <td> {{ contacts.image }}</td>
     </tr>
-    </table>
+    <tr>
+
+        <td> {{ contacts.user }} </td>
+        <td> {{ contacts.clue }}</td>
+    </tr>
+    <tr>
+        <td> {{ contacts.user }} </td>
+        <td> {{ contacts.answer }}</td>
+    </tr>
+
+</table>
+
+<div>
+    <img src="{{contacts.image}}">
+</div>
+
+<div class="clueBox">
+<p class="imageClue"><iframe src="assets/anthro-virtual-mysteries/Archaeology-demo/MysteryFlutedPoint/Release1/clue.txt" frameborder="0" height="400"
+    width="95%"></iframe></p>
+</div>
+
+<div class="clueBox">
+        <p class="imageClue"><iframe src="assets/anthro-virtual-mysteries/Archaeology-demo/MysteryFlutedPoint/Release1/ans.txt" frameborder="0" height="400"
+            width="95%"></iframe></p>
+</div>
+
+<!-- 
+
+    we have: assets/anthro-virtual-mysteries/Archaeology-demo/MysteryFlutedPoint/Release1/ans.txt
+    shod be: assets/anthro-virtual-mysteries/Archaeology-demo/MysteryFlutedPoint/Release1/ans.txt
+-->
+
+
+
