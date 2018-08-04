@@ -19,6 +19,9 @@ class Group(models.Model):
     """
     # group name
     name = models.TextField()
+    mystery1 = models.TextField(default="MysteryFlutedPoint")
+    
+
     # refers to a groups practical
     # remove null=True when in production (used for admin accounts)
     practical = models.ForeignKey(Practical, null=True, related_name='group',

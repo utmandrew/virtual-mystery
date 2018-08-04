@@ -11,6 +11,7 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.permissions import IsAuthenticated
 
+from release import get_current_release
 
 from . import serializers
 from .serializers import HelloSerializer
@@ -35,12 +36,20 @@ class ArtifactViewData(APIView):
         
         print("checkpoint 1")
 
+        current_week = get_current_release()
+        path_image = "assets/anthro-virtual-mysteries/Archaeology-demo/"
+        path_clue = "assets/anthro-virtual-mysteries/Archaeology-demo/"
+        path_answer = "assets/anthro-virtual-mysteries/Archaeology-demo/"
+
+        path_image += str(request.user.group.mystery1) + "/Release" +str(current_week) +"/image1.jpg"
+        path_clue += str(request.user.group.mystery1) + "/Release" +str(current_week)+"/clue.txt"
+        path_answer += str(request.user.group.mystery1) + "/Release" +str(current_week)+ "/ans.txt"
 
         return Response({
-                    'images': self.image,
-                    'clue': self.clue,
-                    'answer': self.answer,
                     'user': str(request.user),
-                    'group': str(request.user.group.name)
+                    'group': str(request.user.group.mystery1),
+                    'image': path_image,
+                    'clue': path_clue,
+                    'answer': path_answer, 
                     }, 
                     status=status.HTTP_200_OK)
