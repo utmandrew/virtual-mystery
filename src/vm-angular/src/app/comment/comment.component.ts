@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { CommentService } from './comment.service';
 
 @Component({
   selector: 'app-comment',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CommentComponent implements OnInit {
 
-  constructor() { }
+  constructor(private commentService: CommentService) { }
+  
+  @Input() release: number;
 
   ngOnInit() {
+	  this.commentService.setRelease(this.release);
   }
 
 }

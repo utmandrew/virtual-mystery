@@ -1,1 +1,2 @@
-<router-outlet></router-outlet>
+<app-commentlist *ngIf="commentService.showComments" ></app-commentlist>
+<app-commentcreate *ngIf="!commentService.showComments" ></app-commentcreate>

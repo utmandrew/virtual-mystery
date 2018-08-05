@@ -11,6 +11,10 @@ export class CommentService {
 
   constructor(private httpClient: HttpService) { }
   
+  // show comments flag
+  showComments: boolean = true;
+  // release number
+  release: number;
   
   createComment(data) {
 	  // sends comment data to create a new comment
@@ -25,6 +29,14 @@ export class CommentService {
   listComment(release) {
 	  // sends a request for a specific release and recieves a list of comments
 	  return this.httpClient.get(`${this.API_URL}/comment/${release}`)
+  }
+  
+  setRelease(newRelease: number) {
+	  this.release = newRelease;
+  }
+  
+  getRelease() {
+	  return this.release;
   }
   
 }

@@ -20,6 +20,7 @@ import { CommentcreateComponent } from './comment/commentcreate/commentcreate.co
 import { CommentlistComponent } from './comment/commentlist/commentlist.component';
 import { ReplycreateComponent } from './comment/commentlist/replycreate/replycreate.component';
 import { MysteryComponent } from './mystery/mystery.component';
+import { ReleaseViewComponent } from './mystery/release-view/release-view.component';
 import { NotFoundComponent } from './not-found.component';
 
 @NgModule({
@@ -33,7 +34,8 @@ import { NotFoundComponent } from './not-found.component';
     CommentlistComponent,
     ReplycreateComponent,
     NotFoundComponent,
-    MysteryComponent
+    MysteryComponent,
+	ReleaseViewComponent
   ],
   imports: [
     BrowserModule,
