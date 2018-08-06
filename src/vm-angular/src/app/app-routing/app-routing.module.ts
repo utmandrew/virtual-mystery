@@ -12,7 +12,8 @@ const routes: Routes = [
 		path: 'mystery',
 		children: [
 			{ path: 'release/:id', component: ReleaseViewComponent },
-		]
+		],
+		runGuardsAndResolvers: 'always'
 	},
 	
 	// Make sure ** is the last path!
@@ -20,7 +21,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

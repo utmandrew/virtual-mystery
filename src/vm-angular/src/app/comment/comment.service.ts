@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { HttpService } from '../http.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 
 /* Service that allows access to all of comment component functions dealing with api */
 export class CommentService {
@@ -14,7 +13,8 @@ export class CommentService {
   // show comments flag
   showComments: boolean = true;
   // release number
-  release: number;
+  // release: number;
+  private release = new BehaviorSubject<number>(0);
   
   createComment(data) {
 	  // sends comment data to create a new comment
@@ -31,12 +31,21 @@ export class CommentService {
 	  return this.httpClient.get(`${this.API_URL}/comment/${release}`)
   }
   
-  setRelease(newRelease: number) {
+  /* setRelease(newRelease: number) {
 	  this.release = newRelease;
+  } */
+  
+  setRelease(newRelease: number) {
+	  console.log("set: ", newRelease);
+	  this.release.next(newRelease);
   }
   
-  getRelease() {
+  /* getRelease() {
 	  return this.release;
+  } */
+  
+  getRelease(): Observable<number> {
+	  return this.release.asObservable();
   }
   
 }

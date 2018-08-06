@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { CommentService } from '../comment.service';
 import { Comment } from '../comment.interface';
 
@@ -12,17 +13,27 @@ export class CommentlistComponent implements OnInit {
   constructor(private commentService: CommentService) { }
 
   ngOnInit() {
-	this.listComment(this.commentService.getRelease());
+	// this.listComment(this.commentService.getRelease());
+	this.releaseSubscription = this.commentService.getRelease().subscribe((release: number) => {
+		console.log("recieved: ", release);
+		this.listComment(release);
+	})
   }
   
-  release: number;
+  ngOnDestroy() {
+	  // ensures no memory leaks
+	  if (this.releaseSubscription) {
+		  this.releaseSubscription.unsubscribe();
+	  }
+  }
+  
+  releaseSubscription: Subscription;
   // list of comments
   private comments: Array<Comment> = [];
   error: boolean = false;
   
   /* requests and displays instance comments for a specific release */
   public listComment(release) {
-	  // 
 	  this.commentService.listComment(release).subscribe((data: Array<Comment>) => {
 		  this.comments = data;
 		  this.error = false;
