@@ -15,7 +15,6 @@ export class CommentlistComponent implements OnInit {
   ngOnInit() {
 	// this.listComment(this.commentService.getRelease());
 	this.releaseSubscription = this.commentService.getRelease().subscribe((release: number) => {
-		console.log("recieved: ", release);
 		this.listComment(release);
 	})
   }
@@ -27,6 +26,7 @@ export class CommentlistComponent implements OnInit {
 	  }
   }
   
+  // commentservice release observable subscription
   releaseSubscription: Subscription;
   // list of comments
   private comments: Array<Comment> = [];

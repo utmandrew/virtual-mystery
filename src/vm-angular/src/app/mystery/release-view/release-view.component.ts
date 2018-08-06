@@ -41,7 +41,6 @@ export class ReleaseViewComponent implements OnInit, OnDestroy {
 	  // Gets release id from url
 	  this.route.paramMap.subscribe((params: ParamMap) => { 
 		this.release = parseInt(params.get('id'));
-		console.log(this.release);
 	  });
   }
   

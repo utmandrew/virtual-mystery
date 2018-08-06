@@ -36,7 +36,6 @@ export class CommentService {
   } */
   
   setRelease(newRelease: number) {
-	  console.log("set: ", newRelease);
 	  this.release.next(newRelease);
   }
   
