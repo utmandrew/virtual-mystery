@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { CommentService } from '../comment.service';
 import { Comment } from '../comment.interface';
 
@@ -10,20 +10,31 @@ import { Comment } from '../comment.interface';
 })
 export class CommentlistComponent implements OnInit {
 
-  constructor(private commentService: CommentService, public router: Router) { }
-
-  ngOnInit() {
-	  // replace 1 with the current release (variable) (from upper level component)
-	  this.listComment(1);
-  }
-  
+  // commentservice release observable subscription
+  releaseSubscription: Subscription;
   // list of comments
   private comments: Array<Comment> = [];
+  // error flag
   error: boolean = false;
+
+  constructor(private commentService: CommentService) { }
+
+  ngOnInit() {
+	// subscribes to the commentService release value observable
+	this.releaseSubscription = this.commentService.getRelease().subscribe((release: number) => {
+		this.listComment(release);
+	})
+  }
+  
+  ngOnDestroy() {
+	  // ensures no memory leaks
+	  if (this.releaseSubscription) {
+		  this.releaseSubscription.unsubscribe();
+	  }
+  }
   
   /* requests and displays instance comments for a specific release */
   public listComment(release) {
-	  // 
 	  this.commentService.listComment(release).subscribe((data: Array<Comment>) => {
 		  this.comments = data;
 		  this.error = false;
@@ -33,7 +44,7 @@ export class CommentlistComponent implements OnInit {
 			  // 403 indicates that user has not submitted a comment
 			  
 			  // redirect to comment create component
-			  this.router.navigate(['comment/create']);
+			  this.commentService.showComments = false;
 		  }
 		  this.error = true
 	  });

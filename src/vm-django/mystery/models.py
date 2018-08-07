@@ -45,12 +45,13 @@ class Release(models.Model):
                                 on_delete=models.CASCADE)
     # release number
     number = models.PositiveIntegerField()
-    # release number (hashed)
-    # hash = models.CharField(max_length=64, blank=True, null=True, default=None)
     # clue.txt
     clue = models.TextField()
     # ans.txt
     answer = models.TextField()
+
+    class Meta:
+        ordering = ('number',)
 
     @property
     def hash(self):

@@ -228,109 +228,112 @@ class CommentListTest(TestCase):
         """
         Run before every test.
         """
-        # first comment
-        # auth token
-        token = Token.objects.get(user__username='test1')
-        # comment create data
-        data = {'text': 'first comment'}
+        time = datetime.datetime.now()
+        time = time - datetime.timedelta(hours=1)
+        with self.settings(START_DATETIME=time.strftime("%d/%m/%Y %H:%M:%S")):
+            # first comment
+            # auth token
+            token = Token.objects.get(user__username='test1')
+            # comment create data
+            data = {'text': 'first comment'}
 
-        # auth header
-        header = {'HTTP_AUTHORIZATION': 'Token {}'.format(token.key)}
+            # auth header
+            header = {'HTTP_AUTHORIZATION': 'Token {}'.format(token.key)}
 
-        # comment create response
-        response = self.client.post(reverse('comment:comment_create'), data,
-                                   **header)
+            # comment create response
+            response = self.client.post(reverse('comment:comment_create'),
+                                        data, **header)
 
-        # run test
-        # proper status code test
-        self.assertEqual(response.status_code, 201)
-        # comment created test
-        self.assertTrue(Comment.objects.filter(owner=self.user,
-                                              instance=self.instance,
-                                              text='first comment').exists())
+            # run test
+            # proper status code test
+            self.assertEqual(response.status_code, 201)
+            # comment created test
+            self.assertTrue(Comment.objects.filter(owner=self.user,
+                                                instance=self.instance,
+                                                text='first comment').exists())
 
-        # save comment id
-        self.comment = Comment.objects.filter(owner=self.user,
-                                              instance=self.instance,
-                                              text='first comment')[0].id
+            # save comment id
+            self.comment = Comment.objects.filter(owner=self.user,
+                                                  instance=self.instance,
+                                                  text='first comment')[0].id
 
-        # first reply
-        # auth token
-        token = Token.objects.get(user__username='test2')
-        # reply create data
-        data = {'text': 'first reply', 'parent': str(self.comment)}
+            # first reply
+            # auth token
+            token = Token.objects.get(user__username='test2')
+            # reply create data
+            data = {'text': 'first reply', 'parent': str(self.comment)}
 
-        # auth header
-        header = {'HTTP_AUTHORIZATION': 'Token {}'.format(token.key)}
+            # auth header
+            header = {'HTTP_AUTHORIZATION': 'Token {}'.format(token.key)}
 
-        # reply create response
-        response = self.client.post(reverse('comment:reply_create'), data,
-                                    **header)
+            # reply create response
+            response = self.client.post(reverse('comment:reply_create'), data,
+                                        **header)
 
-        # run test
-        # proper status code test
-        self.assertEqual(response.status_code, 201)
-        # reply created test
-        self.assertTrue(Reply.objects.filter(owner=self.user2,
-                                             parent=self.comment,
-                                             text='first reply').exists())
+            # run test
+            # proper status code test
+            self.assertEqual(response.status_code, 201)
+            # reply created test
+            self.assertTrue(Reply.objects.filter(owner=self.user2,
+                                                 parent=self.comment,
+                                                 text='first reply').exists())
 
-        # save reply id
-        self.reply = Reply.objects.filter(owner=self.user2,
-                                               parent=self.comment,
-                                               text='first reply')[0].id
+            # save reply id
+            self.reply = Reply.objects.filter(owner=self.user2,
+                                                   parent=self.comment,
+                                                   text='first reply')[0].id
 
-        # second reply
-        # auth token
-        token = Token.objects.get(user__username='test1')
-        # reply create data
-        data = {'text': 'second reply', 'parent': str(self.comment)}
+            # second reply
+            # auth token
+            token = Token.objects.get(user__username='test1')
+            # reply create data
+            data = {'text': 'second reply', 'parent': str(self.comment)}
 
-        # auth header
-        header = {'HTTP_AUTHORIZATION': 'Token {}'.format(token.key)}
+            # auth header
+            header = {'HTTP_AUTHORIZATION': 'Token {}'.format(token.key)}
 
-        # reply create response
-        response = self.client.post(reverse('comment:reply_create'), data,
-                                    **header)
+            # reply create response
+            response = self.client.post(reverse('comment:reply_create'), data,
+                                        **header)
 
-        # run test
-        # proper status code test
-        self.assertEqual(response.status_code, 201)
-        # reply created test
-        self.assertTrue(Reply.objects.filter(owner=self.user,
-                                             parent=self.comment,
-                                             text='second reply').exists())
+            # run test
+            # proper status code test
+            self.assertEqual(response.status_code, 201)
+            # reply created test
+            self.assertTrue(Reply.objects.filter(owner=self.user,
+                                                 parent=self.comment,
+                                                 text='second reply').exists())
 
-        # save reply id
-        self.reply2 = Reply.objects.filter(owner=self.user,
-                                          parent=self.comment,
-                                          text='second reply')[0].id
+            # save reply id
+            self.reply2 = Reply.objects.filter(owner=self.user,
+                                              parent=self.comment,
+                                              text='second reply')[0].id
 
-        # second comment
-        # auth token
-        token = Token.objects.get(user__username='test2')
-        # comment create data
-        data = {'text': 'second comment'}
+            # second comment
+            # auth token
+            token = Token.objects.get(user__username='test2')
+            # comment create data
+            data = {'text': 'second comment'}
 
-        # auth header
-        header = {'HTTP_AUTHORIZATION': 'Token {}'.format(token.key)}
+            # auth header
+            header = {'HTTP_AUTHORIZATION': 'Token {}'.format(token.key)}
 
-        # comment create response
-        response = self.client.post(reverse('comment:comment_create'), data,
-                                    **header)
+            # comment create response
+            response = self.client.post(reverse('comment:comment_create'),
+                                        data, **header)
 
-        # run test
-        # proper status code test
-        self.assertEqual(response.status_code, 201)
-        # comment created test
-        self.assertTrue(Comment.objects.filter(owner=self.user2,
-                                               instance=self.instance,
-                                               text='second comment').exists())
+            # run test
+            # proper status code test
+            self.assertEqual(response.status_code, 201)
+            # comment created test
+            self.assertTrue(Comment.objects.filter(owner=self.user2,
+                                            instance=self.instance,
+                                            text='second comment').exists())
 
-        # save comment id
-        self.comment2 = Comment.objects.filter(owner=self.user2,
-                                              instance=self.instance,
-                                              text='second comment')[0].id
+            # save comment id
+            self.comment2 = Comment.objects.filter(owner=self.user2,
+                                                  instance=self.instance,
+                                                  text='second comment')[0].id
 
     def test_invalid_authentication(self):
         """
