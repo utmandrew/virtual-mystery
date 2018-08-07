@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Mystery, Instance
+from .models import Mystery, Instance, Release
+from comments.models import Comment
 
 
 class MysterySerializer(serializers.ModelSerializer):
@@ -18,3 +19,32 @@ class InstanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Instance
         fields = ('id', 'group', 'mystery')
+
+
+class ReleaseSerializer(serializers.ModelSerializer):
+    """
+    Serializes release objects for mystery overview.
+
+    Note:
+        - Assumes that request is provided within context
+    """
+    commented = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Release
+        fields = ('number', 'commented')
+
+    def get_commented(self, obj):
+        """
+        Returns true iff a user has commented on the release, otherwise returns
+        false.
+        """
+        request = self.context.get('request')
+        if request and hasattr(request, 'user'):
+            instance = request.user.group.instance.all()[0].id
+            comment = Comment.objects.filter(instance=instance,
+                                             release=obj.number,
+                                             owner=request.user.id)
+            return comment.exists()
+        else:
+            return False
