@@ -29,15 +29,20 @@ class CommentList(APIView):
 
         try:
             instance = request.user.group.instance.all()[0].id
+            commented = Comment.objects.filter(instance=instance,
+                                        release=release, owner=request.user.id)
+            current_release = get_current_release()
 
             # checks if user has commented on the current release
-            if Comment.objects.filter(instance=instance, release=release,
-                                      owner=request.user.id):
+            if commented or int(release) < current_release:
                 comments = Comment.objects.filter(instance=instance,
                                                   release=release)
                 serializer = CommentSerializer(comments, many=True)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
+                # if requested release has not yet been reached
+                # if int(release) > current_release:
+                #     return Response(status=status.HTTP_400_BAD_REQUEST)
                 return Response(status=status.HTTP_403_FORBIDDEN)
 
         except AttributeError:
