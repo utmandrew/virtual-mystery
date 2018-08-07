@@ -12,8 +12,7 @@ export class CommentService {
   
   // show comments flag
   showComments: boolean = true;
-  // release number
-  // release: number;
+  // release number observable
   private release = new BehaviorSubject<number>(0);
   
   createComment(data) {
@@ -31,19 +30,14 @@ export class CommentService {
 	  return this.httpClient.get(`${this.API_URL}/comment/${release}`)
   }
   
-  /* setRelease(newRelease: number) {
-	  this.release = newRelease;
-  } */
   
   setRelease(newRelease: number) {
+	  // sets the release value
 	  this.release.next(newRelease);
   }
-  
-  /* getRelease() {
-	  return this.release;
-  } */
-  
+    
   getRelease(): Observable<number> {
+	  // returns the release observable
 	  return this.release.asObservable();
   }
   

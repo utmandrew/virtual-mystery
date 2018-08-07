@@ -10,10 +10,17 @@ import { Comment } from '../comment.interface';
 })
 export class CommentlistComponent implements OnInit {
 
+  // commentservice release observable subscription
+  releaseSubscription: Subscription;
+  // list of comments
+  private comments: Array<Comment> = [];
+  // error flag
+  error: boolean = false;
+
   constructor(private commentService: CommentService) { }
 
   ngOnInit() {
-	// this.listComment(this.commentService.getRelease());
+	// subscribes to the commentService release value observable
 	this.releaseSubscription = this.commentService.getRelease().subscribe((release: number) => {
 		this.listComment(release);
 	})
@@ -25,12 +32,6 @@ export class CommentlistComponent implements OnInit {
 		  this.releaseSubscription.unsubscribe();
 	  }
   }
-  
-  // commentservice release observable subscription
-  releaseSubscription: Subscription;
-  // list of comments
-  private comments: Array<Comment> = [];
-  error: boolean = false;
   
   /* requests and displays instance comments for a specific release */
   public listComment(release) {

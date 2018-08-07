@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommentService } from '../comment.service';
 import { Subscription } from 'rxjs';
 
@@ -10,14 +10,23 @@ import { Subscription } from 'rxjs';
 })
 
 /* component for creating a user comment */
-export class CommentcreateComponent implements OnInit {
+export class CommentcreateComponent implements OnInit, OnDestroy {
+	
+  // release number
+  release: number;
+  // commentservice release observable subscription
+  releaseSubscription: Subscription;
+  // comment
+  model: any = {};
+  // error flag
+  error: boolean = false;
 
   constructor(private commentService: CommentService) { }
   
   ngOnInit() {
 	  this.releaseSubscription = this.commentService.getRelease().subscribe((release: number) => {
 		if (this.release) {
-			// release value changed
+			// release value change
 			this.commentService.showComments = true;
 		} else {
 			// release value initialization
@@ -25,15 +34,13 @@ export class CommentcreateComponent implements OnInit {
 		}
 	})
   }
-   
-   // release number
-   release: number;
-   // commentservice release observable subscription
-   releaseSubscription: Subscription;
-   // comment
-   model: any = {};
-   // error flag
-   error: boolean = false;
+  
+  ngOnDestroy() {
+	  // ensures no memory leaks
+	  if (this.releaseSubscription) {
+		  this.releaseSubscription.unsubscribe();
+	  }
+  }
    
    /* creates user comment with comment info in model variable */
    public createComment() {
@@ -58,8 +65,4 @@ export class CommentcreateComponent implements OnInit {
 	   
    }
    
-   
-
-  
-
 }

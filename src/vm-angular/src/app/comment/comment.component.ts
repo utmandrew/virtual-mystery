@@ -17,6 +17,7 @@ export class CommentComponent implements OnInit, OnChanges {
 	  this.commentService.setRelease(this.release);
   }
   
+  /* Runs when release variable changes */
   ngOnChanges(release) {
 	  this.commentService.setRelease(this.release);
   }

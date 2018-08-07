@@ -20,6 +20,7 @@ export class ReleaseViewComponent implements OnInit, OnDestroy {
 
   // selected release
   private release: number;
+  // router event observable subscription
   navigationSubscription;
   
   ngOnInit() {
@@ -37,6 +38,7 @@ export class ReleaseViewComponent implements OnInit, OnDestroy {
 	  }
   }
   
+  /* Runs component re-initialization commands */
   initEvents() {
 	  // Gets release id from url
 	  this.route.paramMap.subscribe((params: ParamMap) => { 
