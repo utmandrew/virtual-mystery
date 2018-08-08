@@ -1,0 +1,10 @@
+<!-- release navigation buttons -->
+<div>
+	<button (click)="previousRelease()" class="btn btn-primary" > Previous Clue </button>
+	<button (click)="nextRelease()" class="btn btn-primary" > Next Clue </button>
+</div>
+
+<!-- CommentComponent -->
+<div>
+	<app-comment [release]="release" ></app-comment>
+</div>

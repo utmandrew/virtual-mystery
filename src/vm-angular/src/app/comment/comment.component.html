@@ -1,3 +1,2 @@
-<p>
-  comment works!
-</p>
+<app-commentlist *ngIf="commentService.showComments" ></app-commentlist>
+<app-commentcreate *ngIf="!commentService.showComments" ></app-commentcreate>
