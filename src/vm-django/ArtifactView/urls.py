@@ -9,6 +9,6 @@ router = DefaultRouter()
 router.register('hello-viewset', views.ArtifactViewData, base_name='hello-viewset')
 
 urlpatterns = [
-    url(r'^hello-view/', views.ArtifactViewData.as_view()),
+    url(r'^artifact-view/', views.ArtifactViewData.as_view()),
     #url(r'', include(router.urls))
 ]

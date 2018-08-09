@@ -7,7 +7,8 @@
 			<button type="button" class="btn btn-sm float-right" (click)="selectedRelease(release.number)" > View </button> 
 		</span>
 	</div>
-	
+
+
 	<div class="alert alert-primary p-2 m-1" *ngIf="!release.commented" >
 		<p class="alert-heading font-weight-bold" >Clue {{ release.number }}</p>
 		<!-- View Release Button -->
@@ -15,5 +16,5 @@
 			<button type="button" class="btn btn-sm float-right" (click)="selectedRelease(release.number)" > View </button> 
 		</span>
 	</div>
-	
+
 </div>

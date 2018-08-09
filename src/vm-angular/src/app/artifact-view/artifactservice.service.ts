@@ -15,7 +15,7 @@ export class ArtifactserviceService {
 
   getData() {
     // sends a request for a specific release and recieves a list of comments
-    return this.httpClient.get(`${this.API_URL}/hello/hello-view`)
+    return this.httpClient.get(`${this.API_URL}/artifact-view/artifact-view`)
     
   }
 

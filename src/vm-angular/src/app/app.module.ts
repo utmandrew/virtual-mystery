@@ -23,6 +23,7 @@ import { MysteryComponent } from './mystery/mystery.component';
 import { ReleaseViewComponent } from './mystery/release-view/release-view.component';
 import { NotFoundComponent } from './not-found.component';
 import { ReleaseListComponent } from './mystery/release-list/release-list.component';
+import { ArtifactViewComponent } from './artifact-view/artifact-view.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { ReleaseListComponent } from './mystery/release-list/release-list.compon
     NotFoundComponent,
     MysteryComponent,
 	ReleaseViewComponent,
-	ReleaseListComponent
+  ReleaseListComponent,
+  ArtifactViewComponent,
   ],
   imports: [
     BrowserModule,

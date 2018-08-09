@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ArtifactserviceService } from './artifactservice.service';
-import { HttpService } from '../http.service'
+import { HttpService } from '../http.service';
+import { CommentComponent } from '../comment/comment.component';
+
+
 
 
 

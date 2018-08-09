@@ -5,6 +5,7 @@ import { MysteryComponent } from '../mystery/mystery.component';
 import { ReleaseViewComponent } from '../mystery/release-view/release-view.component';
 import { ReleaseListComponent } from '../mystery/release-list/release-list.component';
 import { NotFoundComponent } from '../not-found.component';
+import { ArtifactViewComponent } from '../artifact-view/artifact-view.component';
 
 const routes: Routes = [
 	{ path: '', redirectTo: 'auth', pathMatch: 'full' },
@@ -19,6 +20,7 @@ const routes: Routes = [
 		],
 		runGuardsAndResolvers: 'always'
 	},
+	{ path: 'artifact-view', component:ArtifactViewComponent},
 	
 	// Make sure ** is the last path!
 	{ path: '**', component: NotFoundComponent }
