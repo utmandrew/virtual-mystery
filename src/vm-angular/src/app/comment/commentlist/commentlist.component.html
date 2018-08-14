@@ -1,3 +1,7 @@
+<!-- Comment List Error Message -->
+<p class="alert alert-warning text-center" *ngIf="error"> <strong>An error occurred, please try again.</strong> </p>
+
+
 <div class="container m-0 p-0" *ngFor="let comment of comments">
 	<!-- Top Level Comments -->
 	<div class="alert alert-primary p-2 m-1" >
