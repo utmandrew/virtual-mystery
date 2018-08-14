@@ -1,6 +1,9 @@
 <nav class="navbar navbar-inverse bg-primary">
 	<a class="navbar-brand font-weight-bold text-white">Virtual Mystery</a>
-	<app-logout *ngIf="authService.getUser()" ></app-logout>
+	<!-- Logout Button -->
+	<div class="nav navbar-nav navbar-right" >
+		<app-logout *ngIf="authService.getUser()" ></app-logout>
+	</div>
 </nav>
 
 <div class="container">

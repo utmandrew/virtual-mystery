@@ -31,7 +31,6 @@ export class LogoutComponent implements OnInit {
 	  // sets error flag to true iff an error occurs with the request
 	  error => {
 		  this.error = true;
-		  // console.log(error);
 	  });
   }
 
