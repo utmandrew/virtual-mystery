@@ -22,13 +22,9 @@ export class ArtifactViewComponent implements OnInit {
   constructor(private artifactService: ArtifactserviceService ) { }
 
   ngOnInit() {
-
-
     this.getData();
   }
   
-
-
   public  getData(){
     /// data is the data returned from the backend
   
