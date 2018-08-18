@@ -37,7 +37,7 @@ JSON:
  [
      {
 	"token": authtoken,
-	"mystery": mysteryhash
+	"release": currentreleasenumber
      }
  ]
 

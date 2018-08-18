@@ -25,6 +25,8 @@ export class ReleaseListComponent implements OnInit {
   public getReleases() {
 	  this.mysteryService.listRelease().subscribe((data: Array<Release>) => {
 		  this.releases = data;
+		  // sends current release number to mysteryService
+		  this.mysteryService.setRelease((this.releases[this.releases.length-1]).number);
 		  this.error = false;
 	  },
 	  error => {

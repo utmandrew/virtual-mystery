@@ -24,7 +24,7 @@ export class MysteryService {
 	  var currentUser = JSON.parse(sessionStorage.getItem('currentUser'))
 	  if (newRelease > currentUser['release']) {
 		currentUser['release'] = newRelease;
-		sessionStorage.setItem('currentUser', currentUser);
+		sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
 	  }
   }
   
