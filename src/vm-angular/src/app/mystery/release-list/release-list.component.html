@@ -1,5 +1,9 @@
+<!-- Release List Error Message -->
+<p class="alert alert-warning text-center" *ngIf="error"> <strong>An error occurred, please try again.</strong> </p>
+
+<!-- List of releases -->
 <div class="container" *ngFor="let release of releases">
-	<!-- List of releases -->
+	<!-- Commented Release -->
 	<div class="alert alert-success p-2 m-1" *ngIf="release.commented" >
 		<p class="alert-heading font-weight-bold" >Clue {{ release.number }}</p>
 		<!-- View Release Button -->
@@ -8,6 +12,7 @@
 		</span>
 	</div>
 	
+	<!-- Uncommented Release -->
 	<div class="alert alert-primary p-2 m-1" *ngIf="!release.commented" >
 		<p class="alert-heading font-weight-bold" >Clue {{ release.number }}</p>
 		<!-- View Release Button -->
