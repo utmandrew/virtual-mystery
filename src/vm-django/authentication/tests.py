@@ -1,9 +1,11 @@
+import datetime
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
 from mystery.models import Mystery, Instance
 from system.models import Group, Practical
+from release import get_current_release
 
 
 # Create your tests here.
@@ -21,7 +23,7 @@ class LoginTest(TestCase):
         """
 
         # set to true if using custom login/token view
-        cls.custom = False
+        cls.custom = True
 
         cls.User = get_user_model()
         cls.user = cls.User.objects.create_user(username='Test1',
@@ -42,22 +44,26 @@ class LoginTest(TestCase):
         the user's authentication token, mystery hash and http_200_ok are
         returned in the response.
         """
-        # test case setup
-        token = Token.objects.get(user__username='Test1')
+        time = datetime.datetime.now()
+        time = time + datetime.timedelta(days=1)
+        with self.settings(START_DATETIME=time.strftime("%d/%m/%Y %H:%M:%S")):
+            # test case setup
+            token = Token.objects.get(user__username='Test1')
 
-        data = {'username': "Test1", 'password': "12345"}
+            data = {'username': "Test1", 'password': "12345"}
 
-        # sends login request
-        response = self.client.post(reverse('authentication:token'), data)
+            # sends login request
+            response = self.client.post(reverse('authentication:token'), data)
 
-        # run test
-        # proper status code test
-        self.assertEqual(response.status_code, 200)
-        # user token test
-        self.assertEqual(response.data['token'], token.key)
-        # user mystery hash test
-        if self.custom:
-            self.assertEqual(response.data['mystery'], self.mystery.hash)
+            # run test
+            # proper status code test
+            self.assertEqual(response.status_code, 200)
+            # user token test
+            self.assertEqual(response.data['token'], token.key)
+            # custom login view test
+            if self.custom:
+                self.assertEqual(response.data['release'],
+                                 get_current_release())
 
     def test_invalid_username(self):
         """
@@ -150,7 +156,7 @@ class LogoutTest(TestCase):
         Run once before the tests.
         """
         # set to true if using custom login/token view
-        cls.custom = False
+        cls.custom = True
 
         # gets custom user model
         cls.User = get_user_model()
@@ -173,47 +179,50 @@ class LogoutTest(TestCase):
         user, the user's authentication token is deleted and http_200_ok is
         returned in the response.
         """
-        # test case setup
+        time = datetime.datetime.now()
+        time = time + datetime.timedelta(days=1)
+        with self.settings(START_DATETIME=time.strftime("%d/%m/%Y %H:%M:%S")):
+            # test case setup
+            token1 = Token.objects.get(user__username='Test1')
 
-        token1 = Token.objects.get(user__username='Test1')
+            data = {'username': "Test1", 'password': "12345"}
 
-        data = {'username': "Test1", 'password': "12345"}
+            # sends login request
+            response = self.client.post(reverse('authentication:token'), data)
 
-        # sends login request
-        response = self.client.post(reverse('authentication:token'), data)
+            # login test
+            # proper status code test
+            self.assertEqual(response.status_code, 200)
+            # user token test
+            self.assertEqual(response.data['token'], token1.key)
+            # custom login view test
+            if self.custom:
+                self.assertEqual(response.data['release'],
+                                 get_current_release())
 
-        # login test
-        # proper status code test
-        self.assertEqual(response.status_code, 200)
-        # user token test
-        self.assertEqual(response.data['token'], token1.key)
-        # user mystery hash test
-        if self.custom:
-            self.assertEqual(response.data['mystery'], self.mystery.hash)
+            # auth header
+            header = {'HTTP_AUTHORIZATION': 'Token {}'.format(token1.key)}
 
-        # auth header
-        header = {'HTTP_AUTHORIZATION': 'Token {}'.format(token1.key)}
+            # send logout request
+            response = self.client.get(reverse('authentication:logout'), {},
+                                       **header)
 
-        # send logout request
-        response = self.client.get(reverse('authentication:logout'), {},
-                                   **header)
+            # logout test
+            # proper status code test
+            self.assertEqual(response.status_code, 200)
 
-        # logout test
-        # proper status code test
-        self.assertEqual(response.status_code, 200)
+            # sends login request
+            response = self.client.post(reverse('authentication:token'), data)
 
-        # sends login request
-        response = self.client.post(reverse('authentication:token'), data)
+            # login test
+            # proper status code test
+            self.assertEqual(response.status_code, 200)
 
-        # login test
-        # proper status code test
-        self.assertEqual(response.status_code, 200)
+            # get new token
+            token2 = Token.objects.get(user__username='Test1')
 
-        # get new token
-        token2 = Token.objects.get(user__username='Test1')
-
-        # user token test
-        self.assertNotEqual(token2.key, token1.key)
+            # user token test
+            self.assertNotEqual(token2.key, token1.key)
 
     def test_invalid_logout(self):
         """
@@ -221,37 +230,40 @@ class LogoutTest(TestCase):
         registered user, the user's authentication token is not deleted and
         http_401_unauthorized is returned in the response.
         """
+        time = datetime.datetime.now()
+        time = time + datetime.timedelta(days=1)
+        with self.settings(START_DATETIME=time.strftime("%d/%m/%Y %H:%M:%S")):
+            token1 = Token.objects.get(user__username='Test1')
 
-        token1 = Token.objects.get(user__username='Test1')
+            data = {'username': "Test1", 'password': "12345"}
 
-        data = {'username': "Test1", 'password': "12345"}
+            # sends login request
+            response = self.client.post(reverse('authentication:token'), data)
 
-        # sends login request
-        response = self.client.post(reverse('authentication:token'), data)
+            # login test
+            # proper status code test
+            self.assertEqual(response.status_code, 200)
+            # user token test
+            self.assertEqual(response.data['token'], token1.key)
+            # custom login view test
+            if self.custom:
+                self.assertEqual(response.data['release'],
+                                 get_current_release())
 
-        # login test
-        # proper status code test
-        self.assertEqual(response.status_code, 200)
-        # user token test
-        self.assertEqual(response.data['token'], token1.key)
-        # user mystery hash test
-        if self.custom:
-            self.assertEqual(response.data['mystery'], self.mystery.hash)
+            # auth header
+            header = {'HTTP_AUTHORIZATION': 'Token {}'.format(
+                'abc123def456ghi789jkl123abc456def789ghi0')}
 
-        # auth header
-        header = {'HTTP_AUTHORIZATION': 'Token {}'.format(
-            'abc123def456ghi789jkl123abc456def789ghi0')}
+            # send logout request
+            response = self.client.get(reverse('authentication:logout'), {},
+                                       **header)
 
-        # send logout request
-        response = self.client.get(reverse('authentication:logout'), {},
-                                   **header)
+            # new token
+            token2 = Token.objects.get(user__username='Test1')
 
-        # new token
-        token2 = Token.objects.get(user__username='Test1')
-
-        # logout test
-        # proper status code test
-        self.assertEqual(response.status_code, 401)
-        # user token test
-        self.assertEqual(token2.key, token1.key)
+            # logout test
+            # proper status code test
+            self.assertEqual(response.status_code, 401)
+            # user token test
+            self.assertEqual(token2.key, token1.key)
 
