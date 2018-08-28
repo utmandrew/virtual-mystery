@@ -28,22 +28,32 @@ class ArtifactViewData(APIView):
     serializer_class = serializers.HelloSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
-    image="image1.jpg"
-    clue = "clue.txt"
-    answer = "ans.txt"
-    
+
     def get(self, request, format=None):
         
-        print("checkpoint 1")
+
 
         current_week = get_current_release()
+
+        # now releases are contricted in 1-3
+        
+        if (current_week % 3) == 0:
+            current_week = 3
+        elif current_week % 3 == 1:
+            current_week = 1
+        elif current_week % 3 == 2:
+            current_week = 2
+
+
         path_image = "assets/anthro-virtual-mysteries/Archaeology-demo/"
         path_clue = "assets/anthro-virtual-mysteries/Archaeology-demo/"
         path_answer = "assets/anthro-virtual-mysteries/Archaeology-demo/"
 
+
         path_image += str(request.user.group.mystery1) + "/Release" +str(current_week) +"/image1.jpg"
         path_clue += str(request.user.group.mystery1) + "/Release" +str(current_week)+"/clue.txt"
         path_answer += str(request.user.group.mystery1) + "/Release" +str(current_week)+ "/ans.txt"
+
 
         return Response({
                     'user': str(request.user),
