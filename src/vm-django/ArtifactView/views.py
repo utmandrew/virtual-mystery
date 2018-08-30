@@ -47,7 +47,7 @@ class ArtifactViewData(APIView):
         elif current_week % 3 == 2:
             current_week = 2
 
-        mystery_ob = Release.objects.get(pk=1)
+        mystery_ob = Release.objects.get(pk=current_week)
         #print( Release.objects.get(pk=1))
 
 
@@ -60,7 +60,7 @@ class ArtifactViewData(APIView):
         # release objects extracting the clue/answer text and putting it in the db
 
         # not currently storing images in db so we must use a path in front end
-        
+
         path_image = "assets/anthro-virtual-mysteries/Archaeology-demo/"
         #path_clue = "assets/anthro-virtual-mysteries/Archaeology-demo/"
         path_clue = mystery_ob.clue
