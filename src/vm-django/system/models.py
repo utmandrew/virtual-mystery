@@ -19,7 +19,7 @@ class Group(models.Model):
     """
     # group name
     name = models.TextField()
-    mystery1 = models.TextField(default="MysteryFlutedPoint")
+   
     
 
     # refers to a groups practical
