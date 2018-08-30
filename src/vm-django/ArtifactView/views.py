@@ -14,8 +14,8 @@ from rest_framework.permissions import IsAuthenticated
 
 from release import get_current_release
 
-from . import serializers
-from .serializers import HelloSerializer
+
+
 
 from . import models
 from mystery.models import Mystery,Release
@@ -28,7 +28,7 @@ class ArtifactViewData(APIView):
 
     """
 
-    serializer_class = serializers.HelloSerializer
+
     permission_classes = (permissions.IsAuthenticated,)
 
 
@@ -46,6 +46,10 @@ class ArtifactViewData(APIView):
             current_week = 1
         elif current_week % 3 == 2:
             current_week = 2
+
+        # we need to work on implenting which order of mysteries to release in which order
+        # for time being it is this particular mystery object 
+        mystery_name = Mystery.objects.get(pk=1)
 
         mystery_ob = Release.objects.get(pk=current_week)
         #print( Release.objects.get(pk=1))
@@ -68,7 +72,7 @@ class ArtifactViewData(APIView):
         path_answer = mystery_ob.answer
 
 
-        path_image += str(request.user.group.mystery1) + "/Release" +str(current_week) +"/image1.jpg"
+        path_image += str(mystery_name.name) + "/Release" +str(current_week) +"/image1.jpg"
         #path_clue += str(request.user.group.mystery1) + "/Release" +str(current_week)+"/clue.txt"
         #path_answer += str(request.user.group.mystery1) + "/Release" +str(current_week)+ "/ans.txt"
 
@@ -76,7 +80,7 @@ class ArtifactViewData(APIView):
         #Release.objects.filter(mystery=users_mystery, release=required_release)
         return Response({
                     'user': str(request.user),
-                    'group': str(request.user.group.mystery1),
+                    'mystery': str(mystery_name.name),
                     'image': path_image,
                     'clue': path_clue,
                     'answer': path_answer, 

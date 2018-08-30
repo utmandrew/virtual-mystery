@@ -15,8 +15,8 @@ import { CommentComponent } from '../comment/comment.component';
 export class ArtifactViewComponent implements OnInit {
 
 
-  private  contacts:  Array<object> = [];
-  private image : string;
+  private  release_data:  Array<object> = [];
+
 
 
   constructor(private artifactService: ArtifactserviceService ) { }
@@ -29,7 +29,7 @@ export class ArtifactViewComponent implements OnInit {
     /// data is the data returned from the backend
   
     this.artifactService.getData().subscribe((data:  Array<object>) => {
-        this.contacts  =  data;
+        this.release_data  =  data;
 
 
         console.log(data);
