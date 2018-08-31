@@ -10,7 +10,6 @@ class PracticalSerializer(serializers.ModelSerializer):
         model = Practical
         fields = ('id',)
 
-
 class GroupSerializer(serializers.ModelSerializer):
     """
     Serializes/Deserializes Group class objects

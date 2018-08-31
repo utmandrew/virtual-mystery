@@ -1,0 +1,16 @@
+.imageClue{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    border-radius: 2%;
+}
+.clueBox{
+    border-color: gray;
+
+    display: block;
+    border-radius: 3%;
+    width: 50%;
+    margin: auto;
+    height: 80px;
+}
