@@ -3,7 +3,7 @@
 ## Usage
 
 Notes:
- * All of these requests require an authentication token in the header
+ * Logout request requires an authentication token in the header
  - Uses django-rest-framework token authentication
  - Token does not expire at a given time interval
  - Token is reset for each user once the user logs out
