@@ -19,6 +19,7 @@ DJANGO:
  * Logout * (views.py: Logout class)
  A logout is executed by deleting the users' token thereby forcing the user to login for any further requests. This requires the user making the request to be authenticated. 
 
+
 ANGULAR:
 
  NOTE: For endpoint info see django authentication app README.txt.
