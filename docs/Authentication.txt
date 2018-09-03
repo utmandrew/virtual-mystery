@@ -42,4 +42,7 @@ ANGULAR:
  Sends an HTTP request to the django logout endpoint and on a successful response, deletes the currentUser object and the user is redirected back to the login page. 
 
  * Status * (auth: auth.service)
- The function getUser is used to check the authentication status of a user by checking whether the currentUser object exists in sessionStorage.  
+ The function getUser is used to check the authentication status of a user by checking whether the currentUser object exists in sessionStorage.
+
+ * Auth Guard * (auth: auth-guard.service)
+ Restricts routes that require the user to be logged in by checking the auth.service getUser function.
