@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.contrib.auth import authenticate
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import status
@@ -10,6 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 
 from mystery.models import Instance
+from release import get_current_release
 
 # Create your views here.
 
@@ -34,11 +34,12 @@ class Login(ObtainAuthToken):
             if user is not None:
                 # successfully authenticated
                 token, created = Token.objects.get_or_create(user=user)
-
-                mystery = Instance.objects.get(group=user.group).mystery.hash
+                release = get_current_release()
+                # mystery = Instance.objects.get(group=user.group).mystery.hash
                 return Response({
                     'token': token.key,
-                    'mystery': mystery
+                    'release': release
+                    # 'mystery': mystery
                 }, status=status.HTTP_200_OK)
 
             else:

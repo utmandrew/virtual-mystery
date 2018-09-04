@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
 		  this.error = false;
 		  
 		  // sets current user token value into browsers session storage
-		  sessionStorage.setItem('currentUser', JSON.stringify({ token: response['token'] }));
+		  sessionStorage.setItem('currentUser', JSON.stringify({ token: response['token'], release: response['release'] }));
 	  },
 	  // sets error flag to true iff an error occurs with the request
 	  error => {

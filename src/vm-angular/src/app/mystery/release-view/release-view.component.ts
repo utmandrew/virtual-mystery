@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, NavigationEnd } from '@angular/router';
+import { MysteryService } from '../mystery.service';
 
 @Component({
   selector: 'app-release-view',
@@ -8,7 +9,7 @@ import { Router, ActivatedRoute, ParamMap, NavigationEnd } from '@angular/router
 })
 export class ReleaseViewComponent implements OnInit, OnDestroy {
 
-  constructor(private route: ActivatedRoute, public router: Router) { 
+  constructor(private route: ActivatedRoute, private mysteryService: MysteryService, public router: Router) { 
 	// subscribes to router events observable
 	this.navigationSubscription = this.router.events.subscribe((e: any) => {
 		// checks if navigation has ended

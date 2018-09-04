@@ -19,15 +19,17 @@
 			<li class="nav-item">
 				<a class ="nav-link" href="#">Grades</a>
 			</li>
+      <!-- Logout Button -->
 			<li class="nav-item">
-				<app-logout *ngIf="authService.getUser()" ></app-logout>
+        <div class="nav navbar-nav navbar-right" >
+				  <app-logout *ngIf="authService.getUser()" ></app-logout>
+        </div>
 			</li>
 
 		</ul>
 		</div>
 	</div>
 </nav>
-
 
 <div class="container">
 
