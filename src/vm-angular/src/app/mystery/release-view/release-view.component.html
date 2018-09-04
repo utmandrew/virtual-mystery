@@ -4,7 +4,12 @@
 	<button (click)="nextRelease()" [disabled]="mysteryService.getRelease() == release" class="btn btn-primary" > Next Clue </button>
 </div>
 
-<!-- CommentComponent -->
+<!-- ArtifactView Component -->
+<div>
+	<app-artifact-view></app-artifact-view>
+</div>
+
+<!-- Comment Component -->
 <div>
 	<app-comment [release]="release" ></app-comment>
 </div>
