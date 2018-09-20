@@ -48,3 +48,14 @@ class ReleaseSerializer(serializers.ModelSerializer):
             return comment.exists()
         else:
             return False
+
+
+class ArtifactViewSerializer(serializers.ModelSerializer):
+    """
+    Serializes release objects for artifact view.
+    """
+    mystery_hash = serializers.CharField(source='mystery.hash')
+
+    class Meta:
+        model = Release
+        fields = ('clue', 'hash', 'mystery_hash')
