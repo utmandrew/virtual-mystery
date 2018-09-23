@@ -61,6 +61,9 @@ class Artifact(APIView):
                                                    number=release)
                 serializer = ArtifactSerializer(release_info)
                 return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                # release not reached or dne
+                return Response(status=status.HTTP_400_BAD_REQUEST)
         except AttributeError:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         except ObjectDoesNotExist:
