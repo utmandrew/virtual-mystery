@@ -50,7 +50,7 @@ class ReleaseSerializer(serializers.ModelSerializer):
             return False
 
 
-class ArtifactViewSerializer(serializers.ModelSerializer):
+class ArtifactSerializer(serializers.ModelSerializer):
     """
     Serializes release objects for artifact view.
     """

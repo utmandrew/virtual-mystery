@@ -1,38 +1,7 @@
-
-<!-- 
-<table  style="width:100%">
-    <tr>
-
-        <th>USER</th>
-        <th> PATH</th>
-
-    </tr>
-    <tr>
-
-      <td> {{ contacts.user }} </td>
-      <td> {{ contacts.image }}</td>
-    </tr>
-    <tr>
-
-        <td> {{ contacts.user }} </td>
-        <td> {{ contacts.clue }}</td>
-    </tr>
-    <tr>
-        <td> {{ contacts.user }} </td>
-        <td> {{ contacts.answer }}</td>
-    </tr>
-
-</table>
-
--->
-
-
-
 <div class="card mb-3" >
     <div class="card-header">
-
-        <!-- <h4> {{ release_data.mystery }}</h4> -->
-		<h4>Mystery</h4>
+		<h4 *ngIf="!error">Release {{release}}</h4>
+		<p class="alert alert-warning text-center" *ngIf="error"> <strong>An error occurred, please try again.</strong> </p>
     </div>
 
     <div class="card-body">
@@ -60,33 +29,6 @@ THE COMMENT TEMPLATE
     </div>
 
 </div>
--->
-
-
-
-
-<!-- 
-<div class="clueBox">
-<p class="imageClue"><iframe src="assets/anthro-virtual-mysteries/Archaeology-demo/MysteryFlutedPoint/Release1/clue.txt" frameborder="0" height="400"
-    width="95%"></iframe></p>
-</div>
-
--->
-
-
-
-<!--
-<div class="clueBox">
-        <p class="imageClue"><iframe src="assets/anthro-virtual-mysteries/Archaeology-demo/MysteryFlutedPoint/Release1/ans.txt" frameborder="0" height="400"
-            width="95%"></iframe></p>
-</div>
--->
-
-
-
-<!-- 
-    we have: assets/anthro-virtual-mysteries/Archaeology-demo/MysteryFlutedPoint/Release1/ans.txt
-    shod be: assets/anthro-virtual-mysteries/Archaeology-demo/MysteryFlutedPoint/Release1/ans.txt
 -->
 
 
