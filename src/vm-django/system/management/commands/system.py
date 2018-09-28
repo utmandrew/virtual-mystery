@@ -1,6 +1,11 @@
 import csv
+from django.contrib.auth import get_user_model
+from django.db import IntegrityError
 from django.core.management.base import BaseCommand, CommandError
-from system.models import Practical, Group, User
+from system.models import Practical, Group
+
+# user model
+UserModel = get_user_model()
 
 
 def create_pra(name):
@@ -8,7 +13,7 @@ def create_pra(name):
     Creates and saves practical object.
     """
     practical, created = Practical.objects.get_or_create(
-        name=name
+        name=name,
     )
 
     return practical
@@ -31,12 +36,16 @@ def create_user(uname, group):
     Creates and saves user objects.
     """
     passwd = 'HelloMoto123'
-    user, created = User.objects.create_user(
+
+    # creates user
+    user = UserModel.objects.create_user(
         username=uname,
         password=passwd,
+        group=group
     )
 
-    user.group = group
+    # saves user
+    user.save()
 
     return user
 
@@ -67,17 +76,26 @@ class Command(BaseCommand):
                     reader = csv.reader(file, delimiter=",")
                     # iterating through each row in csv
                     for row in reader:
-                        # stores row data
                         # creates system model objects
-                        practical = create_pra(row[1])
-                        group = create_group(row[2], practical)
-                        user = create_user(row[0], group)
+                        try:
+                            practical = create_pra(row[1])
+                            group = create_group(row[2], practical)
+                            _ = create_user(row[0], group)
+                        except IntegrityError:
+                            self.stderr.write(
+                                "Duplicate Information: {}".format(row))
+                        except IndexError:
+                            # problem extracting missing information
+                            self.stderr.write("Format Error: {}".format(row))
+                        except ValueError:
+                            self.stderr.write("ValueError: {}".format(row))
             else:
+                # file not csv
                 self.stderr.write("File not of type csv.")
 
         except FileNotFoundError:
             # problem opening file
             self.stderr.write("File does not exist.")
-        except IndexError:
-            # problem extracting missing information
-            self.stderr.write("Format Error: %s.", row)
+
+
+
