@@ -1,66 +1,42 @@
 import csv
-from django.contrib.auth import get_user_model
 from django.db import IntegrityError
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.base import BaseCommand, CommandError
-from system.models import Practical, Group
+from mystery.models import Instance, Mystery
+# dependant on system group model
+from system.models import Group
 
-# user model
-UserModel = get_user_model()
 
-
-def create_pra(name):
+def create_instance(practical, group, mystery):
     """
-    Creates and saves practical object.
+    Creates and saves instance objects.
     """
-    practical, created = Practical.objects.get_or_create(
-        name=name,
+    _group = Group.objects.get(
+        practical__name=practical,
+        name=group
     )
 
-    return practical
-
-
-def create_group(name, practical):
-    """
-    Creates and saves group objects.
-    """
-    group, created = Group.objects.get_or_create(
-        name=name,
-        practical=practical
+    _mystery = Mystery.objects.get(
+        name=mystery
     )
 
-    return group
-
-
-def create_user(uname, group):
-    """
-    Creates and saves user objects.
-    """
-    passwd = 'HelloMoto123'
-
-    # creates user
-    user = UserModel.objects.create_user(
-        username=uname,
-        password=passwd,
-        group=group
+    Instance.objects.get_or_create(
+        group=_group,
+        mystery=_mystery
     )
-
-    # saves user
-    user.save()
-
-    return user
 
 
 class Command(BaseCommand):
     """
-    System command - used to create system app models and connections from
-    file.
+    Assign command - used to create mystery app instance models and connections
+    from file.
 
     File Type: csv
 
-    Format: User,PRA,Group
+    Format: PRA,Group,Mystery
     """
-    help = 'Usage: python manage.py system <absolute_file_path>\nFile Type: ' \
-           'CSV\nFormat: User,PRA,Group'
+    help = 'Usage: python manage.py assign <absolute_file_path>\nFile Type: ' \
+           'CSV\nFormat: PRA,Group,Mystery'
 
     def add_arguments(self, parser):
         """
@@ -71,7 +47,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         """
         Parses csv file and creates corresponding objects from parsed data.
-        Note: refer to csv format list data
+        Note: parsed data in csv format
         """
         try:
             # csv path argument
@@ -82,11 +58,8 @@ class Command(BaseCommand):
                     reader = csv.reader(file, delimiter=",")
                     # iterating through each row in csv
                     for row in reader:
-                        # creates system model objects
                         try:
-                            practical = create_pra(row[1])
-                            group = create_group(row[2], practical)
-                            _ = create_user(row[0], group)
+                            create_instance(row[0], row[1], row[2])
                         except IntegrityError:
                             # duplicate information
                             self.stderr.write(self.style.WARNING(
@@ -99,13 +72,13 @@ class Command(BaseCommand):
                             # missing information
                             self.stderr.write(self.style.WARNING(
                                 "ValueError: {}".format(row)))
+                        except ObjectDoesNotExist:
+                            # queried object does not exist
+                            self.stderr.write(self.style.WARNING(
+                                "ObjectDoesNotExist: {}".format(row)))
             else:
                 # file not csv
                 self.stderr.write(self.style.ERROR("File not of type csv."))
-
         except FileNotFoundError:
             # file path does not exist
             self.stderr.write(self.style.ERROR("File does not exist."))
-
-
-
