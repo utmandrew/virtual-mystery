@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.authentication import TokenAuthentication
 
 from .models import Release, Instance
-from .serializers import ReleaseSerializer
+from .serializers import ReleaseSerializer, ArtifactSerializer
 from release import get_current_release
 
 # Create your views here.
@@ -40,3 +40,32 @@ class ReleaseList(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
         except ObjectDoesNotExist:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class Artifact(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request, release):
+        """
+        Returns artifact information for a specific release.
+        :param release: a release id, passed in the url.
+        """
+        try:
+            current_release = get_current_release()
+            # checks if requested release has been reached
+            if int(release) <= current_release:
+                mystery = Instance.objects.get(group=request.user.group) \
+                    .mystery
+                release_info = Release.objects.get(mystery=mystery.id,
+                                                   number=release)
+                serializer = ArtifactSerializer(release_info)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                # release not reached or dne
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+        except AttributeError:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        except ObjectDoesNotExist:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+

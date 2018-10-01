@@ -1,24 +1,21 @@
 import { Injectable } from '@angular/core';
-import { HttpService,} from '../http.service';
-
-
+import { HttpService} from '../http.service';
 
 @Injectable({
   providedIn: 'root'
 })
+
+/* Service that allows access to all artifactview component functions dealing with api */
 export class ArtifactserviceService {
 
   API_URL = 'http://localhost:8000';
+  ASSETS_PATH = 'assets';
 
-  constructor(private httpClient: HttpService) { 
+  constructor(private httpClient: HttpService) { }
+
+  getData(release: number) {
+    // sends a request for a specific release and recieves release info
+    return this.httpClient.get(`${this.API_URL}/mystery/release/${release}`)
   }
-
-  getData() {
-    // sends a request for a specific release and recieves a list of comments
-    return this.httpClient.get(`${this.API_URL}/artifact-view/artifact-view`)
-    
-  }
-
-
 
 }
