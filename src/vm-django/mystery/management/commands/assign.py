@@ -59,7 +59,8 @@ class Command(BaseCommand):
                     # iterating through each row in csv
                     for row in reader:
                         try:
-                            create_instance(row[0], row[1], row[2])
+                            create_instance(row[0].strip(), row[1].strip(),
+                                            row[2].strip())
                         except IntegrityError:
                             # duplicate information
                             self.stderr.write(self.style.WARNING(

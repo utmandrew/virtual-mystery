@@ -84,9 +84,11 @@ class Command(BaseCommand):
                     for row in reader:
                         # creates system model objects
                         try:
-                            practical = create_pra(row[1])
-                            group = create_group(row[2], practical)
-                            _ = create_user(row[0], group)
+                            # csv entries are stripped of leading and trailing
+                            # whitespace
+                            practical = create_pra(row[1].strip())
+                            group = create_group(row[2].strip(), practical)
+                            _ = create_user(row[0].strip(), group)
                         except IntegrityError:
                             # duplicate information
                             self.stderr.write(self.style.WARNING(
