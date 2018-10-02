@@ -92,7 +92,7 @@ WSGI_APPLICATION = 'VM_Django.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'vm_database',
+        'NAME': 'vm_parser_database',
         'USER': 'vm_db_user',
         'PASSWORD': 'vm_password',
         'HOST': 'localhost',
