@@ -9,7 +9,12 @@ from system.models import Group
 
 def create_instance(practical, group, mystery):
     """
-    Creates and saves instance objects.
+    Creates and saves the object if it does not exist, otherwise it gets the
+    existing object.
+
+    :param practical: practical name
+    :param mystery: mystery name
+    :param group: group name
     """
     _group = Group.objects.get(
         practical__name=practical,
@@ -28,15 +33,16 @@ def create_instance(practical, group, mystery):
 
 class Command(BaseCommand):
     """
-    Assign command - used to create mystery app instance models and connections
-    from file.
+    Assign command - used to create mystery app instance objects and
+    connections from file.
 
     File Type: csv
 
     Format: PRA,Group,Mystery
     """
-    help = 'Usage: python manage.py assign <absolute_file_path>\nFile Type: ' \
-           'CSV\nFormat: PRA,Group,Mystery'
+
+    help = 'Used to create mystery app instance objects and connections from '\
+           'csv file (Format: PRA,Group,Mystery)'
 
     def add_arguments(self, parser):
         """

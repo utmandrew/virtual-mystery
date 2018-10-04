@@ -2,11 +2,12 @@ import os
 import re
 from shutil import copyfile
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.base import BaseCommand, CommandError
 from mystery.models import Mystery, Release
 
 
-STATIC_DIR = os.path.join("mystery","static","mystery")
+STATIC_DIR = os.path.join("mystery", "static", "mystery")
 
 
 def get_release_number(rname):
@@ -32,8 +33,6 @@ def create_mystery(name):
     mystery, _ = Mystery.objects.get_or_create(
         name=name,
     )
-
-    print("mystery created")
 
     return mystery.hash
 
@@ -109,7 +108,10 @@ class Command(BaseCommand):
 
     Format: PRA,Group,Mystery
     """
-    help = ""
+    help = "Used to create mystery app mystery and release objects and " \
+           "connections from formatted folder. Parses folder and extracts " \
+           "required information. Copies static files to static folder. " \
+           "Using mystery hash format."
 
     def add_arguments(self, parser):
         """
@@ -130,60 +132,123 @@ class Command(BaseCommand):
             if os.path.isdir(fpath):
                 # traverses files top to bottom recursively from fpath
                 for root, dirs, files in os.walk(fpath):
-                    # ans.txt text
-                    ans = ""
-                    # clue.txt test
-                    clue = ""
-                    # image counter
-                    nimages = 0
+                    try:
+                        # ans.txt text
+                        ans = ""
+                        # clue.txt test
+                        clue = ""
+                        # image counter
+                        nimages = 0
 
-                    # release folder
-                    if files:
-                        # print(os.path.basename(root))
-                        # for files in release folder
-                        for file_path in files:
-                            # text file
-                            if file_path.lower().endswith("clue.txt"):
-                                # clue file
-                                with open(os.path.join(root, file_path), 'r') \
-                                        as file:
+                        # release folder
+                        if files:
+                            # print(os.path.basename(root))
+                            # for files in release folder
+                            for file_path in files:
+                                # text file
+                                if file_path.lower().endswith("clue.txt"):
+                                    # clue file
+                                    with open(os.path.join(root, file_path),
+                                              'r') as file:
 
-                                    # saves clue
-                                    clue = file.read()
+                                        # saves clue
+                                        clue = file.read()
 
-                            elif file_path.lower().endswith("ans.txt"):
-                                # answer file
-                                with open(os.path.join(root, file_path), 'r') \
-                                        as file:
+                                elif file_path.lower().endswith("ans.txt"):
+                                    # answer file
+                                    with open(os.path.join(root, file_path),
+                                              'r') as file:
 
-                                    # saves answer
-                                    ans = file.read()
+                                        # saves answer
+                                        ans = file.read()
 
-                            elif file_path.lower().endswith("jpg"):
-                                # image file
+                                elif file_path.lower().endswith("jpg"):
+                                    # image file
 
-                                # increments image counter
-                                nimages += 1
+                                    # increments image counter
+                                    nimages += 1
 
-                        # create release object
+                            # create release object
 
-                        # release number
-                        rnumber = get_release_number(os.path.basename(root))
-                        # mystery name
-                        mname = os.path.basename(os.path.dirname(root))
-                        # create release
-                        mhash, rhash = create_release(rnumber, ans, clue, mname)
-                        # creates release static folder
-                        create_release_folder(mhash, rhash)
-                        # moves images to release static folder
-                        move_images(mhash, rhash, root, nimages)
+                            # release number
+                            rnumber = get_release_number(
+                                os.path.basename(root)
+                            )
+                            # mystery name
+                            mname = os.path.basename(os.path.dirname(root))
+                            # create release
+                            mhash, rhash = create_release(rnumber, ans, clue,
+                                                          mname)
+                            # creates release static folder
+                            create_release_folder(mhash, rhash)
+                            # moves images to release static folder
+                            move_images(mhash, rhash, root, nimages)
 
-                    # mystery folder
-                    elif root != fpath:
-                        # creates mystery object
-                        mhash = create_mystery(os.path.basename(root))
-                        # creates mystery static folder
-                        create_mystery_folder(mhash)
+                        # mystery folder
+                        elif root != fpath:
+                            # creates mystery object
+                            mhash = create_mystery(os.path.basename(root))
+                            # creates mystery static folder
+                            create_mystery_folder(mhash)
+
+                    except IndexError:
+                        # problem extracting release number
+                        self.stderr.write(self.style.WARNING(
+                            "Release Number Error: {}".format(
+                                os.path.basename(root))))
+                    except IntegrityError:
+                        # duplicate information
+                        if files:
+                            # release being processed
+                            self.stderr.write(self.style.WARNING(
+                                "Duplicate Information: {} {}".format(
+                                    # mystery name
+                                    os.path.basename(os.path.dirname(root)),
+                                    # release name
+                                    os.path.basename(root)
+                                )))
+                        else:
+                            # mystery being processed
+                            self.stderr.write(self.style.WARNING(
+                                "Duplicate Information: {}".format(
+                                    # mystery name
+                                    os.path.basename(root)
+                                )))
+                    except ObjectDoesNotExist:
+                        # queried object does not exist
+                        if files:
+                            # release being processed
+                            self.stderr.write(self.style.WARNING(
+                                "ObjectDoesNotExist: {} {}".format(
+                                    # mystery name
+                                    os.path.basename(os.path.dirname(root)),
+                                    # release name
+                                    os.path.basename(root)
+                                )))
+                        else:
+                            # mystery being processed
+                            self.stderr.write(self.style.WARNING(
+                                "ObjectDoesNotExist: {}".format(
+                                    # mystery name
+                                    os.path.basename(root)
+                                )))
+                    except OSError:
+                        if files:
+                            # release being processed
+                            self.stderr.write(self.style.WARNING(
+                                "An Error Occurred: {} {}".format(
+                                    # mystery name
+                                    os.path.basename(os.path.dirname(root)),
+                                    # release name
+                                    os.path.basename(root)
+                                )))
+                        else:
+                            # mystery being processed
+                            self.stderr.write(self.style.WARNING(
+                                "An Error Occurred: {}".format(
+                                    # mystery name
+                                    os.path.basename(root)
+                                )))
             else:
                 # fpath not a path to folder
                 self.stderr.write(self.style.ERROR("Provided path is not a "
@@ -191,6 +256,10 @@ class Command(BaseCommand):
         except FileNotFoundError:
             # file path does not exist
             self.stderr.write(self.style.ERROR("File does not exist."))
+        except OSError:
+            # error occurred during folder structure traversal
+            self.stderr.write(self.style.ERROR(
+                "Error during folder traversal."))
 
 
 

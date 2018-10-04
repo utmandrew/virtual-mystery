@@ -10,7 +10,11 @@ UserModel = get_user_model()
 
 def create_pra(name):
     """
-    Creates and saves practical object.
+    Returns practical object. Creating and saving the object if it does not
+    exist, otherwise it gets the existing object.
+
+    :param name: practical name
+    :return: practical object
     """
     practical, created = Practical.objects.get_or_create(
         name=name,
@@ -21,7 +25,12 @@ def create_pra(name):
 
 def create_group(name, practical):
     """
-    Creates and saves group objects.
+    Returns group object. Creating and saving the object if it does not exist,
+    otherwise it gets the existing object.
+
+    :param name: group name
+    :param practical: practical object
+    :return: group object
     """
     group, created = Group.objects.get_or_create(
         name=name,
@@ -33,8 +42,13 @@ def create_group(name, practical):
 
 def create_user(uname, group):
     """
-    Creates and saves user objects.
+    Returns the newly created and saved user object.
+
+    :param group: group object
+    :param uname: user name
+    :return: user object
     """
+    # temporary password (for testing)
     passwd = 'HelloMoto123'
 
     # creates user
@@ -52,15 +66,16 @@ def create_user(uname, group):
 
 class Command(BaseCommand):
     """
-    System command - used to create system app models and connections from
+    System command - used to create system app objects and connections from
     file.
 
     File Type: csv
 
     Format: User,PRA,Group
     """
-    help = 'Usage: python manage.py system <absolute_file_path>\nFile Type: ' \
-           'CSV\nFormat: User,PRA,Group'
+
+    help = 'Used to create system app objects and connections from csv file ' \
+           '(Format: User,PRA,Group)'
 
     def add_arguments(self, parser):
         """
@@ -71,7 +86,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         """
         Parses csv file and creates corresponding objects from parsed data.
-        Note: refer to csv format list data
+        Note: parsed data in csv format
         """
         try:
             # csv path argument
