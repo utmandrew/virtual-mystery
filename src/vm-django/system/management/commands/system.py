@@ -1,11 +1,48 @@
+import os
 import csv
+from random import SystemRandom
+from string import ascii_uppercase, digits
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import IntegrityError
 from django.core.management.base import BaseCommand, CommandError
 from system.models import Practical, Group
 
+# private directory relative path
+STATIC_DIR = os.path.join("system", "private")
+
 # user model
 UserModel = get_user_model()
+
+
+def user_credentials(uname, password):
+    """
+    Creates/opens a text file and appends the newly created user's username and
+    password into the file.
+    :param uname: username (string)
+    :param password: password (string)
+    """
+    fpath = os.path.join(settings.BASE_DIR, STATIC_DIR, "users.txt")
+
+    if os.path.exists(fpath):
+        # file exists
+        mode = 'a'
+    else:
+        # file d.n.e
+        mode = 'w+'
+
+    with open(fpath, mode) as file:
+        file.write("{} {}\n".format(uname, password))
+
+
+def generate_password():
+    """
+    Returns a random 8 digit string consisting of numbers [0-9] and uppercase
+    letters [A-Z].
+    :return: random 8 char (string)
+    """
+    return ''.join(SystemRandom().choice(ascii_uppercase + digits)
+                   for _ in range(8))
 
 
 def create_pra(name):
@@ -46,20 +83,22 @@ def create_user(uname, group):
 
     :param group: group object
     :param uname: user name
-    :return: user object
+    :return: password string
     """
-    # temporary password (for testing)
-    passwd = 'HelloMoto123'
+    password = generate_password()
 
     # creates user
     user = UserModel.objects.create_user(
         username=uname,
-        password=passwd,
+        password=password,
         group=group
     )
 
     # saves user
     user.save()
+
+    # saves user credentials
+    user_credentials(uname, password)
 
     return user
 
@@ -104,6 +143,7 @@ class Command(BaseCommand):
                             practical = create_pra(row[1].strip())
                             group = create_group(row[2].strip(), practical)
                             _ = create_user(row[0].strip(), group)
+
                         except IntegrityError:
                             # duplicate information
                             self.stderr.write(self.style.WARNING(
@@ -116,6 +156,12 @@ class Command(BaseCommand):
                             # missing information
                             self.stderr.write(self.style.WARNING(
                                 "ValueError: {}".format(row)))
+
+                # prints users.txt file path
+                self.stdout.write("User File Location: {}".format(
+                    os.path.join(settings.BASE_DIR, STATIC_DIR, "users.txt")
+                ))
+
             else:
                 # file not csv
                 self.stderr.write(self.style.ERROR("File not of type csv."))
@@ -123,6 +169,8 @@ class Command(BaseCommand):
         except FileNotFoundError:
             # file path does not exist
             self.stderr.write(self.style.ERROR("File does not exist."))
-
+        except IOError:
+            # error reading file
+            self.stderr.write(self.style.ERROR("Error reading file."))
 
 
