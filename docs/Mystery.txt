@@ -35,6 +35,13 @@ DJANGO:
 	- number: release number
 	- commented: boolean (true iff user has commented on release, otherwise false)
 
+ * Artifact Serializer * (mystery: serializers.py)
+ Converts release objects and related mystery object data into JSON data (serializes):
+
+	- clue: release clue text
+	- hash: release hash
+	- mystery_hash: mystery hash
+
  * Timed Release * (release.py & VM_DJANGO: settings.py)
  Configured in main settings file:
 
@@ -51,7 +58,13 @@ The get_current_release function returns 0 iff the START_DATETIME has not yet be
 	- mystery = the authenticated groups assigned mystery (through instance)
 
 and an organized list of releases less than or equal to the current release are returned in the response.  
+
+ * Artifact * (mystery: views.py)
+ When requesting artifact data for a specific release through the artifact endpoint, a check is done to ensure that the requested release date has been reached. If passed, certain attributes are derived from the authenticated user:
+
+	- mystery = the authenticated groups assigned mystery (through instance)
  
+and a list of artifact info for the requested release is returned in the reaponse.
 
 ANGULAR:
 
