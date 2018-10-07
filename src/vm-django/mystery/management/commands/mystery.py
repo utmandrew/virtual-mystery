@@ -194,13 +194,14 @@ class Command(BaseCommand):
                     except IndexError:
                         # problem extracting release number
                         self.stderr.write(self.style.WARNING(
-                            "Release Number Error: {}".format(
+                            "(Warning) Missing Release Number: {}".format(
                                 os.path.basename(root))))
                     except IntegrityError:
                         # duplicate information
                         if files:
                             # release being processed
                             self.stderr.write(self.style.WARNING(
+                                "(Warning) "
                                 "Duplicate Information: {} {}".format(
                                     # mystery name
                                     os.path.basename(os.path.dirname(root)),
@@ -210,7 +211,7 @@ class Command(BaseCommand):
                         else:
                             # mystery being processed
                             self.stderr.write(self.style.WARNING(
-                                "Duplicate Information: {}".format(
+                                "(Warning) Duplicate Information: {}".format(
                                     # mystery name
                                     os.path.basename(root)
                                 )))
@@ -219,7 +220,7 @@ class Command(BaseCommand):
                         if files:
                             # release being processed
                             self.stderr.write(self.style.WARNING(
-                                "ObjectDoesNotExist: {} {}".format(
+                                "(Warning) ObjectDoesNotExist: {} {}".format(
                                     # mystery name
                                     os.path.basename(os.path.dirname(root)),
                                     # release name
@@ -228,7 +229,7 @@ class Command(BaseCommand):
                         else:
                             # mystery being processed
                             self.stderr.write(self.style.WARNING(
-                                "ObjectDoesNotExist: {}".format(
+                                "(Warning) ObjectDoesNotExist: {}".format(
                                     # mystery name
                                     os.path.basename(root)
                                 )))
@@ -236,7 +237,7 @@ class Command(BaseCommand):
                         if files:
                             # release being processed
                             self.stderr.write(self.style.WARNING(
-                                "An Error Occurred: {} {}".format(
+                                "(Warning) Processing Problem: {} {}".format(
                                     # mystery name
                                     os.path.basename(os.path.dirname(root)),
                                     # release name
@@ -245,21 +246,22 @@ class Command(BaseCommand):
                         else:
                             # mystery being processed
                             self.stderr.write(self.style.WARNING(
-                                "An Error Occurred: {}".format(
+                                "(Warning) Processing Problem: {}".format(
                                     # mystery name
                                     os.path.basename(root)
                                 )))
             else:
                 # fpath not a path to folder
-                self.stderr.write(self.style.ERROR("Provided path is not a "
+                self.stderr.write(self.style.ERROR("(Error) "
+                                                   "Provided path is not a "
                                                    "folder."))
         except FileNotFoundError:
             # file path does not exist
-            self.stderr.write(self.style.ERROR("File does not exist."))
+            self.stderr.write(self.style.ERROR("(Error) File does not exist."))
         except OSError:
             # error occurred during folder structure traversal
             self.stderr.write(self.style.ERROR(
-                "Error during folder traversal."))
+                "(Error) Error during folder traversal."))
 
 
 

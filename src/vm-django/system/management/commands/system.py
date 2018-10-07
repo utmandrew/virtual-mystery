@@ -147,15 +147,16 @@ class Command(BaseCommand):
                         except IntegrityError:
                             # duplicate information
                             self.stderr.write(self.style.WARNING(
+                                "(Warning) "
                                 "Duplicate Information: {}".format(row)))
                         except IndexError:
                             # problem extracting missing information
                             self.stderr.write(self.style.WARNING(
-                                "Format Error: {}".format(row)))
+                                "(Warning) Incorrect Format: {}".format(row)))
                         except ValueError:
                             # missing information
                             self.stderr.write(self.style.WARNING(
-                                "ValueError: {}".format(row)))
+                                "(Warning) Missing Value: {}".format(row)))
 
                 # prints users.txt file path
                 self.stdout.write("User File Location: {}".format(
@@ -164,13 +165,14 @@ class Command(BaseCommand):
 
             else:
                 # file not csv
-                self.stderr.write(self.style.ERROR("File not of type csv."))
+                self.stderr.write(self.style.ERROR("(Error) "
+                                                   "File not of type csv."))
 
         except FileNotFoundError:
             # file path does not exist
-            self.stderr.write(self.style.ERROR("File does not exist."))
+            self.stderr.write(self.style.ERROR("(Error) File does not exist."))
         except IOError:
             # error reading file
-            self.stderr.write(self.style.ERROR("Error reading file."))
+            self.stderr.write(self.style.ERROR("(Error) Error reading file."))
 
 
