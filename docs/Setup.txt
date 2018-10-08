@@ -1,0 +1,88 @@
+System Parser:
+
+ * Command *
+ python manage.py system <csv-file-path> (absolute path)
+
+ * Input *
+ CSV file path
+
+ * File Format *
+ UserID,PracticalSection,GroupName
+
+ * Overview *
+ Parses each line of the csv file and creates a practical object with name, PracticalSection. It then creates a group object with name, GroupName and assigns it to the practical. Note that if the practical and group already exist, the parser retrieves them from the database. A user is then created with username, UserId, and a randomly generated 8 character password. The user is then assigned to group, GroupName.
+
+ * User Credentials *
+ The parser saves user credentials (username and password) in a text file, named users.txt, for later retrieval. Once the parser is complete, it prints the absolute path to the text file. 
+
+ * Errors *
+ Errors are messages written to the command line with (Error) preceeding the message. If an error occurs, the parsing process could not be run.
+
+ * Warnings *
+ Warnings are messages written to the command line with (Warning) preceeding the message. If a warning occurs, the specific row could not be processed, although the parsing process continues. Warnings also include the affected row in the message.
+
+
+Mystery Parser:
+
+ * Command *
+ python manage.py mystery <content-folder-path>
+
+ * Input *
+ Folder containing mystery folders
+
+ * Folder Format *
+ Content
+ |---MysteryName
+     |---Release1
+     |       ans.txt
+     |       clue.txt
+     |
+     |---Release2
+     |       ans.txt
+     |       clue.txt
+     |       image1.JPG
+     |
+     |---Release3
+            ans.txt
+            clue.txt
+            image1.JPG
+	    image2.JPG
+ 
+ Note:
+	- MysteryName folder name will be used as the mystery name
+	- Release folders must end in a number corresponding to their release order
+	- ans.txt and clue.txt must exist
+	- image files must be of type JPG and must end in a number corresponding to their display order
+	- the number of mysteries, releases and images are variable
+
+ * Overview *
+ Recursively parses the folder format. Creates a mystery object for each mystery folder with name, MysteryName. It also creates a folder in the static file directory with the mystery hash as the file name. It then creates a release object for each release folder with mystery, MysteryName, number, release number (end of release folder), clue, the text inside of clue.txt and answer, the text inside of ans.txt. It then creates a folder in the static file directory under its mystery's static file, with the release hash as the static file name. The images are then moved from the parsed directory into this new hashed directory. 
+
+ * Errors *
+ Errors are messages written to the command line with (Error) preceeding the message. If an error occurs, the parsing process could not be run.
+
+ * Warnings *
+ Warnings are messages written to the command line with (Warning) preceeding the message. If a warning occurs, the specific mystery/release folder could not be processed, although the parsing process continues. Warnings also include the affected mystery/release folder name in the message.
+
+
+Assignment Parser:
+
+ ** Note: Last command to be run **
+
+ * Command *
+ python manage.py assign <csv-file-path> (absolute path)
+
+ * Input *
+ CSV file path
+
+ * File Format *
+ PracticalName,GroupName,MysteryName
+
+ * Overview *
+ Parses each line of the csv file and creates an instance object with group, GroupName belonging to PracticalSection, and mystery, MysteryName. Note that this command assumes that the group, practical and mystery objects already exist.
+
+ * Errors *
+ Errors are messages written to the command line with (Error) preceeding the message. If an error occurs, the parsing process could not be run.
+ 
+  * Warnings *
+ Warnings are messages written to the command line with (Warning) preceeding the message. If a warning occurs, the specific row could not be processed, although the parsing process continues. Warnings also include the affected row in the message.
