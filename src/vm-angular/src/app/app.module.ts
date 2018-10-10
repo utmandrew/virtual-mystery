@@ -6,6 +6,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 // custom modules
 import { AppRoutingModule } from './app-routing/app-routing.module';
+import { FileSelectDirective } from 'ng2-file-upload';
 
 // custom services/interceptors
 import { AuthInterceptor } from './auth/auth.interceptor';
@@ -24,6 +25,7 @@ import { ReleaseViewComponent } from './mystery/release-view/release-view.compon
 import { NotFoundComponent } from './not-found.component';
 import { ReleaseListComponent } from './mystery/release-list/release-list.component';
 import { ArtifactViewComponent } from './artifact-view/artifact-view.component';
+import { UploadComponent } from './upload/upload.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,8 @@ import { ArtifactViewComponent } from './artifact-view/artifact-view.component';
 	ReleaseViewComponent,
   ReleaseListComponent,
   ArtifactViewComponent,
+  UploadComponent,
+  FileSelectDirective
   ],
   imports: [
     BrowserModule,

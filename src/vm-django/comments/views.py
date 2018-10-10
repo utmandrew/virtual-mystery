@@ -4,9 +4,10 @@ from rest_framework import status, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authentication import TokenAuthentication
-
+from rest_framework.decorators import parser_classes
 from .serializers import ReplySerializer, CommentSerializer
 from .models import Comment
+from rest_framework.parsers import JSONParser, FileUploadParser, MultiPartParser
 # from mystery.models import Instance
 from release import get_current_release
 
@@ -136,3 +137,27 @@ class ReplyCreate(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
+class upload(APIView):
+
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (permissions.IsAuthenticated,)
+    parser_classes = (MultiPartParser,)
+
+    def post(self, request):
+        try:
+            print(request.data)
+            handle_uploaded_file(request.data)
+            return Response(status=status.HTTP_201_CREATED)
+        except AttributeError:
+            # catches if an attribute does not exist
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        except ObjectDoesNotExist:
+            # catches if an object (instance) does not exist
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        return  Response(status=status.HTTP_400_BAD_REQUEST)
+
+def handle_uploaded_file(f):
+    with open('some/file/name.txt', 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)

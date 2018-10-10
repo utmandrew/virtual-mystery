@@ -1,0 +1,11 @@
+<input
+  style="display: none"
+  type="file" (change)="onFileChanged($event)"
+  name="photo"
+  #fileInput>
+<button type="button" class="btn btn-success btn-s" (click)="fileInput.click()">Select File</button>
+
+<button type="button" class="btn btn-success btn-s"
+  (click)="onUpload()" >
+      Upload a File
+</button>

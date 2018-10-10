@@ -1,0 +1,1684 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 10.4
+-- Dumped by pg_dump version 10.4
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: auth_group; Type: TABLE; Schema: public; Owner: vm_db_user
+--
+
+CREATE TABLE public.auth_group (
+    id integer NOT NULL,
+    name character varying(80) NOT NULL
+);
+
+
+ALTER TABLE public.auth_group OWNER TO vm_db_user;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE; Schema: public; Owner: vm_db_user
+--
+
+CREATE SEQUENCE public.auth_group_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_id_seq OWNER TO vm_db_user;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vm_db_user
+--
+
+ALTER SEQUENCE public.auth_group_id_seq OWNED BY public.auth_group.id;
+
+
+--
+-- Name: auth_group_permissions; Type: TABLE; Schema: public; Owner: vm_db_user
+--
+
+CREATE TABLE public.auth_group_permissions (
+    id integer NOT NULL,
+    group_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_group_permissions OWNER TO vm_db_user;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: vm_db_user
+--
+
+CREATE SEQUENCE public.auth_group_permissions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_permissions_id_seq OWNER TO vm_db_user;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vm_db_user
+--
+
+ALTER SEQUENCE public.auth_group_permissions_id_seq OWNED BY public.auth_group_permissions.id;
+
+
+--
+-- Name: auth_permission; Type: TABLE; Schema: public; Owner: vm_db_user
+--
+
+CREATE TABLE public.auth_permission (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    content_type_id integer NOT NULL,
+    codename character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.auth_permission OWNER TO vm_db_user;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: vm_db_user
+--
+
+CREATE SEQUENCE public.auth_permission_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_permission_id_seq OWNER TO vm_db_user;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vm_db_user
+--
+
+ALTER SEQUENCE public.auth_permission_id_seq OWNED BY public.auth_permission.id;
+
+
+--
+-- Name: authtoken_token; Type: TABLE; Schema: public; Owner: vm_db_user
+--
+
+CREATE TABLE public.authtoken_token (
+    key character varying(40) NOT NULL,
+    created timestamp with time zone NOT NULL,
+    user_id integer NOT NULL
+);
+
+
+ALTER TABLE public.authtoken_token OWNER TO vm_db_user;
+
+--
+-- Name: comments_comment; Type: TABLE; Schema: public; Owner: vm_db_user
+--
+
+CREATE TABLE public.comments_comment (
+    id integer NOT NULL,
+    created timestamp with time zone NOT NULL,
+    release integer NOT NULL,
+    text text NOT NULL,
+    instance_id integer NOT NULL,
+    owner_id integer NOT NULL,
+    CONSTRAINT comments_comment_release_check CHECK ((release >= 0))
+);
+
+
+ALTER TABLE public.comments_comment OWNER TO vm_db_user;
+
+--
+-- Name: comments_comment_id_seq; Type: SEQUENCE; Schema: public; Owner: vm_db_user
+--
+
+CREATE SEQUENCE public.comments_comment_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.comments_comment_id_seq OWNER TO vm_db_user;
+
+--
+-- Name: comments_comment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vm_db_user
+--
+
+ALTER SEQUENCE public.comments_comment_id_seq OWNED BY public.comments_comment.id;
+
+
+--
+-- Name: comments_reply; Type: TABLE; Schema: public; Owner: vm_db_user
+--
+
+CREATE TABLE public.comments_reply (
+    id integer NOT NULL,
+    created timestamp with time zone NOT NULL,
+    text text NOT NULL,
+    owner_id integer NOT NULL,
+    parent_id integer NOT NULL
+);
+
+
+ALTER TABLE public.comments_reply OWNER TO vm_db_user;
+
+--
+-- Name: comments_reply_id_seq; Type: SEQUENCE; Schema: public; Owner: vm_db_user
+--
+
+CREATE SEQUENCE public.comments_reply_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.comments_reply_id_seq OWNER TO vm_db_user;
+
+--
+-- Name: comments_reply_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vm_db_user
+--
+
+ALTER SEQUENCE public.comments_reply_id_seq OWNED BY public.comments_reply.id;
+
+
+--
+-- Name: django_admin_log; Type: TABLE; Schema: public; Owner: vm_db_user
+--
+
+CREATE TABLE public.django_admin_log (
+    id integer NOT NULL,
+    action_time timestamp with time zone NOT NULL,
+    object_id text,
+    object_repr character varying(200) NOT NULL,
+    action_flag smallint NOT NULL,
+    change_message text NOT NULL,
+    content_type_id integer,
+    user_id integer NOT NULL,
+    CONSTRAINT django_admin_log_action_flag_check CHECK ((action_flag >= 0))
+);
+
+
+ALTER TABLE public.django_admin_log OWNER TO vm_db_user;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE; Schema: public; Owner: vm_db_user
+--
+
+CREATE SEQUENCE public.django_admin_log_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_admin_log_id_seq OWNER TO vm_db_user;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vm_db_user
+--
+
+ALTER SEQUENCE public.django_admin_log_id_seq OWNED BY public.django_admin_log.id;
+
+
+--
+-- Name: django_content_type; Type: TABLE; Schema: public; Owner: vm_db_user
+--
+
+CREATE TABLE public.django_content_type (
+    id integer NOT NULL,
+    app_label character varying(100) NOT NULL,
+    model character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.django_content_type OWNER TO vm_db_user;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE; Schema: public; Owner: vm_db_user
+--
+
+CREATE SEQUENCE public.django_content_type_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_content_type_id_seq OWNER TO vm_db_user;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vm_db_user
+--
+
+ALTER SEQUENCE public.django_content_type_id_seq OWNED BY public.django_content_type.id;
+
+
+--
+-- Name: django_migrations; Type: TABLE; Schema: public; Owner: vm_db_user
+--
+
+CREATE TABLE public.django_migrations (
+    id integer NOT NULL,
+    app character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    applied timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_migrations OWNER TO vm_db_user;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: vm_db_user
+--
+
+CREATE SEQUENCE public.django_migrations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_migrations_id_seq OWNER TO vm_db_user;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vm_db_user
+--
+
+ALTER SEQUENCE public.django_migrations_id_seq OWNED BY public.django_migrations.id;
+
+
+--
+-- Name: django_session; Type: TABLE; Schema: public; Owner: vm_db_user
+--
+
+CREATE TABLE public.django_session (
+    session_key character varying(40) NOT NULL,
+    session_data text NOT NULL,
+    expire_date timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_session OWNER TO vm_db_user;
+
+--
+-- Name: mystery_instance; Type: TABLE; Schema: public; Owner: vm_db_user
+--
+
+CREATE TABLE public.mystery_instance (
+    id integer NOT NULL,
+    group_id integer NOT NULL,
+    mystery_id integer NOT NULL
+);
+
+
+ALTER TABLE public.mystery_instance OWNER TO vm_db_user;
+
+--
+-- Name: mystery_instance_id_seq; Type: SEQUENCE; Schema: public; Owner: vm_db_user
+--
+
+CREATE SEQUENCE public.mystery_instance_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.mystery_instance_id_seq OWNER TO vm_db_user;
+
+--
+-- Name: mystery_instance_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vm_db_user
+--
+
+ALTER SEQUENCE public.mystery_instance_id_seq OWNED BY public.mystery_instance.id;
+
+
+--
+-- Name: mystery_mystery; Type: TABLE; Schema: public; Owner: vm_db_user
+--
+
+CREATE TABLE public.mystery_mystery (
+    id integer NOT NULL,
+    name text NOT NULL,
+    hash character varying(64)
+);
+
+
+ALTER TABLE public.mystery_mystery OWNER TO vm_db_user;
+
+--
+-- Name: mystery_mystery_id_seq; Type: SEQUENCE; Schema: public; Owner: vm_db_user
+--
+
+CREATE SEQUENCE public.mystery_mystery_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.mystery_mystery_id_seq OWNER TO vm_db_user;
+
+--
+-- Name: mystery_mystery_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vm_db_user
+--
+
+ALTER SEQUENCE public.mystery_mystery_id_seq OWNED BY public.mystery_mystery.id;
+
+
+--
+-- Name: mystery_release; Type: TABLE; Schema: public; Owner: vm_db_user
+--
+
+CREATE TABLE public.mystery_release (
+    id integer NOT NULL,
+    number integer NOT NULL,
+    clue text NOT NULL,
+    answer text NOT NULL,
+    mystery_id integer NOT NULL,
+    CONSTRAINT mystery_release_number_check CHECK ((number >= 0))
+);
+
+
+ALTER TABLE public.mystery_release OWNER TO vm_db_user;
+
+--
+-- Name: mystery_release_id_seq; Type: SEQUENCE; Schema: public; Owner: vm_db_user
+--
+
+CREATE SEQUENCE public.mystery_release_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.mystery_release_id_seq OWNER TO vm_db_user;
+
+--
+-- Name: mystery_release_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vm_db_user
+--
+
+ALTER SEQUENCE public.mystery_release_id_seq OWNED BY public.mystery_release.id;
+
+
+--
+-- Name: system_group; Type: TABLE; Schema: public; Owner: vm_db_user
+--
+
+CREATE TABLE public.system_group (
+    id integer NOT NULL,
+    name text NOT NULL,
+    practical_id integer
+);
+
+
+ALTER TABLE public.system_group OWNER TO vm_db_user;
+
+--
+-- Name: system_group_id_seq; Type: SEQUENCE; Schema: public; Owner: vm_db_user
+--
+
+CREATE SEQUENCE public.system_group_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.system_group_id_seq OWNER TO vm_db_user;
+
+--
+-- Name: system_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vm_db_user
+--
+
+ALTER SEQUENCE public.system_group_id_seq OWNED BY public.system_group.id;
+
+
+--
+-- Name: system_practical; Type: TABLE; Schema: public; Owner: vm_db_user
+--
+
+CREATE TABLE public.system_practical (
+    id integer NOT NULL
+);
+
+
+ALTER TABLE public.system_practical OWNER TO vm_db_user;
+
+--
+-- Name: system_practical_id_seq; Type: SEQUENCE; Schema: public; Owner: vm_db_user
+--
+
+CREATE SEQUENCE public.system_practical_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.system_practical_id_seq OWNER TO vm_db_user;
+
+--
+-- Name: system_practical_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vm_db_user
+--
+
+ALTER SEQUENCE public.system_practical_id_seq OWNED BY public.system_practical.id;
+
+
+--
+-- Name: system_user; Type: TABLE; Schema: public; Owner: vm_db_user
+--
+
+CREATE TABLE public.system_user (
+    id integer NOT NULL,
+    password character varying(128) NOT NULL,
+    last_login timestamp with time zone,
+    is_superuser boolean NOT NULL,
+    username character varying(150) NOT NULL,
+    first_name character varying(30) NOT NULL,
+    last_name character varying(150) NOT NULL,
+    email character varying(254) NOT NULL,
+    is_staff boolean NOT NULL,
+    is_active boolean NOT NULL,
+    date_joined timestamp with time zone NOT NULL,
+    group_id integer
+);
+
+
+ALTER TABLE public.system_user OWNER TO vm_db_user;
+
+--
+-- Name: system_user_groups; Type: TABLE; Schema: public; Owner: vm_db_user
+--
+
+CREATE TABLE public.system_user_groups (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    group_id integer NOT NULL
+);
+
+
+ALTER TABLE public.system_user_groups OWNER TO vm_db_user;
+
+--
+-- Name: system_user_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: vm_db_user
+--
+
+CREATE SEQUENCE public.system_user_groups_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.system_user_groups_id_seq OWNER TO vm_db_user;
+
+--
+-- Name: system_user_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vm_db_user
+--
+
+ALTER SEQUENCE public.system_user_groups_id_seq OWNED BY public.system_user_groups.id;
+
+
+--
+-- Name: system_user_id_seq; Type: SEQUENCE; Schema: public; Owner: vm_db_user
+--
+
+CREATE SEQUENCE public.system_user_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.system_user_id_seq OWNER TO vm_db_user;
+
+--
+-- Name: system_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vm_db_user
+--
+
+ALTER SEQUENCE public.system_user_id_seq OWNED BY public.system_user.id;
+
+
+--
+-- Name: system_user_user_permissions; Type: TABLE; Schema: public; Owner: vm_db_user
+--
+
+CREATE TABLE public.system_user_user_permissions (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.system_user_user_permissions OWNER TO vm_db_user;
+
+--
+-- Name: system_user_user_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: vm_db_user
+--
+
+CREATE SEQUENCE public.system_user_user_permissions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.system_user_user_permissions_id_seq OWNER TO vm_db_user;
+
+--
+-- Name: system_user_user_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vm_db_user
+--
+
+ALTER SEQUENCE public.system_user_user_permissions_id_seq OWNED BY public.system_user_user_permissions.id;
+
+
+--
+-- Name: auth_group id; Type: DEFAULT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.auth_group ALTER COLUMN id SET DEFAULT nextval('public.auth_group_id_seq'::regclass);
+
+
+--
+-- Name: auth_group_permissions id; Type: DEFAULT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.auth_group_permissions ALTER COLUMN id SET DEFAULT nextval('public.auth_group_permissions_id_seq'::regclass);
+
+
+--
+-- Name: auth_permission id; Type: DEFAULT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.auth_permission ALTER COLUMN id SET DEFAULT nextval('public.auth_permission_id_seq'::regclass);
+
+
+--
+-- Name: comments_comment id; Type: DEFAULT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.comments_comment ALTER COLUMN id SET DEFAULT nextval('public.comments_comment_id_seq'::regclass);
+
+
+--
+-- Name: comments_reply id; Type: DEFAULT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.comments_reply ALTER COLUMN id SET DEFAULT nextval('public.comments_reply_id_seq'::regclass);
+
+
+--
+-- Name: django_admin_log id; Type: DEFAULT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.django_admin_log ALTER COLUMN id SET DEFAULT nextval('public.django_admin_log_id_seq'::regclass);
+
+
+--
+-- Name: django_content_type id; Type: DEFAULT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.django_content_type ALTER COLUMN id SET DEFAULT nextval('public.django_content_type_id_seq'::regclass);
+
+
+--
+-- Name: django_migrations id; Type: DEFAULT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.django_migrations ALTER COLUMN id SET DEFAULT nextval('public.django_migrations_id_seq'::regclass);
+
+
+--
+-- Name: mystery_instance id; Type: DEFAULT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.mystery_instance ALTER COLUMN id SET DEFAULT nextval('public.mystery_instance_id_seq'::regclass);
+
+
+--
+-- Name: mystery_mystery id; Type: DEFAULT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.mystery_mystery ALTER COLUMN id SET DEFAULT nextval('public.mystery_mystery_id_seq'::regclass);
+
+
+--
+-- Name: mystery_release id; Type: DEFAULT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.mystery_release ALTER COLUMN id SET DEFAULT nextval('public.mystery_release_id_seq'::regclass);
+
+
+--
+-- Name: system_group id; Type: DEFAULT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.system_group ALTER COLUMN id SET DEFAULT nextval('public.system_group_id_seq'::regclass);
+
+
+--
+-- Name: system_practical id; Type: DEFAULT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.system_practical ALTER COLUMN id SET DEFAULT nextval('public.system_practical_id_seq'::regclass);
+
+
+--
+-- Name: system_user id; Type: DEFAULT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.system_user ALTER COLUMN id SET DEFAULT nextval('public.system_user_id_seq'::regclass);
+
+
+--
+-- Name: system_user_groups id; Type: DEFAULT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.system_user_groups ALTER COLUMN id SET DEFAULT nextval('public.system_user_groups_id_seq'::regclass);
+
+
+--
+-- Name: system_user_user_permissions id; Type: DEFAULT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.system_user_user_permissions ALTER COLUMN id SET DEFAULT nextval('public.system_user_user_permissions_id_seq'::regclass);
+
+
+--
+-- Data for Name: auth_group; Type: TABLE DATA; Schema: public; Owner: vm_db_user
+--
+
+COPY public.auth_group (id, name) FROM stdin;
+\.
+
+
+--
+-- Data for Name: auth_group_permissions; Type: TABLE DATA; Schema: public; Owner: vm_db_user
+--
+
+COPY public.auth_group_permissions (id, group_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: auth_permission; Type: TABLE DATA; Schema: public; Owner: vm_db_user
+--
+
+COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
+1	Can add log entry	1	add_logentry
+2	Can change log entry	1	change_logentry
+3	Can delete log entry	1	delete_logentry
+4	Can add group	2	add_group
+5	Can change group	2	change_group
+6	Can delete group	2	delete_group
+7	Can add permission	3	add_permission
+8	Can change permission	3	change_permission
+9	Can delete permission	3	delete_permission
+10	Can add content type	4	add_contenttype
+11	Can change content type	4	change_contenttype
+12	Can delete content type	4	delete_contenttype
+13	Can add session	5	add_session
+14	Can change session	5	change_session
+15	Can delete session	5	delete_session
+16	Can add Token	6	add_token
+17	Can change Token	6	change_token
+18	Can delete Token	6	delete_token
+19	Can add reply	7	add_reply
+20	Can change reply	7	change_reply
+21	Can delete reply	7	delete_reply
+22	Can add comment	8	add_comment
+23	Can change comment	8	change_comment
+24	Can delete comment	8	delete_comment
+25	Can add instance	9	add_instance
+26	Can change instance	9	change_instance
+27	Can delete instance	9	delete_instance
+28	Can add release	10	add_release
+29	Can change release	10	change_release
+30	Can delete release	10	delete_release
+31	Can add mystery	11	add_mystery
+32	Can change mystery	11	change_mystery
+33	Can delete mystery	11	delete_mystery
+34	Can add group	12	add_group
+35	Can change group	12	change_group
+36	Can delete group	12	delete_group
+37	Can add practical	13	add_practical
+38	Can change practical	13	change_practical
+39	Can delete practical	13	delete_practical
+40	Can add user	14	add_user
+41	Can change user	14	change_user
+42	Can delete user	14	delete_user
+\.
+
+
+--
+-- Data for Name: authtoken_token; Type: TABLE DATA; Schema: public; Owner: vm_db_user
+--
+
+COPY public.authtoken_token (key, created, user_id) FROM stdin;
+2f33c1215a11b68319fd0907d21bae0634833427	2018-07-31 22:25:28.002332-04	1
+\.
+
+
+--
+-- Data for Name: comments_comment; Type: TABLE DATA; Schema: public; Owner: vm_db_user
+--
+
+COPY public.comments_comment (id, created, release, text, instance_id, owner_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: comments_reply; Type: TABLE DATA; Schema: public; Owner: vm_db_user
+--
+
+COPY public.comments_reply (id, created, text, owner_id, parent_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: django_admin_log; Type: TABLE DATA; Schema: public; Owner: vm_db_user
+--
+
+COPY public.django_admin_log (id, action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) FROM stdin;
+1	2018-07-31 22:26:29.368858-04	1	Practical object (1)	1	[{"added": {}}]	13	1
+2	2018-07-31 22:26:39.541794-04	1	Group object (1)	1	[{"added": {}}]	12	1
+3	2018-07-31 22:26:56.762387-04	2	TestUser	1	[{"added": {}}]	14	1
+4	2018-07-31 22:27:53.267871-04	1	Mystery object (1)	1	[{"added": {}}]	11	1
+5	2018-07-31 22:28:02.221921-04	1	Mystery object (1)	2	[]	11	1
+6	2018-07-31 22:28:13.848166-04	1	Instance object (1)	1	[{"added": {}}]	9	1
+7	2018-07-31 22:32:30.566199-04	1	Release object (1)	1	[{"added": {}}]	10	1
+8	2018-08-01 17:11:24.304769-04	2	TestUser	2	[{"changed": {"fields": ["password"]}}]	14	1
+9	2018-08-01 22:33:31.882467-04	1	Release object (1)	3		10	1
+10	2018-08-01 22:33:58.519914-04	2	Release object (2)	1	[{"added": {}}]	10	1
+11	2018-08-01 22:40:02.584596-04	3	Release object (3)	1	[{"added": {}}]	10	1
+12	2018-08-01 22:40:22.379143-04	2	Release object (2)	3		10	1
+13	2018-08-01 22:40:27.176249-04	3	Release object (3)	3		10	1
+14	2018-08-01 22:58:04.108826-04	4	Release object (4)	1	[{"added": {}}]	10	1
+15	2018-08-01 22:58:19.596009-04	4	Release object (4)	3		10	1
+16	2018-08-01 23:00:45.064432-04	5	Release object (5)	1	[{"added": {}}]	10	1
+17	2018-08-02 11:08:35.901697-04	6	Release object (6)	1	[{"added": {}}]	10	1
+18	2018-08-02 11:08:55.99067-04	7	Release object (7)	1	[{"added": {}}]	10	1
+19	2018-08-03 16:30:29.243003-04	3	TestUser2	1	[{"added": {}}]	14	1
+20	2018-08-04 03:15:30.361854-04	4	TestUser3	1	[{"added": {}}]	14	1
+21	2018-08-05 18:51:33.673838-04	3	Comment object (3)	3		8	1
+22	2018-08-05 18:51:53.093706-04	4	Reply object (4)	3		7	1
+23	2018-08-07 13:10:08.423872-04	5	TestUser4	1	[{"added": {}}]	14	1
+24	2018-08-08 12:46:51.856377-04	1	Reply object (1)	3		7	1
+25	2018-08-08 12:46:51.918775-04	2	Reply object (2)	3		7	1
+26	2018-08-08 12:46:51.923662-04	3	Reply object (3)	3		7	1
+27	2018-08-08 12:46:51.935246-04	5	Reply object (5)	3		7	1
+28	2018-08-08 12:46:51.939837-04	6	Reply object (6)	3		7	1
+29	2018-08-08 12:46:51.951317-04	7	Reply object (7)	3		7	1
+30	2018-08-08 12:46:51.956973-04	8	Reply object (8)	3		7	1
+31	2018-08-08 12:46:51.967758-04	9	Reply object (9)	3		7	1
+32	2018-08-08 12:47:01.746301-04	1	Comment object (1)	3		8	1
+33	2018-08-08 12:47:01.784582-04	2	Comment object (2)	3		8	1
+34	2018-08-08 12:47:01.792963-04	4	Comment object (4)	3		8	1
+35	2018-08-08 12:47:01.798729-04	5	Comment object (5)	3		8	1
+36	2018-08-08 12:47:01.810336-04	6	Comment object (6)	3		8	1
+37	2018-08-08 12:47:01.814861-04	7	Comment object (7)	3		8	1
+38	2018-08-08 12:47:01.82548-04	8	Comment object (8)	3		8	1
+39	2018-08-14 14:54:48.530799-04	9	Comment object (9)	3		8	1
+40	2018-08-14 14:54:48.546406-04	10	Comment object (10)	3		8	1
+41	2018-08-31 16:28:45.866173-04	11	Comment object (11)	3		8	1
+42	2018-08-31 16:28:45.881771-04	12	Comment object (12)	3		8	1
+43	2018-08-31 16:28:45.881771-04	13	Comment object (13)	3		8	1
+44	2018-09-03 21:25:21.951603-04	1	Mystery object (1)	2	[{"changed": {"fields": ["name"]}}]	11	1
+45	2018-09-03 21:25:29.777306-04	1	Mystery object (1)	2	[]	11	1
+46	2018-09-20 14:57:19.417751-04	14	Comment object (14)	3		8	1
+47	2018-09-20 14:57:19.488291-04	15	Comment object (15)	3		8	1
+48	2018-09-20 14:57:19.491412-04	16	Comment object (16)	3		8	1
+49	2018-09-20 14:57:19.492692-04	17	Comment object (17)	3		8	1
+50	2018-09-20 14:57:19.495836-04	18	Comment object (18)	3		8	1
+51	2018-09-20 14:57:19.497073-04	19	Comment object (19)	3		8	1
+52	2018-09-20 14:57:19.500309-04	20	Comment object (20)	3		8	1
+53	2018-09-20 15:00:35.711779-04	5	Release object (5)	2	[{"changed": {"fields": ["clue", "answer"]}}]	10	1
+54	2018-09-20 15:01:09.133558-04	6	Release object (6)	2	[{"changed": {"fields": ["clue", "answer"]}}]	10	1
+55	2018-09-20 15:02:47.645823-04	7	Release object (7)	3		10	1
+56	2018-09-25 14:27:04.478767-04	21	Comment object (21)	3		8	1
+57	2018-09-25 14:27:04.494419-04	22	Comment object (22)	3		8	1
+\.
+
+
+--
+-- Data for Name: django_content_type; Type: TABLE DATA; Schema: public; Owner: vm_db_user
+--
+
+COPY public.django_content_type (id, app_label, model) FROM stdin;
+1	admin	logentry
+2	auth	group
+3	auth	permission
+4	contenttypes	contenttype
+5	sessions	session
+6	authtoken	token
+7	comments	reply
+8	comments	comment
+9	mystery	instance
+10	mystery	release
+11	mystery	mystery
+12	system	group
+13	system	practical
+14	system	user
+\.
+
+
+--
+-- Data for Name: django_migrations; Type: TABLE DATA; Schema: public; Owner: vm_db_user
+--
+
+COPY public.django_migrations (id, app, name, applied) FROM stdin;
+1	contenttypes	0001_initial	2018-07-31 22:15:54.973815-04
+2	contenttypes	0002_remove_content_type_name	2018-07-31 22:15:55.004669-04
+3	auth	0001_initial	2018-07-31 22:15:55.192546-04
+4	auth	0002_alter_permission_name_max_length	2018-07-31 22:15:55.223489-04
+5	auth	0003_alter_user_email_max_length	2018-07-31 22:15:55.223489-04
+6	auth	0004_alter_user_username_opts	2018-07-31 22:15:55.239435-04
+7	auth	0005_alter_user_last_login_null	2018-07-31 22:15:55.255018-04
+8	auth	0006_require_contenttypes_0002	2018-07-31 22:15:55.255018-04
+9	auth	0007_alter_validators_add_error_messages	2018-07-31 22:15:55.27032-04
+10	auth	0008_alter_user_username_max_length	2018-07-31 22:15:55.286317-04
+11	auth	0009_alter_user_last_name_max_length	2018-07-31 22:15:55.301898-04
+12	system	0001_initial	2018-07-31 22:15:55.660987-04
+13	admin	0001_initial	2018-07-31 22:15:55.770372-04
+14	admin	0002_logentry_remove_auto_add	2018-07-31 22:15:55.801627-04
+15	authtoken	0001_initial	2018-07-31 22:15:55.879762-04
+16	authtoken	0002_auto_20160226_1747	2018-07-31 22:15:56.0204-04
+17	mystery	0001_initial	2018-07-31 22:15:56.207923-04
+18	comments	0001_initial	2018-07-31 22:15:56.379814-04
+19	comments	0002_auto_20180731_2215	2018-07-31 22:15:56.536469-04
+20	mystery	0002_auto_20180731_2215	2018-07-31 22:15:56.61424-04
+21	sessions	0001_initial	2018-07-31 22:15:56.692719-04
+22	mystery	0003_remove_release_hash	2018-08-01 22:59:03.79083-04
+\.
+
+
+--
+-- Data for Name: django_session; Type: TABLE DATA; Schema: public; Owner: vm_db_user
+--
+
+COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
+\.
+
+
+--
+-- Data for Name: mystery_instance; Type: TABLE DATA; Schema: public; Owner: vm_db_user
+--
+
+COPY public.mystery_instance (id, group_id, mystery_id) FROM stdin;
+1	1	1
+\.
+
+
+--
+-- Data for Name: mystery_mystery; Type: TABLE DATA; Schema: public; Owner: vm_db_user
+--
+
+COPY public.mystery_mystery (id, name, hash) FROM stdin;
+1	MysteryFlutedPoint	2db27937c58e1d1f56c65ce696cbcccff34eb424a743475a7102556c4e91cf41
+\.
+
+
+--
+-- Data for Name: mystery_release; Type: TABLE DATA; Schema: public; Owner: vm_db_user
+--
+
+COPY public.mystery_release (id, number, clue, answer, mystery_id) FROM stdin;
+5	1	What is this artifact? What do you know about when it was created?	This is a fluted point from the Lindenmeier Site, Colorado.	1
+6	2	What is this artifact? What do you know about when it was created?	This is an Egyptian pre-dynastic period point.	1
+\.
+
+
+--
+-- Data for Name: system_group; Type: TABLE DATA; Schema: public; Owner: vm_db_user
+--
+
+COPY public.system_group (id, name, practical_id) FROM stdin;
+1	Group 1	1
+\.
+
+
+--
+-- Data for Name: system_practical; Type: TABLE DATA; Schema: public; Owner: vm_db_user
+--
+
+COPY public.system_practical (id) FROM stdin;
+1
+\.
+
+
+--
+-- Data for Name: system_user; Type: TABLE DATA; Schema: public; Owner: vm_db_user
+--
+
+COPY public.system_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined, group_id) FROM stdin;
+2	pbkdf2_sha256$100000$NfnpXJ3QaDn3$r4KB8XoqmL8UWYB+p90LCtiE5yAuQ7N7nqIZvhSwd/o=	\N	f	TestUser				f	t	2018-07-31 22:26:56.637374-04	1
+3	pbkdf2_sha256$100000$V0KwWGSheUgh$ILXPRhTNV+a/0AdvPa3vQHFzK6OIZ0hhqtP1Nppo2aI=	\N	f	TestUser2				f	t	2018-08-03 16:30:29.102384-04	1
+4	pbkdf2_sha256$100000$vLHH4nYnyOYU$IjvA/wUOsqEb1fYvjXizZ1a+2vrtNVSZmtFtoLryFPA=	\N	f	TestUser3				f	t	2018-08-04 03:15:30.24594-04	1
+5	pbkdf2_sha256$100000$VkuIuwZbGKHR$8k4kzNODX/JEGu1i/vnoaCrlyGLi/TgL8cEtychkxkM=	\N	f	TestUser4				f	t	2018-08-07 13:10:08.103753-04	1
+1	pbkdf2_sha256$100000$RjWVDqX6NHYJ$kWdcEOmLINQMVPlBRtBoRGr12Ob0ONAREGklfy7Pcoc=	2018-09-25 14:26:47.371309-04	t	VM_ADMIN				t	t	2018-07-31 22:25:27.861943-04	\N
+\.
+
+
+--
+-- Data for Name: system_user_groups; Type: TABLE DATA; Schema: public; Owner: vm_db_user
+--
+
+COPY public.system_user_groups (id, user_id, group_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: system_user_user_permissions; Type: TABLE DATA; Schema: public; Owner: vm_db_user
+--
+
+COPY public.system_user_user_permissions (id, user_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: vm_db_user
+--
+
+SELECT pg_catalog.setval('public.auth_group_id_seq', 1, false);
+
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: vm_db_user
+--
+
+SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
+
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: vm_db_user
+--
+
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 42, true);
+
+
+--
+-- Name: comments_comment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: vm_db_user
+--
+
+SELECT pg_catalog.setval('public.comments_comment_id_seq', 22, true);
+
+
+--
+-- Name: comments_reply_id_seq; Type: SEQUENCE SET; Schema: public; Owner: vm_db_user
+--
+
+SELECT pg_catalog.setval('public.comments_reply_id_seq', 18, true);
+
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: vm_db_user
+--
+
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 57, true);
+
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: vm_db_user
+--
+
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 14, true);
+
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: vm_db_user
+--
+
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 22, true);
+
+
+--
+-- Name: mystery_instance_id_seq; Type: SEQUENCE SET; Schema: public; Owner: vm_db_user
+--
+
+SELECT pg_catalog.setval('public.mystery_instance_id_seq', 1, true);
+
+
+--
+-- Name: mystery_mystery_id_seq; Type: SEQUENCE SET; Schema: public; Owner: vm_db_user
+--
+
+SELECT pg_catalog.setval('public.mystery_mystery_id_seq', 1, true);
+
+
+--
+-- Name: mystery_release_id_seq; Type: SEQUENCE SET; Schema: public; Owner: vm_db_user
+--
+
+SELECT pg_catalog.setval('public.mystery_release_id_seq', 7, true);
+
+
+--
+-- Name: system_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: vm_db_user
+--
+
+SELECT pg_catalog.setval('public.system_group_id_seq', 1, true);
+
+
+--
+-- Name: system_practical_id_seq; Type: SEQUENCE SET; Schema: public; Owner: vm_db_user
+--
+
+SELECT pg_catalog.setval('public.system_practical_id_seq', 1, true);
+
+
+--
+-- Name: system_user_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: vm_db_user
+--
+
+SELECT pg_catalog.setval('public.system_user_groups_id_seq', 1, false);
+
+
+--
+-- Name: system_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: vm_db_user
+--
+
+SELECT pg_catalog.setval('public.system_user_id_seq', 5, true);
+
+
+--
+-- Name: system_user_user_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: vm_db_user
+--
+
+SELECT pg_catalog.setval('public.system_user_user_permissions_id_seq', 1, false);
+
+
+--
+-- Name: auth_group auth_group_name_key; Type: CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_name_key UNIQUE (name);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_group_id_permission_id_0cd325b0_uniq; Type: CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_permission_id_0cd325b0_uniq UNIQUE (group_id, permission_id);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_group auth_group_pkey; Type: CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_permission auth_permission_content_type_id_codename_01ab375a_uniq; Type: CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_codename_01ab375a_uniq UNIQUE (content_type_id, codename);
+
+
+--
+-- Name: auth_permission auth_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: authtoken_token authtoken_token_pkey; Type: CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.authtoken_token
+    ADD CONSTRAINT authtoken_token_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: authtoken_token authtoken_token_user_id_key; Type: CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.authtoken_token
+    ADD CONSTRAINT authtoken_token_user_id_key UNIQUE (user_id);
+
+
+--
+-- Name: comments_comment comments_comment_pkey; Type: CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.comments_comment
+    ADD CONSTRAINT comments_comment_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: comments_reply comments_reply_pkey; Type: CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.comments_reply
+    ADD CONSTRAINT comments_reply_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_admin_log django_admin_log_pkey; Type: CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_content_type django_content_type_app_label_model_76bd3d3b_uniq; Type: CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.django_content_type
+    ADD CONSTRAINT django_content_type_app_label_model_76bd3d3b_uniq UNIQUE (app_label, model);
+
+
+--
+-- Name: django_content_type django_content_type_pkey; Type: CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.django_content_type
+    ADD CONSTRAINT django_content_type_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_migrations django_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.django_migrations
+    ADD CONSTRAINT django_migrations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_session django_session_pkey; Type: CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.django_session
+    ADD CONSTRAINT django_session_pkey PRIMARY KEY (session_key);
+
+
+--
+-- Name: mystery_instance mystery_instance_pkey; Type: CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.mystery_instance
+    ADD CONSTRAINT mystery_instance_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: mystery_mystery mystery_mystery_pkey; Type: CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.mystery_mystery
+    ADD CONSTRAINT mystery_mystery_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: mystery_release mystery_release_pkey; Type: CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.mystery_release
+    ADD CONSTRAINT mystery_release_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: system_group system_group_pkey; Type: CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.system_group
+    ADD CONSTRAINT system_group_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: system_practical system_practical_pkey; Type: CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.system_practical
+    ADD CONSTRAINT system_practical_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: system_user_groups system_user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.system_user_groups
+    ADD CONSTRAINT system_user_groups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: system_user_groups system_user_groups_user_id_group_id_33e2ef7b_uniq; Type: CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.system_user_groups
+    ADD CONSTRAINT system_user_groups_user_id_group_id_33e2ef7b_uniq UNIQUE (user_id, group_id);
+
+
+--
+-- Name: system_user system_user_pkey; Type: CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.system_user
+    ADD CONSTRAINT system_user_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: system_user_user_permissions system_user_user_permiss_user_id_permission_id_2c3e5fa1_uniq; Type: CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.system_user_user_permissions
+    ADD CONSTRAINT system_user_user_permiss_user_id_permission_id_2c3e5fa1_uniq UNIQUE (user_id, permission_id);
+
+
+--
+-- Name: system_user_user_permissions system_user_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.system_user_user_permissions
+    ADD CONSTRAINT system_user_user_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: system_user system_user_username_key; Type: CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.system_user
+    ADD CONSTRAINT system_user_username_key UNIQUE (username);
+
+
+--
+-- Name: auth_group_name_a6ea08ec_like; Type: INDEX; Schema: public; Owner: vm_db_user
+--
+
+CREATE INDEX auth_group_name_a6ea08ec_like ON public.auth_group USING btree (name varchar_pattern_ops);
+
+
+--
+-- Name: auth_group_permissions_group_id_b120cbf9; Type: INDEX; Schema: public; Owner: vm_db_user
+--
+
+CREATE INDEX auth_group_permissions_group_id_b120cbf9 ON public.auth_group_permissions USING btree (group_id);
+
+
+--
+-- Name: auth_group_permissions_permission_id_84c5c92e; Type: INDEX; Schema: public; Owner: vm_db_user
+--
+
+CREATE INDEX auth_group_permissions_permission_id_84c5c92e ON public.auth_group_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_permission_content_type_id_2f476e4b; Type: INDEX; Schema: public; Owner: vm_db_user
+--
+
+CREATE INDEX auth_permission_content_type_id_2f476e4b ON public.auth_permission USING btree (content_type_id);
+
+
+--
+-- Name: authtoken_token_key_10f0b77e_like; Type: INDEX; Schema: public; Owner: vm_db_user
+--
+
+CREATE INDEX authtoken_token_key_10f0b77e_like ON public.authtoken_token USING btree (key varchar_pattern_ops);
+
+
+--
+-- Name: comments_comment_instance_id_a54d10ae; Type: INDEX; Schema: public; Owner: vm_db_user
+--
+
+CREATE INDEX comments_comment_instance_id_a54d10ae ON public.comments_comment USING btree (instance_id);
+
+
+--
+-- Name: comments_comment_owner_id_26de7a7f; Type: INDEX; Schema: public; Owner: vm_db_user
+--
+
+CREATE INDEX comments_comment_owner_id_26de7a7f ON public.comments_comment USING btree (owner_id);
+
+
+--
+-- Name: comments_reply_owner_id_013a0c1a; Type: INDEX; Schema: public; Owner: vm_db_user
+--
+
+CREATE INDEX comments_reply_owner_id_013a0c1a ON public.comments_reply USING btree (owner_id);
+
+
+--
+-- Name: comments_reply_parent_id_141fb290; Type: INDEX; Schema: public; Owner: vm_db_user
+--
+
+CREATE INDEX comments_reply_parent_id_141fb290 ON public.comments_reply USING btree (parent_id);
+
+
+--
+-- Name: django_admin_log_content_type_id_c4bce8eb; Type: INDEX; Schema: public; Owner: vm_db_user
+--
+
+CREATE INDEX django_admin_log_content_type_id_c4bce8eb ON public.django_admin_log USING btree (content_type_id);
+
+
+--
+-- Name: django_admin_log_user_id_c564eba6; Type: INDEX; Schema: public; Owner: vm_db_user
+--
+
+CREATE INDEX django_admin_log_user_id_c564eba6 ON public.django_admin_log USING btree (user_id);
+
+
+--
+-- Name: django_session_expire_date_a5c62663; Type: INDEX; Schema: public; Owner: vm_db_user
+--
+
+CREATE INDEX django_session_expire_date_a5c62663 ON public.django_session USING btree (expire_date);
+
+
+--
+-- Name: django_session_session_key_c0390e0f_like; Type: INDEX; Schema: public; Owner: vm_db_user
+--
+
+CREATE INDEX django_session_session_key_c0390e0f_like ON public.django_session USING btree (session_key varchar_pattern_ops);
+
+
+--
+-- Name: mystery_instance_group_id_ddb9155a; Type: INDEX; Schema: public; Owner: vm_db_user
+--
+
+CREATE INDEX mystery_instance_group_id_ddb9155a ON public.mystery_instance USING btree (group_id);
+
+
+--
+-- Name: mystery_instance_mystery_id_aed6495f; Type: INDEX; Schema: public; Owner: vm_db_user
+--
+
+CREATE INDEX mystery_instance_mystery_id_aed6495f ON public.mystery_instance USING btree (mystery_id);
+
+
+--
+-- Name: mystery_release_mystery_id_10b61c09; Type: INDEX; Schema: public; Owner: vm_db_user
+--
+
+CREATE INDEX mystery_release_mystery_id_10b61c09 ON public.mystery_release USING btree (mystery_id);
+
+
+--
+-- Name: system_group_practical_id_0add0c0a; Type: INDEX; Schema: public; Owner: vm_db_user
+--
+
+CREATE INDEX system_group_practical_id_0add0c0a ON public.system_group USING btree (practical_id);
+
+
+--
+-- Name: system_user_group_id_ce3fedec; Type: INDEX; Schema: public; Owner: vm_db_user
+--
+
+CREATE INDEX system_user_group_id_ce3fedec ON public.system_user USING btree (group_id);
+
+
+--
+-- Name: system_user_groups_group_id_925e6bcb; Type: INDEX; Schema: public; Owner: vm_db_user
+--
+
+CREATE INDEX system_user_groups_group_id_925e6bcb ON public.system_user_groups USING btree (group_id);
+
+
+--
+-- Name: system_user_groups_user_id_8e766c0f; Type: INDEX; Schema: public; Owner: vm_db_user
+--
+
+CREATE INDEX system_user_groups_user_id_8e766c0f ON public.system_user_groups USING btree (user_id);
+
+
+--
+-- Name: system_user_user_permissions_permission_id_9339fa91; Type: INDEX; Schema: public; Owner: vm_db_user
+--
+
+CREATE INDEX system_user_user_permissions_permission_id_9339fa91 ON public.system_user_user_permissions USING btree (permission_id);
+
+
+--
+-- Name: system_user_user_permissions_user_id_0c39fdf8; Type: INDEX; Schema: public; Owner: vm_db_user
+--
+
+CREATE INDEX system_user_user_permissions_user_id_0c39fdf8 ON public.system_user_user_permissions USING btree (user_id);
+
+
+--
+-- Name: system_user_username_7ffd74cf_like; Type: INDEX; Schema: public; Owner: vm_db_user
+--
+
+CREATE INDEX system_user_username_7ffd74cf_like ON public.system_user USING btree (username varchar_pattern_ops);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissio_permission_id_84c5c92e_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissio_permission_id_84c5c92e_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_group_id_b120cbf9_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_b120cbf9_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_permission auth_permission_content_type_id_2f476e4b_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_2f476e4b_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: authtoken_token authtoken_token_user_id_35299eff_fk_system_user_id; Type: FK CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.authtoken_token
+    ADD CONSTRAINT authtoken_token_user_id_35299eff_fk_system_user_id FOREIGN KEY (user_id) REFERENCES public.system_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: comments_comment comments_comment_instance_id_a54d10ae_fk_mystery_instance_id; Type: FK CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.comments_comment
+    ADD CONSTRAINT comments_comment_instance_id_a54d10ae_fk_mystery_instance_id FOREIGN KEY (instance_id) REFERENCES public.mystery_instance(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: comments_comment comments_comment_owner_id_26de7a7f_fk_system_user_id; Type: FK CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.comments_comment
+    ADD CONSTRAINT comments_comment_owner_id_26de7a7f_fk_system_user_id FOREIGN KEY (owner_id) REFERENCES public.system_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: comments_reply comments_reply_owner_id_013a0c1a_fk_system_user_id; Type: FK CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.comments_reply
+    ADD CONSTRAINT comments_reply_owner_id_013a0c1a_fk_system_user_id FOREIGN KEY (owner_id) REFERENCES public.system_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: comments_reply comments_reply_parent_id_141fb290_fk_comments_comment_id; Type: FK CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.comments_reply
+    ADD CONSTRAINT comments_reply_parent_id_141fb290_fk_comments_comment_id FOREIGN KEY (parent_id) REFERENCES public.comments_comment(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log django_admin_log_content_type_id_c4bce8eb_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_content_type_id_c4bce8eb_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log django_admin_log_user_id_c564eba6_fk_system_user_id; Type: FK CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_system_user_id FOREIGN KEY (user_id) REFERENCES public.system_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: mystery_instance mystery_instance_group_id_ddb9155a_fk_system_group_id; Type: FK CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.mystery_instance
+    ADD CONSTRAINT mystery_instance_group_id_ddb9155a_fk_system_group_id FOREIGN KEY (group_id) REFERENCES public.system_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: mystery_instance mystery_instance_mystery_id_aed6495f_fk_mystery_mystery_id; Type: FK CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.mystery_instance
+    ADD CONSTRAINT mystery_instance_mystery_id_aed6495f_fk_mystery_mystery_id FOREIGN KEY (mystery_id) REFERENCES public.mystery_mystery(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: mystery_release mystery_release_mystery_id_10b61c09_fk_mystery_mystery_id; Type: FK CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.mystery_release
+    ADD CONSTRAINT mystery_release_mystery_id_10b61c09_fk_mystery_mystery_id FOREIGN KEY (mystery_id) REFERENCES public.mystery_mystery(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: system_group system_group_practical_id_0add0c0a_fk_system_practical_id; Type: FK CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.system_group
+    ADD CONSTRAINT system_group_practical_id_0add0c0a_fk_system_practical_id FOREIGN KEY (practical_id) REFERENCES public.system_practical(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: system_user system_user_group_id_ce3fedec_fk_system_group_id; Type: FK CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.system_user
+    ADD CONSTRAINT system_user_group_id_ce3fedec_fk_system_group_id FOREIGN KEY (group_id) REFERENCES public.system_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: system_user_groups system_user_groups_group_id_925e6bcb_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.system_user_groups
+    ADD CONSTRAINT system_user_groups_group_id_925e6bcb_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: system_user_groups system_user_groups_user_id_8e766c0f_fk_system_user_id; Type: FK CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.system_user_groups
+    ADD CONSTRAINT system_user_groups_user_id_8e766c0f_fk_system_user_id FOREIGN KEY (user_id) REFERENCES public.system_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: system_user_user_permissions system_user_user_per_permission_id_9339fa91_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.system_user_user_permissions
+    ADD CONSTRAINT system_user_user_per_permission_id_9339fa91_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: system_user_user_permissions system_user_user_permissions_user_id_0c39fdf8_fk_system_user_id; Type: FK CONSTRAINT; Schema: public; Owner: vm_db_user
+--
+
+ALTER TABLE ONLY public.system_user_user_permissions
+    ADD CONSTRAINT system_user_user_permissions_user_id_0c39fdf8_fk_system_user_id FOREIGN KEY (user_id) REFERENCES public.system_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
