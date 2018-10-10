@@ -164,6 +164,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 # DateTime for clue release
 # https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior
@@ -171,7 +172,7 @@ STATIC_URL = '/static/'
 DATETIME_FORMAT = "%d/%m/%Y %H:%M:%S"
 # mystery start datetime (in datetime format)
 
-START_DATETIME = "23/09/2018 00:00:00"
+START_DATETIME = "07/10/2018 00:00:00"
 
 # time interval in days
 RELEASE_INTERVAL = "7"
