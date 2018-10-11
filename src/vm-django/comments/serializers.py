@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from .models import Comment, Reply
-
+from .models import Comment, Reply, Result
 
 class ReplySerializer(serializers.ModelSerializer):
     """
@@ -31,4 +30,5 @@ class CommentSerializer(serializers.ModelSerializer):
         extra_kwargs = {'owner': {'write_only': True},
                         'release': {'write_only': True},
                         'instance': {'write_only': True}}
+
 

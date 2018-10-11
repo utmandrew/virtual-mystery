@@ -10,6 +10,7 @@ class Comment(models.Model):
     """
     # datetime created
     created = models.DateTimeField(auto_now_add=True)
+    marked = models.BooleanField(default=False)
     # comment owner
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='comment',
                               on_delete=models.CASCADE)
@@ -42,3 +43,19 @@ class Reply(models.Model):
 
     class Meta:
         ordering = ('created',)
+
+
+class Result(models.Model):
+    """
+    Group model, Users refer to a specific group that they belong to.
+    """
+
+    # Mark Integer
+    mark = models.PositiveIntegerField()
+    # feedback comment
+    feedback = models.TextField()
+    # the comment which is being marked
+    comment = models.ForeignKey(Comment, null=True, related_name='result',
+                                  on_delete=models.CASCADE)
+
+    

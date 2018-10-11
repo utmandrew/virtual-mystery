@@ -9,7 +9,7 @@ class Practical(models.Model):
     """
     Practical model, Groups refer to a specific practical that they belong to.
     """
-    # to be implemented
+    name = models.TextField(null=True)
     pass
 
 

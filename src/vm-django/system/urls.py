@@ -1,5 +1,17 @@
 from django.conf.urls import url
+from django.conf.urls import include
+
+from rest_framework.routers import DefaultRouter
+
+from . import views
+
+router = DefaultRouter()
+router.register('ta-viewset', views.ListPracticals, base_name='ta-viewset')
 
 urlpatterns = [
+    url(r'^practicals/', views.ListPracticals.as_view()),
+    url(r'^groups/(?P<praName>.*)', views.ListGroups.as_view()),
+    # ^^ add a parameter
+    url(r'^userCheck/', views.UserCheck.as_view()),
 
 ]
