@@ -18,9 +18,7 @@ class Group(models.Model):
     Group model, Users refer to a specific group that they belong to.
     """
     # group name
-    name = models.TextField()
-
-    
+    name = models.TextField(null=True)
 
     # refers to a groups practical
     # remove null=True when in production (used for admin accounts)
@@ -34,5 +32,8 @@ class User(AbstractUser):
     """
     # refers to a users group
     # remove null=True when in production (used for admin accounts)
+
+    is_ta = models.BooleanField(default=False)
+    
     group = models.ForeignKey(Group, null=True, related_name='profile',
                               on_delete=models.CASCADE)
