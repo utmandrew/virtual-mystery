@@ -1,5 +1,7 @@
 from django.db import models
 import hashlib
+import hmac
+from django.conf import settings
 
 # Create your models here.
 
@@ -19,7 +21,11 @@ class Mystery(models.Model):
         """
         # automatically fills in mystery hash value
         if self.hash is None:
-            self.hash = hashlib.sha256(bytes(self.name, 'utf-8')).hexdigest()
+            # self.hash = hashlib.sha256(bytes(self.name, 'utf-8')).hexdigest()
+            # hash based off of secret key
+            self.hash = hmac.new(bytes(settings.SECRET_KEY, 'utf-8'),
+                                 msg=bytes(self.name, 'utf-8'),
+                                 digestmod=hashlib.sha256).hexdigest()
         # calling the default save function
         super().save(*args, **kwargs)
 
@@ -56,9 +62,14 @@ class Release(models.Model):
     @property
     def hash(self):
         """
-        Returns a 64 hex-character sha256 hash of the release id (unique).
+        Returns a 64 hex-character sha256 hash of the release id (unique)
+        based off of the secret key, set in the settings file.
         """
-        return hashlib.sha256(bytes(str(self.id), 'utf-8')).hexdigest()
+        # return hashlib.sha256(bytes(str(self.id), 'utf-8')).hexdigest()
+        # hash based off of secret key
+        return hmac.new(bytes(settings.SECRET_KEY, 'utf-8'),
+                        msg=bytes(str(self.id), 'utf-8'),
+                        digestmod=hashlib.sha256).hexdigest()
 
     # def save(self, *args, **kwargs):
     #     """
