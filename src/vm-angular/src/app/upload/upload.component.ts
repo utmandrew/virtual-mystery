@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {  FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { HttpService } from '../http.service';
 
-
-const URL = 'http://localhost:8000/comment/upload';
 
 @Component({
   selector: 'app-upload',
@@ -24,15 +21,15 @@ export class UploadComponent implements OnInit {
 
   selectedFile: File;
 
+  //saves the file you selected to temp var
   onFileChanged(event) {
     this.selectedFile = event.target.files[0];
   }
 
   onUpload() {
-  // this.http is the injected
-  console.log(this.selectedFile)
-this.httpClient.post(`${this.API_URL}/comment/upload`, this.selectedFile)
-.subscribe(...);
+  console.log(this.selectedFile);
+  //sends the file you selected to the Django upload endpoint
+  this.httpClient.post(`${this.API_URL}/upload/${this.selectedFile.name}`, this.selectedFile).subscribe(...);
   }
 
 }

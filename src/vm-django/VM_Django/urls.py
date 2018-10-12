@@ -22,5 +22,6 @@ urlpatterns = [
     url(r'comment/', include('comments.urls')),
     url(r'mystery/', include('mystery.urls')),
     url(r'artifact-view/',include('ArtifactView.urls')),
-    
+    url(r'upload/', include('upload.urls')),
+
 ]

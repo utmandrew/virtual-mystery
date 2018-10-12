@@ -7,5 +7,4 @@ urlpatterns = [
         name='comment_list'),
     url(r'^create$', views.CommentCreate.as_view(), name='comment_create'),
     url(r'^reply$', views.ReplyCreate.as_view(), name='reply_create'),
-    url(r'^upload$', views.upload.as_view(), name='upload'),
 ]
