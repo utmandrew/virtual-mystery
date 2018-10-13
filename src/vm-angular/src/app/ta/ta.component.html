@@ -1,19 +1,24 @@
-<!-- list of practicals -->
+
+
+<!-- list of practicals in course -->
+
 <div class="btn-group mr-2">
     <button class="btn btn-secondary btn-sm" type="button">
         {{ chosen_practical }}
     </button>
     <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <span class="sr-only">Toggle Dropdown</span>
+    <span class="sr-only">Toggle Dropdown</span>
     </button>
     <div class="dropdown-menu">
         <div *ngFor="let practical of practical_data">
             <button (click)="chosenPractical(practical.name)" class="dropdown-item" > {{ practical.name }}</button>
         </div>
     </div>
-  </div>
+</div>
 
-<!-- list of groups -->
+
+<!-- list of groups in chosen practical-->
+
 <div class="btn-group">
     <button class="btn btn-secondary btn-sm" type="button">
         {{ chosen_group }}
@@ -27,6 +32,26 @@
         </div>
     </div>
 </div>
+
+
+<!-- list of users in chosen group-->
+
+<div class="btn-group">
+        <button class="btn btn-secondary btn-sm" type="button">
+            {{ chosen_user }}
+        </button>
+        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <div class="dropdown-menu">
+            <div *ngFor="let user of list_users">
+                <button (click)="chosenGroup(group.name)" class="dropdown-item" > {{ user.name }}</button>
+            </div>
+        </div>
+    </div>
+
+<!-- list of users in that group -->
+
 
 
 
