@@ -13,7 +13,7 @@ export class ArtifactViewComponent implements OnInit, OnChanges {
   @Input() release: number;
   // error flag
   private error: boolean = false;
-  private  release_data:  Array<object> = [];
+  private  release_data: Array<object>=[];
 
   constructor(private artifactService: ArtifactserviceService ) { }
 

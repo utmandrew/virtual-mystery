@@ -1,12 +1,38 @@
-<!-- 
-    Breadcrumb trail for TA's to select practicals and groups
- -->
-<ol class="breadcrumb">
-    <li class="breadcrumb-item">
-        <a href="">PRA101</a>
-    </li>
-    <li class="breadcrumb-item">
-        <a href="">GROUP1</a>
-    </li>
-    <li class="breadcrumb-item active">Parth</li>
-</ol>
+<!-- list of practicals -->
+<div class="btn-group mr-2">
+    <button class="btn btn-secondary btn-sm" type="button">
+        {{ chosen_practical }}
+    </button>
+    <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <span class="sr-only">Toggle Dropdown</span>
+    </button>
+    <div class="dropdown-menu">
+        <div *ngFor="let practical of practical_data">
+            <button (click)="chosenPractical(practical.name)" class="dropdown-item" > {{ practical.name }}</button>
+        </div>
+    </div>
+  </div>
+
+<!-- list of groups -->
+<div class="btn-group">
+    <button class="btn btn-secondary btn-sm" type="button">
+        {{ chosen_group }}
+    </button>
+    <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="sr-only">Toggle Dropdown</span>
+    </button>
+    <div class="dropdown-menu">
+        <div *ngFor="let group of group_data">
+            <button (click)="chosenGroup(group.name)" class="dropdown-item" > {{ group.name }}</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+

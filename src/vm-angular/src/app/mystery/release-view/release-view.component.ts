@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, NavigationEnd } from '@angular/router';
 import { MysteryService } from '../mystery.service';
 
+
 @Component({
   selector: 'app-release-view',
   templateUrl: './release-view.component.html',
@@ -9,7 +10,12 @@ import { MysteryService } from '../mystery.service';
 })
 export class ReleaseViewComponent implements OnInit, OnDestroy {
 
+  private error: boolean = false;
+  private is_ta: Array<object> = [];
+
+
   constructor(private route: ActivatedRoute, private mysteryService: MysteryService, public router: Router) { 
+
 	// subscribes to router events observable
 	this.navigationSubscription = this.router.events.subscribe((e: any) => {
 		// checks if navigation has ended
@@ -28,7 +34,10 @@ export class ReleaseViewComponent implements OnInit, OnDestroy {
 	  // Gets release id from url
 	  this.route.paramMap.subscribe((params: ParamMap) => { 
 		this.release = parseInt(params.get('id'));
-	  });
+    });
+    this.getUserVerified();
+
+
   }
   
   /* Runs when component instance is destroyed */
@@ -58,5 +67,21 @@ export class ReleaseViewComponent implements OnInit, OnDestroy {
 		this.router.navigate(['mystery/release', this.release - 1]);
 	  }
   }
+
+  public getUserVerified(){
+
+    this.mysteryService.getUserVerified().subscribe((data: Array<object>)=> {
+      this.error = false;
+    this.is_ta = data;
+    console.log(data);
+    },
+
+    error => {
+      // ann error on the API call
+      this.error=true;
+    });
+
+  }
+  
 
 }

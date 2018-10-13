@@ -27,5 +27,11 @@ export class MysteryService {
 		sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
 	  }
   }
+ 
+  getUserVerified(){
+    // API  call to get all the groups
+    return this.httpClient.get(`${this.API_URL}/system/userCheck/`)
+  }
+  
   
 }
