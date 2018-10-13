@@ -41,9 +41,8 @@ export class TAComponent implements OnInit {
 
   public chosenUser(userName){
     // now that a user is picked get his/her top-level to be marked
-    
+    this.chosen_user = userName;
   }
-  
 
   public getPracticals(){
     this.taService.getPracticals().subscribe((data: Array<object>)=> {
@@ -75,8 +74,8 @@ export class TAComponent implements OnInit {
     });
   }
  
-  public getGroupView(groupName){
-    this.taService.getGroups(groupName).subscribe((data: Array<object>)=> {
+  public getUsers(groupName){
+    this.taService.getUsers(groupName).subscribe((data: Array<object>)=> {
       this.error = false;
     this.list_users = data;
     console.log(data);

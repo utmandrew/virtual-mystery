@@ -11,21 +11,24 @@ export class TAService {
 
   API_URL = 'http://localhost:8000';
 
-
-
-
   constructor(private httpClient: HttpService) { }
 
   getPracticals() {
-    // API call to get all the PRacticals   
+    // Call to get all the PRacticals   
     return this.httpClient.get(`${this.API_URL}/system/practicals/`)
-
   }
+
   getGroups(name: string){
-    // API  call to get all the groups
+    // Call to get all the groups
     return this.httpClient.get(`${this.API_URL}/system/groups/${name}`)
   }
 
+  getUsers(groupName: string){
+    // Call to retrieve all users in groupName
+    return this.httpClient.get(`${this.API_URL}/system/users/${groupName}`)
+  }
+
+  
   
 
 }

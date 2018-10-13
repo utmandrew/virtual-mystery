@@ -14,7 +14,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from . import models
 from system.models import Practical, Group, User
-from .serializers import PracticalSerializer, GroupSerializer, ProfileSerializer
+from .serializers import PracticalSerializer, GroupSerializer
 
 
 class ListPracticals(APIView):
@@ -47,11 +47,11 @@ class ListGroups(APIView):
     """
     def get(self,request,praName):
         # TO DO: need to send all names for all groups
-        #print(praName)
+        print(praName)
         practical = Practical.objects.filter(name= praName).first()
-        #print(practical)
+        print(practical)
         group = Group.objects.filter(practical = practical)
-        #print(group)
+        print(group)
 
         serializer = GroupSerializer(group,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
@@ -63,24 +63,6 @@ class UserCheck(APIView):
     def get(self,request ,Formant=None):
         user = request.user.is_ta
         return Response ({'is_ta':user}, status=status.HTTP_200_OK)
-
-class UsersInGroup(APIView):
-    """
-    Returns all the users in the given group
-    """
-
-    def get(self, request, groupName):
-        # the group "groupName"
-        group = Group.objects.filter(name = groupName).first()
-        # all users in groupName
-        list_users = User.objects.filter(group = group)
-
-        # serialize
-        serializer = ProfileSerializer(list_users, many=True)
-
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-
 
 
 
