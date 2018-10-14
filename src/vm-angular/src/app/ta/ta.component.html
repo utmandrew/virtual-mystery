@@ -45,19 +45,9 @@
         </button>
         <div class="dropdown-menu">
             <div *ngFor="let user of list_users">
-                <button (click)="chosenGroup(group.name)" class="dropdown-item" > {{ user.name }}</button>
+                <button (click)="chosenGroup(group.name)" class="dropdown-item" > {{ user.username }}</button>
             </div>
         </div>
     </div>
 
 <!-- list of users in that group -->
-
-
-
-
-
-
-
-
-
-

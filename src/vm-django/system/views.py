@@ -14,7 +14,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from . import models
 from system.models import Practical, Group, User
-from .serializers import PracticalSerializer, GroupSerializer
+from .serializers import PracticalSerializer, GroupSerializer, ProfileSerializer
 
 
 class ListPracticals(APIView):
@@ -29,13 +29,13 @@ class ListPracticals(APIView):
         try:
             if request.user.is_ta:
                 practical_list = Practical.objects.all()
-                # 
+                #
                 serializer = PracticalSerializer(practical_list, many=True)
 
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
-        
+
         except AttributeError:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -56,13 +56,25 @@ class ListGroups(APIView):
         serializer = GroupSerializer(group,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
 
+class ListUsers(APIView):
+    """
+    Take a Practical name as input and return all groups
+    that are in that practical
+    """
+    def get(self,request, groupName):
+        # TO DO: need to send all names for all groups
+        print(groupName)
+        group = Group.objects.filter(name = groupName).first()
+        print(group)
+        users = User.objects.filter(group=group)
+
+        serializer = ProfileSerializer(users, many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
 class UserCheck(APIView):
     """
-    Checks if the user is a TA or not 
+    Checks if the user is a TA or not
     """
     def get(self,request ,Formant=None):
         user = request.user.is_ta
         return Response ({'is_ta':user}, status=status.HTTP_200_OK)
-
-
-

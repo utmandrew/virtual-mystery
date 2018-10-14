@@ -7,7 +7,7 @@ import { TAService } from './ta.service';
   styleUrls: ['./ta.component.css']
 })
 export class TAComponent implements OnInit {
-  
+
   private error: boolean = false;
   // for practicals
   private practical_data: Array<object>=[];
@@ -34,13 +34,14 @@ export class TAComponent implements OnInit {
   }
 
   public chosenGroup(groupName){
-    this.getGroups(groupName);
+    this.getUsers(groupName);
     this.chosen_group = groupName;
     this.chosen_user = "Choose User";
   }
 
   public chosenUser(userName){
     // now that a user is picked get his/her top-level to be marked
+
     this.chosen_user = userName;
   }
 
@@ -64,7 +65,7 @@ export class TAComponent implements OnInit {
       this.error = false;
     this.group_data = data;
 
-     
+
     console.log(data);
     },
 
@@ -73,7 +74,7 @@ export class TAComponent implements OnInit {
       this.error=true;
     });
   }
- 
+
   public getUsers(groupName){
     this.taService.getUsers(groupName).subscribe((data: Array<object>)=> {
       this.error = false;

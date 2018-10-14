@@ -7,14 +7,14 @@ import { HttpService} from '../http.service';
 
 /* Service that allows access to all artifactview component functions dealing with api */
 export class TAService {
- 
+
 
   API_URL = 'http://localhost:8000';
 
   constructor(private httpClient: HttpService) { }
 
   getPracticals() {
-    // Call to get all the PRacticals   
+    // Call to get all the PRacticals
     return this.httpClient.get(`${this.API_URL}/system/practicals/`)
   }
 
@@ -28,7 +28,7 @@ export class TAService {
     return this.httpClient.get(`${this.API_URL}/system/users/${groupName}`)
   }
 
-  
-  
+
+
 
 }
