@@ -15,22 +15,22 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
   }
-  
+
   // form data
   model: any = {};
   // error flag
   error: boolean = false;
-  
+
   getToken(){
-	  
+
 	  this.authService.getToken(this.model).subscribe((response) => {
-		  
+
 		  // sets error flag
 		  this.error = false;
-		  
+
 		  // sets current user token value into browsers session storage
 		  sessionStorage.setItem('currentUser', JSON.stringify({ token: response['token'], release: response['release'] }));
-		  
+
 		  // redirect to current release view
 		 this.router.navigate(['mystery/release', response['release']]);
 	  },

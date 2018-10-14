@@ -11,10 +11,10 @@ import { MysteryService } from '../mystery.service';
 export class ReleaseViewComponent implements OnInit, OnDestroy {
 
   private error: boolean = false;
-  private is_ta: Array<object> = [];
+  private is_ta: boolean = false;
 
 
-  constructor(private route: ActivatedRoute, private mysteryService: MysteryService, public router: Router) { 
+  constructor(private route: ActivatedRoute, private mysteryService: MysteryService, public router: Router) {
 
 	// subscribes to router events observable
 	this.navigationSubscription = this.router.events.subscribe((e: any) => {
@@ -29,17 +29,17 @@ export class ReleaseViewComponent implements OnInit, OnDestroy {
   private release: number;
   // router event observable subscription
   navigationSubscription;
-  
+
   ngOnInit() {
 	  // Gets release id from url
-	  this.route.paramMap.subscribe((params: ParamMap) => { 
+	  this.route.paramMap.subscribe((params: ParamMap) => {
 		this.release = parseInt(params.get('id'));
     });
     this.getUserVerified();
 
 
   }
-  
+
   /* Runs when component instance is destroyed */
   ngOnDestroy() {
 	  if (this.navigationSubscription) {
@@ -47,20 +47,20 @@ export class ReleaseViewComponent implements OnInit, OnDestroy {
 		  this.navigationSubscription.unsubscribe();
 	  }
   }
-  
+
   /* Runs component re-initialization commands */
   initEvents() {
 	  // Gets release id from url
-	  this.route.paramMap.subscribe((params: ParamMap) => { 
+	  this.route.paramMap.subscribe((params: ParamMap) => {
 		this.release = parseInt(params.get('id'));
 	  });
   }
-  
+
   /* navigates to the next release */
   nextRelease() {
 	    this.router.navigate(['mystery/release', this.release + 1]);
   }
-  
+
   /* navigates to the previous release */
   previousRelease() {
 	  if (this.release > 1) {
@@ -72,7 +72,7 @@ export class ReleaseViewComponent implements OnInit, OnDestroy {
 
     this.mysteryService.getUserVerified().subscribe((data: Array<object>)=> {
       this.error = false;
-    this.is_ta = data;
+    this.is_ta = data.is_ta;
     console.log(data);
     },
 
@@ -82,6 +82,6 @@ export class ReleaseViewComponent implements OnInit, OnDestroy {
     });
 
   }
-  
+
 
 }

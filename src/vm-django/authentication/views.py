@@ -38,7 +38,8 @@ class Login(ObtainAuthToken):
                 # mystery = Instance.objects.get(group=user.group).mystery.hash
                 return Response({
                     'token': token.key,
-                    'release': release
+                    'release': release,
+                    'is_ta': user.is_ta
                     # 'mystery': mystery
                 }, status=status.HTTP_200_OK)
 

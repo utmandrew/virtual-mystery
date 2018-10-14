@@ -25,14 +25,14 @@ export class CommentlistComponent implements OnInit {
 		this.listComment(release);
 	})
   }
-  
+
   ngOnDestroy() {
 	  // ensures no memory leaks
 	  if (this.releaseSubscription) {
 		  this.releaseSubscription.unsubscribe();
 	  }
   }
-  
+
   /* requests and displays instance comments for a specific release */
   public listComment(release) {
 	  this.commentService.listComment(release).subscribe((data: Array<Comment>) => {
@@ -42,14 +42,14 @@ export class CommentlistComponent implements OnInit {
 	  error => {
 		  if (error.status === 403) {
 			  // 403 indicates that user has not submitted a comment
-			  
+
 			  // redirect to comment create component
 			  this.commentService.showComments = false;
 		  }
 		  this.error = true
 	  });
   }
-  
+
   /* toggles show_replies flag for CommentInterface object */
   public toggleReply(id) {
 	  var comment = this.comments.find(c => c.id === id);
@@ -61,7 +61,7 @@ export class CommentlistComponent implements OnInit {
 		  }
 	  }
   }
-  
+
   /* recieves newly created reply from replycreate component and adds it to it's parent comment reply list*/
   private recieveReply($event) {
 	  var comment = this.comments.find(c => c.id === $event[0]);
