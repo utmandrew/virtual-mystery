@@ -92,8 +92,6 @@ class UserComment(APIView):
         selectedUser = User.objects.get(username=userName)
         selectedComment = Comment.objects.filter(owner= selectedUser)
 
-        #group = Group.objects.filter(name = groupName).first()
-        #users = User.objects.filter(group=group)
         serializer = CommentSerializer(selectedComment,many=True)
 
         return Response(serializer.data,status=status.HTTP_200_OK)
