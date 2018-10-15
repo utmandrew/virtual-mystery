@@ -50,11 +50,11 @@ class ListGroups(APIView):
     """
     def get(self,request,praName):
         # TO DO: need to send all names for all groups
-        print(praName)
+
         practical = Practical.objects.filter(name= praName).first()
-        print(practical)
+
         group = Group.objects.filter(practical = practical)
-        print(group)
+
 
         serializer = GroupSerializer(group,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)

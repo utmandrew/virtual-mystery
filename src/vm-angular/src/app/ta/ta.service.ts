@@ -41,5 +41,9 @@ export class TAService {
     return this.httpClient.get(`${this.API_URL}/comment/${release}/${groupName}`)
   }
 
+  sendResult(data){
+    return this.httpClient.post(`${this.API_URL}/comment/resultCreate`,data);
+  }
+
 
 }

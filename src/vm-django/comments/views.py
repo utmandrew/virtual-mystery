@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authentication import TokenAuthentication
 
-from .serializers import ReplySerializer, CommentSerializer
+from .serializers import ReplySerializer, CommentSerializer, ResultSerializer
 from .models import Comment
 from mystery.models import Instance
 # from mystery.models import Instance
@@ -81,7 +81,10 @@ class CommentCreate(APIView):
                     data['owner'] = request.user.id
                     data['instance'] = instance
                     data['release'] = release
+
+
                     serializer = CommentSerializer(data=data)
+                    print(serializer)
                     if serializer.is_valid():
                         # creates comment
                         serializer.save()
@@ -115,14 +118,14 @@ class ReplyCreate(APIView):
         try:
             # (.copy returns a mutable QueryDict object)
             data = request.data.copy()
-
             # current user instance
             instance = request.user.group.instance.all()[0].id
-
+            print(data)
             # checks if reply owner and parent comment are in the same instance
             if Comment.objects.filter(instance=instance, id=data.get('parent',
                                                                      None)):
                 data['owner'] = request.user.id
+                print(data)
                 serializer = ReplySerializer(data=data)
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -177,3 +180,43 @@ class TaCommentList(APIView):
         except ObjectDoesNotExist:
             # catches if an object (instance) does not exist
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+class ResultCreate(APIView):
+    """
+    All the Result Objects the t.a has made
+    """
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self,request):
+        """
+        Creates a Result for a certain comment
+        """
+        try:
+            # check if user is ta
+            data = request.data.copy()
+
+            if request.user.is_ta:
+                data['owner'] = request.user.username
+                print(data)
+                serializer = ResultSerializer(data=data)
+
+        except AttributeError:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        except ObjectDoesNotExist:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        if serializer.is_valid():
+            serializer.save()
+
+            return Response(status=status.HTTP_201_CREATED)
+        
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+        
+
+
+        
+
+
+
+    

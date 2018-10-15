@@ -49,13 +49,14 @@ class Result(models.Model):
     """
     Group model, Users refer to a specific group that they belong to.
     """
-
+    owner = models.TextField()
+    
     # Mark Integer
     mark = models.PositiveIntegerField()
     # feedback comment
     feedback = models.TextField()
     # the comment which is being marked
-    comment = models.ForeignKey(Comment, null=True, related_name='result',
-                                  on_delete=models.CASCADE)
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE,
+                               related_name='result')
 
     

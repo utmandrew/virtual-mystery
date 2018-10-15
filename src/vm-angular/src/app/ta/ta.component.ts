@@ -28,6 +28,13 @@ export class TAComponent implements OnInit {
 
   private user_comment: Array<object>=[];
 
+  // the result for a student given by the t.a
+  private result: any = {
+    feedback: "",
+    mark: 0,
+  };
+
+
   constructor(private taService: TAService) { }
 
   ngOnInit() {
@@ -52,6 +59,10 @@ export class TAComponent implements OnInit {
   public chosenUser(userName){
     // now that a user is picked get his/her top-level to be marked
     this.chosen_user = userName;
+    this.result.feedback = "";
+    this.result.mark = 0;
+
+
     this.getComment(userName);
 
 
@@ -148,7 +159,7 @@ export class TAComponent implements OnInit {
   }
 
   /* toggles show_replies flag for CommentInterface object */
-  public toggleReply(id) {
+  /*public toggleReply(id) {
     var comment = this.groups_comments.find(c => c.id === id);
     if (comment) {
       if (comment.show_replies) {
@@ -157,7 +168,12 @@ export class TAComponent implements OnInit {
         comment.show_replies = true;
       }
     }
-  }
+  }*/
+  
+  public sendResult(result){
+    this.taService.sendResult(result).subscribe((response)=>{
+    });
 
+  }
 
 }

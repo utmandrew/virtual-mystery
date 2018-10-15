@@ -2,11 +2,11 @@
 <div>
 <!-- list of practicals in course -->
 
-<div class="btn-group  m-1">
-    <button class="btn btn-secondary btn-sm" type="button">
+<div class="btn-group  m-2">
+    <button class="btn btn-dark btn-sm" type="button">
         {{ chosen_practical }}
     </button>
-    <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <button type="button" class="btn btn-sm btn-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     <span class="sr-only">Toggle Dropdown</span>
     </button>
     <div class="dropdown-menu">
@@ -19,11 +19,11 @@
 
 <!-- list of groups in chosen practical-->
 
-<div class="btn-group  m-1">
-    <button class="btn btn-secondary btn-sm" type="button">
+<div class="btn-group  m-2">
+    <button class="btn btn-dark btn-sm" type="button">
         {{ chosen_group }}
     </button>
-    <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <button type="button" class="btn btn-sm btn-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span class="sr-only">Toggle Dropdown</span>
     </button>
     <div class="dropdown-menu">
@@ -36,11 +36,11 @@
 
 <!-- list of users in chosen group-->
 
-<div class="btn-group m-1">
-        <button class="btn btn-secondary btn-sm" type="button">
+<div class="btn-group m-2">
+        <button class="btn btn-dark btn-sm" type="button">
             {{ chosen_user }}
         </button>
-        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button type="button" class="btn btn-sm btn-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="sr-only">Toggle Dropdown</span>
         </button>
         <div class="dropdown-menu">
@@ -57,14 +57,6 @@
 
 
 <div *ngIf="chosen_group != 'Choose Group'">
-
-  <!-- release navigation buttons -->
-	<div class="btn-toolbar mx-auto my-3" style="width: 200px;">
-		<div class="btn-group">
-		<button (click)="previousRelease()" [disabled]="curr_release == 1" class="btn btn-primary" > Previous Clue </button>
-		<button (click)="nextRelease()" [disabled]="curr_release == groups_relases.length" class="btn btn-primary" > Next Clue </button>
-		</div>
-	</div>
 
   <div *ngFor="let release_data of groups_relases">
     <div *ngIf="release_data.number == curr_release" >
@@ -93,22 +85,45 @@
   <div *ngIf="groups_comments.length > 0" >
   	<div class="container m-0 p-0" *ngFor="let comment of groups_comments">
 
-      <div *ngIf="comment.username == chosen_user || chosen_user == 'Choose User'">
+      <div *ngIf="comment.username == chosen_user">
         <!-- Top Level Comments -->
-    		<div class="alert alert-primary p-2 m-1" >
-    			<p class="alert-heading font-weight-bold" >{{ comment.username }}</p>
-    			<div class="pl-4" >
-    				<p>
-    					{{ comment.text }}
-    					<!-- Toggle Replies Button -->
-    					<span class="float-right">
-    					<!-- Shows replies button only if replies exist <span *ngIf="comment.reply.length" class="float-right"> -->
+
+            <!-- this car contains selected user's comments and ability for a ta to
+                 submit a mark to the user and some feedback-->
+
+            <div class="card bg-light my-3">
+                
+                <div class="card-body">
+                    <div class="card-title font-weight-bold text-uppercase"> {{ comment.username }}</div>
+                    <p class="card-text font-italic "> {{ comment.text }}</p>
+                    <hr>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Feedback</span>
+                        </div>
+                        <input class="form-control" type="text" placeholder="Your feedback" [(ngModel)] = "result.feedback">
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Mark</span>
+                        </div>
+                        <input class="form-control" type="text" placeholder="Your mark" [(ngModel)] = "result.mark">
+                    </div>
+
+                    <button class="btn btn-outline-danger float-right" [disabled]="comment.marked == true" (click)="sendResult(result)"> Submit </button>
+
+                </div>
+            </div>
+            
+            <!-- Toggle Replies Button 
+    					<span class="float-right">-->
+    					<!-- Shows replies button only if replies exist <span *ngIf="comment.reply.length" class="float-right"> 
     						<button type="button" class="btn btn-sm" (click)="toggleReply(comment.id)" > replies </button>
-    					</span>
-    				</p>
-    			</div>
-    		</div>
-    		<!-- Replies -->
+                        </span>
+            -->
+
+    		<!-- Replies
     		<div *ngIf="comment.show_replies" >
     			<div class="container" *ngFor="let reply of comment.reply" >
     				<div class="alert alert-secondary p-2 m-1" >
@@ -118,11 +133,20 @@
     					</div>
     				</div>
     			</div>
-        </div>
+             </div>
+            -->
 
   		</div>
   	</div>
   </div>
+
+  <!-- release navigation buttons -->
+	<div class="btn-toolbar mx-auto my-3" style="width: 200px;">
+		<div class="btn-group-sm">
+		<button (click)="previousRelease()" [disabled]="curr_release == 1" class="btn btn-dark mr-2" > Previous Clue </button>
+		<button (click)="nextRelease()" [disabled]="curr_release == groups_relases.length" class="btn btn-dark" > Next Clue </button>
+		</div>
+	</div>
 
 
 </div>

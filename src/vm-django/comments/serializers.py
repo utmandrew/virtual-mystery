@@ -14,12 +14,26 @@ class ReplySerializer(serializers.ModelSerializer):
         extra_kwargs = {'owner': {'write_only': True},
                         'parent': {'write_only': True}}
 
+class ResultSerializer(serializers.ModelSerializer):
+    """
+    Serializes/Deserializes Result class objects
+    """
+
+    class Meta:
+        model = Result
+        fields = ('owner', 'mark','feedback','comment')
+        extra_kwargs = {'owner': {'write_only': True},
+                        'feedback': {'write_only': True},
+                        'mark': {'write_only': True}}
+
+
 
 class CommentSerializer(serializers.ModelSerializer):
     """
     Serializes/Deserializes Comment class objects.
     """
     reply = ReplySerializer(many=True, read_only=True)
+    #result = ResultSerializer(read_only=True)
     username = serializers.CharField(source='owner.username', read_only=True)
 
     class Meta:
@@ -30,5 +44,9 @@ class CommentSerializer(serializers.ModelSerializer):
         extra_kwargs = {'owner': {'write_only': True},
                         'release': {'write_only': True},
                         'instance': {'write_only': True}}
+
+    
+
+
 
 
