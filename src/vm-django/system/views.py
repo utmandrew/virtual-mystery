@@ -78,3 +78,18 @@ class UserCheck(APIView):
     def get(self,request ,Formant=None):
         user = request.user.is_ta
         return Response ({'is_ta':user}, status=status.HTTP_200_OK)
+
+class UserComment(APIView):
+    """
+    Take a Practical name as input and return all groups
+    that are in that practical
+    """
+    def get(self,request, groupName):
+        # TO DO: need to send all names for all groups
+        print(groupName)
+        group = Group.objects.filter(name = groupName).first()
+        print(group)
+        users = User.objects.filter(group=group)
+
+        serializer = ProfileSerializer(users, many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)

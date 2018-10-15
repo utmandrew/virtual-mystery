@@ -2,7 +2,7 @@
 
 <!-- list of practicals in course -->
 
-<div class="btn-group mr-2">
+<div class="btn-group  m-1">
     <button class="btn btn-secondary btn-sm" type="button">
         {{ chosen_practical }}
     </button>
@@ -19,7 +19,7 @@
 
 <!-- list of groups in chosen practical-->
 
-<div class="btn-group">
+<div class="btn-group  m-1">
     <button class="btn btn-secondary btn-sm" type="button">
         {{ chosen_group }}
     </button>
@@ -36,7 +36,7 @@
 
 <!-- list of users in chosen group-->
 
-<div class="btn-group">
+<div class="btn-group m-1">
         <button class="btn btn-secondary btn-sm" type="button">
             {{ chosen_user }}
         </button>
@@ -45,7 +45,7 @@
         </button>
         <div class="dropdown-menu">
             <div *ngFor="let user of list_users">
-                <button (click)="chosenGroup(group.name)" class="dropdown-item" > {{ user.username }}</button>
+                <button (click)="chosenUser(user.username)" class="dropdown-item" > {{ user.username }}</button>
             </div>
         </div>
     </div>

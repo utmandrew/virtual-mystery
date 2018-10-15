@@ -14,5 +14,6 @@ urlpatterns = [
     url(r'^users/(?P<groupName>.*)', views.ListUsers.as_view()),
     # ^^ add a parameter
     url(r'^userCheck/', views.UserCheck.as_view()),
+    url(r'^userComment/(?P<userName>.*)', views.UserComment.as_view()),
 
 ]

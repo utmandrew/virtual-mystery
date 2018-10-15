@@ -7,6 +7,7 @@ import { TAService } from './ta.service';
   styleUrls: ['./ta.component.css']
 })
 export class TAComponent implements OnInit {
+  
 
   private error: boolean = false;
   // for practicals
@@ -18,6 +19,8 @@ export class TAComponent implements OnInit {
   // for users
   private list_users: Array<object>= [];
   private chosen_user: string = "Choose User";
+
+  private user_comment: Array<object>=[];
 
   constructor(private taService: TAService) { }
 
@@ -41,7 +44,8 @@ export class TAComponent implements OnInit {
 
   public chosenUser(userName){
     // now that a user is picked get his/her top-level to be marked
-
+    //this.getComment(userName);
+    
     this.chosen_user = userName;
   }
 
@@ -86,5 +90,18 @@ export class TAComponent implements OnInit {
       this.error=true;
     });
   }
+
+  public getComment(userName){
+    this.taService.getUsers(userName).subscribe((data: Array<object>)=> {
+      this.error = false;
+    this.user_comment = data;
+    console.log(data);
+    },
+    error => {
+      // ann error on the API call
+      this.error=true;
+    });
+  }
+
 
 }

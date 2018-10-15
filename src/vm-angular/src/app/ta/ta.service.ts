@@ -27,7 +27,11 @@ export class TAService {
     // Call to retrieve all users in groupName
     return this.httpClient.get(`${this.API_URL}/system/users/${groupName}`)
   }
-
+  
+  getComment(userName: string){
+    // Get the top level comments made by a user for this week
+    return this.httpClient.get(`${this.API_URL}/system/users/${userName}`)
+  }
 
 
 
