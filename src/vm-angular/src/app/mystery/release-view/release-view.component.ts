@@ -11,7 +11,7 @@ import { MysteryService } from '../mystery.service';
 export class ReleaseViewComponent implements OnInit, OnDestroy {
 
   private error: boolean = false;
-  private is_ta: object;
+  private is_ta: Array<object> = [];
 
 
   constructor(private route: ActivatedRoute, private mysteryService: MysteryService, public router: Router) {
