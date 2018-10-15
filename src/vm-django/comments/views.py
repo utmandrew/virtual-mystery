@@ -34,7 +34,7 @@ class CommentList(APIView):
             current_release = get_current_release()
 
             # checks if user has commented on the current release
-            if commented or int(release) < current_release:
+            if request.user.is_ta or commented or int(release) < current_release:
                 comments = Comment.objects.filter(instance=instance,
                                                   release=release)
                 serializer = CommentSerializer(comments, many=True)
@@ -136,5 +136,3 @@ class ReplyCreate(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(status=status.HTTP_400_BAD_REQUEST)
-
-

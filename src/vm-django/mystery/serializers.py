@@ -58,4 +58,4 @@ class ArtifactSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Release
-        fields = ('clue', 'hash', 'mystery_hash')
+        fields = ('number', 'clue', 'hash', 'mystery_hash')

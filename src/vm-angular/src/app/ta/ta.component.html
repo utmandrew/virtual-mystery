@@ -1,5 +1,5 @@
 
-
+<div>
 <!-- list of practicals in course -->
 
 <div class="btn-group  m-1">
@@ -48,6 +48,46 @@
                 <button (click)="chosenUser(user.username)" class="dropdown-item" > {{ user.username }}</button>
             </div>
         </div>
-    </div>
+  </div>
 
 <!-- list of users in that group -->
+
+</div>
+
+
+
+<div *ngIf="chosen_group != 'Choose Group'">
+
+  <!-- release navigation buttons -->
+	<div class="btn-toolbar mx-auto my-3" style="width: 200px;">
+		<div class="btn-group">
+		<button (click)="previousRelease()" [disabled]="curr_release == 1" class="btn btn-primary" > Previous Clue </button>
+		<button (click)="nextRelease()" [disabled]="curr_release == groups_relases.length" class="btn btn-primary" > Next Clue </button>
+		</div>
+	</div>
+
+  <div *ngFor="let release_data of groups_relases">
+    <div *ngIf="release_data.number == curr_release" >
+    <div class="card mb-3" >
+        <div class="card-header">
+    		<h4 *ngIf="!error">Release {{ release_data.number }}</h4>
+    		<p class="alert alert-warning text-center" *ngIf="error"> <strong>An error occurred, please try again.</strong> </p>
+        </div>
+
+        <div class="card-body">
+            <img class="card-img-top img-responsive rounded mx-auto d-block mb-3" style="width:50%;" src ="/assets/{{release_data.mystery_hash}}/{{release_data.hash}}/image1.jpg">
+        </div>
+    </div>
+
+    <div class="card mb-3 ">
+        <div class="card-header card-title">
+            <h5>
+                {{ release_data.clue }}
+            </h5>
+        </div>
+    </div>
+  </div>
+  </div>
+
+
+</div>

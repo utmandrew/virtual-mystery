@@ -7,7 +7,7 @@ import { TAService } from './ta.service';
   styleUrls: ['./ta.component.css']
 })
 export class TAComponent implements OnInit {
-  
+
 
   private error: boolean = false;
   // for practicals
@@ -19,6 +19,10 @@ export class TAComponent implements OnInit {
   // for users
   private list_users: Array<object>= [];
   private chosen_user: string = "Choose User";
+
+  // for the groups releases
+  private groups_relases: Array<object>=[];
+  private curr_release: number;
 
   private user_comment: Array<object>=[];
 
@@ -38,6 +42,7 @@ export class TAComponent implements OnInit {
 
   public chosenGroup(groupName){
     this.getUsers(groupName);
+    this.getGroupsRelases(groupName);
     this.chosen_group = groupName;
     this.chosen_user = "Choose User";
   }
@@ -46,7 +51,7 @@ export class TAComponent implements OnInit {
     // now that a user is picked get his/her top-level to be marked
     this.chosen_user = userName;
     this.getComment(userName);
-    
+
 
   }
 
@@ -69,7 +74,6 @@ export class TAComponent implements OnInit {
     this.taService.getGroups(praName).subscribe((data: Array<object>)=> {
       this.error = false;
     this.group_data = data;
-
 
     console.log(data);
     },
@@ -104,5 +108,26 @@ export class TAComponent implements OnInit {
     });
   }
 
+  public getGroupsRelases(groupName){
+    this.taService.getGroupsRelases(groupName).subscribe((data: Array<object>)=> {
+      this.error = false;
+    this.groups_relases = data;
+    this.curr_release = data.length;
+    console.log(data);
+    console.log(this.curr_release);
+    },
+    error => {
+      // ann error on the API call
+      this.error=true;
+    });
+  }
+
+  public previousRelease(){
+      this.curr_release = this.curr_release - 1;
+  }
+
+  public nextRelease(){
+      this.curr_release = this.curr_release + 1;
+  }
 
 }

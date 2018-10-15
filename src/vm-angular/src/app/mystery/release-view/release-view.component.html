@@ -1,23 +1,28 @@
+<ng-container *ngIf="this.is_ta.is_ta; then TA; else Student">
+</ng-container>
+
 <!-- TA Component -->
-<div class="container my-3">
-	<app-ta *ngIf="this.is_ta.is_ta"></app-ta>
-</div>
+<ng-template #TA>
+		<app-ta></app-ta>
+</ng-template>
 
-<!-- release navigation buttons -->
-<div class="btn-toolbar mx-auto my-3" style="width: 200px;">
-	<div class="btn-group">
-	<button (click)="previousRelease()" [disabled]="release == 1" class="btn btn-primary" > Previous Clue </button>
-	<button (click)="nextRelease()" [disabled]="mysteryService.getRelease() == release" class="btn btn-primary" > Next Clue </button>
+<ng-template #Student>
+	<!-- release navigation buttons -->
+	<div class="btn-toolbar mx-auto my-3" style="width: 200px;">
+		<div class="btn-group">
+		<button (click)="previousRelease()" [disabled]="release == 1" class="btn btn-primary" > Previous Clue </button>
+		<button (click)="nextRelease()" [disabled]="mysteryService.getRelease() == release" class="btn btn-primary" > Next Clue </button>
+		</div>
 	</div>
-</div>
 
-<!-- ArtifactView Component -->
+	<!-- ArtifactView Component -->
 
-<div>
-	<app-artifact-view [release]="release" ></app-artifact-view>
-</div>
+	<div>
+		<app-artifact-view [release]="release" ></app-artifact-view>
+	</div>
 
-<!-- Comment Component -->
-<div>
-	<app-comment [release]="release" ></app-comment>
-</div>
+	<!-- Comment Component -->
+	<div>
+		<app-comment [release]="release" ></app-comment>
+	</div>
+</ng-template>
