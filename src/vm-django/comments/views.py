@@ -7,6 +7,7 @@ from rest_framework.authentication import TokenAuthentication
 
 from .serializers import ReplySerializer, CommentSerializer
 from .models import Comment
+from mystery.models import Instance
 # from mystery.models import Instance
 from release import get_current_release
 
@@ -34,7 +35,7 @@ class CommentList(APIView):
             current_release = get_current_release()
 
             # checks if user has commented on the current release
-            if commented or int(release) < current_release:
+            if request.user.is_ta or commented or int(release) < current_release:
                 comments = Comment.objects.filter(instance=instance,
                                                   release=release)
                 serializer = CommentSerializer(comments, many=True)
@@ -138,3 +139,41 @@ class ReplyCreate(APIView):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
+class TaCommentList(APIView):
+    """
+    Returns a list of comment objects.
+    """
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request, release, groupName):
+        """
+        Returns a list of comments from the users instance and specified
+        release.
+        :param release: a release id, passed in the url.
+        """
+
+        try:
+            instance = Instance.objects.filter(group__name=groupName).first()
+            commented = Comment.objects.filter(instance=instance.id,
+                                        release=release, owner=request.user.id)
+            current_release = get_current_release()
+
+            # checks if user has commented on the current release
+            if request.user.is_ta or commented or int(release) < current_release:
+                comments = Comment.objects.filter(instance=instance,
+                                                  release=release)
+                serializer = CommentSerializer(comments, many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                # if requested release has not yet been reached
+                # if int(release) > current_release:
+                #     return Response(status=status.HTTP_400_BAD_REQUEST)
+                return Response(status=status.HTTP_403_FORBIDDEN)
+
+        except AttributeError:
+            # catches if an attribute does not exist
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        except ObjectDoesNotExist:
+            # catches if an object (instance) does not exist
+            return Response(status=status.HTTP_400_BAD_REQUEST)
