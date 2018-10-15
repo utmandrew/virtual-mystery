@@ -14,8 +14,11 @@ from rest_framework.permissions import IsAuthenticated
 
 from . import models
 from system.models import Practical, Group, User
+from comments.models import Comment
 from .serializers import PracticalSerializer, GroupSerializer, ProfileSerializer
+from comments.serializers import CommentSerializer
 
+from release import get_current_release
 
 class ListPracticals(APIView):
     """
@@ -63,9 +66,9 @@ class ListUsers(APIView):
     """
     def get(self,request, groupName):
         # TO DO: need to send all names for all groups
-        print(groupName)
+
         group = Group.objects.filter(name = groupName).first()
-        print(group)
+
         users = User.objects.filter(group=group)
 
         serializer = ProfileSerializer(users, many=True)
@@ -84,12 +87,13 @@ class UserComment(APIView):
     Take a Practical name as input and return all groups
     that are in that practical
     """
-    def get(self,request, groupName):
-        # TO DO: need to send all names for all groups
-        print(groupName)
-        group = Group.objects.filter(name = groupName).first()
-        print(group)
-        users = User.objects.filter(group=group)
+    def get(self,request, userName):
+        #Blog.objects.filter(entry__headline__contains='Lennon', entry__pub_date__year=2008)
+        selectedUser = User.objects.get(username=userName)
+        selectedComment = Comment.objects.filter(owner= selectedUser)
 
-        serializer = ProfileSerializer(users, many=True)
+        #group = Group.objects.filter(name = groupName).first()
+        #users = User.objects.filter(group=group)
+        serializer = CommentSerializer(selectedComment,many=True)
+
         return Response(serializer.data,status=status.HTTP_200_OK)

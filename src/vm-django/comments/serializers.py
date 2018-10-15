@@ -24,7 +24,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ('id', 'username', 'text', 'reply', 'owner', 'instance',
+        fields = ('id', 'username', 'text','marked', 'reply', 'owner', 'instance',
                   'release')
         read_only_fields = ('id', 'username', 'reply')
         extra_kwargs = {'owner': {'write_only': True},

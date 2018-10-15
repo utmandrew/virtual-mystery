@@ -44,9 +44,10 @@ export class TAComponent implements OnInit {
 
   public chosenUser(userName){
     // now that a user is picked get his/her top-level to be marked
-    //this.getComment(userName);
-    
     this.chosen_user = userName;
+    this.getComment(userName);
+    
+
   }
 
   public getPracticals(){
@@ -92,7 +93,7 @@ export class TAComponent implements OnInit {
   }
 
   public getComment(userName){
-    this.taService.getUsers(userName).subscribe((data: Array<object>)=> {
+    this.taService.getComment(userName).subscribe((data: Array<object>)=> {
       this.error = false;
     this.user_comment = data;
     console.log(data);

@@ -11,7 +11,7 @@ import { MysteryService } from '../mystery.service';
 export class ReleaseViewComponent implements OnInit, OnDestroy {
 
   private error: boolean = false;
-  private is_ta: boolean = false;
+  private is_ta: object;
 
 
   constructor(private route: ActivatedRoute, private mysteryService: MysteryService, public router: Router) {
@@ -72,7 +72,8 @@ export class ReleaseViewComponent implements OnInit, OnDestroy {
 
     this.mysteryService.getUserVerified().subscribe((data: Array<object>)=> {
       this.error = false;
-    this.is_ta = data.is_ta;
+      this.is_ta = data;
+
     console.log(data);
     },
 

@@ -30,7 +30,7 @@ export class TAService {
   
   getComment(userName: string){
     // Get the top level comments made by a user for this week
-    return this.httpClient.get(`${this.API_URL}/system/users/${userName}`)
+    return this.httpClient.get(`${this.API_URL}/system/userComment/${userName}`)
   }
 
 
