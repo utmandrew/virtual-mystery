@@ -37,5 +37,9 @@ export class TAService {
     return this.httpClient.get(`${this.API_URL}/mystery/release/${groupName}`)
   }
 
+  getGroupsComments(groupName, release){
+    return this.httpClient.get(`${this.API_URL}/comment/${release}/${groupName}`)
+  }
+
 
 }

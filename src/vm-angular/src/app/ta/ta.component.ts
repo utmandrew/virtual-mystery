@@ -24,6 +24,8 @@ export class TAComponent implements OnInit {
   private groups_relases: Array<object>=[];
   private curr_release: number;
 
+  private groups_comments: Array<object>=[];
+
   private user_comment: Array<object>=[];
 
   constructor(private taService: TAService) { }
@@ -115,6 +117,19 @@ export class TAComponent implements OnInit {
     this.curr_release = data.length;
     console.log(data);
     console.log(this.curr_release);
+    this.getGroupsComments(groupName, this.curr_release)
+    },
+    error => {
+      // ann error on the API call
+      this.error=true;
+    });
+  }
+
+  public getGroupsComments(groupName, release){
+    this.taService.getGroupsComments(groupName, release).subscribe((data: Array<object>)=> {
+      this.error = false;
+    this.groups_comments = data;
+    console.log(data);
     },
     error => {
       // ann error on the API call
@@ -124,10 +139,25 @@ export class TAComponent implements OnInit {
 
   public previousRelease(){
       this.curr_release = this.curr_release - 1;
+      this.getGroupsComments(this.chosen_group, this.curr_release)
   }
 
   public nextRelease(){
       this.curr_release = this.curr_release + 1;
+      this.getGroupsComments(this.chosen_group, this.curr_release)
   }
+
+  /* toggles show_replies flag for CommentInterface object */
+  public toggleReply(id) {
+    var comment = this.groups_comments.find(c => c.id === id);
+    if (comment) {
+      if (comment.show_replies) {
+        comment.show_replies = false;
+      } else {
+        comment.show_replies = true;
+      }
+    }
+  }
+
 
 }

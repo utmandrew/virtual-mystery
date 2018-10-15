@@ -89,5 +89,40 @@
   </div>
   </div>
 
+<!-- Top for this group -->
+  <div *ngIf="groups_comments.length > 0" >
+  	<div class="container m-0 p-0" *ngFor="let comment of groups_comments">
+
+      <div *ngIf="comment.username == chosen_user || chosen_user == 'Choose User'">
+        <!-- Top Level Comments -->
+    		<div class="alert alert-primary p-2 m-1" >
+    			<p class="alert-heading font-weight-bold" >{{ comment.username }}</p>
+    			<div class="pl-4" >
+    				<p>
+    					{{ comment.text }}
+    					<!-- Toggle Replies Button -->
+    					<span class="float-right">
+    					<!-- Shows replies button only if replies exist <span *ngIf="comment.reply.length" class="float-right"> -->
+    						<button type="button" class="btn btn-sm" (click)="toggleReply(comment.id)" > replies </button>
+    					</span>
+    				</p>
+    			</div>
+    		</div>
+    		<!-- Replies -->
+    		<div *ngIf="comment.show_replies" >
+    			<div class="container" *ngFor="let reply of comment.reply" >
+    				<div class="alert alert-secondary p-2 m-1" >
+    					<p class="alert-heading font-weight-bold" >{{ reply.username }}</p>
+    					<div class="pl-4" >
+    						{{ reply.text }}
+    					</div>
+    				</div>
+    			</div>
+        </div>
+
+  		</div>
+  	</div>
+  </div>
+
 
 </div>
