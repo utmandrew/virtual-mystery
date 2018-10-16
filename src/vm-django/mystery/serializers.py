@@ -59,3 +59,10 @@ class ArtifactSerializer(serializers.ModelSerializer):
     class Meta:
         model = Release
         fields = ('number', 'clue', 'hash', 'mystery_hash')
+    
+
+# create a view to get answer from release
+
+
+
+

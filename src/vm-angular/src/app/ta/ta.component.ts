@@ -35,7 +35,6 @@ export class TAComponent implements OnInit {
     id:{},
   };
 
-
   constructor(private taService: TAService) { }
 
   ngOnInit() {
@@ -47,7 +46,6 @@ export class TAComponent implements OnInit {
     this.getGroups(praName);
     this.chosen_practical = praName;
     this.chosen_group = "Choose Group";
-
   }
 
   public chosenGroup(groupName){
@@ -62,6 +60,7 @@ export class TAComponent implements OnInit {
     this.chosen_user = userName;
     this.result.feedback = "";
     this.result.mark = 0;
+    this.result.id = 0;
 
 
     this.getComment(userName);
@@ -172,9 +171,8 @@ export class TAComponent implements OnInit {
   }*/
   
   public sendResult(result){
-    result.id = this.user_comment[this.curr_release+1];
-
-    console.log(result);
+    result.id = this.user_comment[0];
+    console.log(this.user_comment[0]);
     this.taService.sendResult(result).subscribe((response)=>{
     });
 
