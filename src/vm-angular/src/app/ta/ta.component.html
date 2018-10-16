@@ -103,7 +103,7 @@
                 
                 <div class="card-body">
                     <div class="card-title font-weight-bold text-uppercase"> {{ comment.username }}</div>
-                    <p class="card-text font-italic "> {{ comment.text }}</p>
+                    <p class="card-text font-italic"> {{ comment.text }}</p>
                     <hr>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
@@ -120,6 +120,7 @@
                     </div>
 
                     <button class="btn btn-outline-danger float-right" [disabled]="comment.marked == true" (click)="sendResult(result)"> Submit </button>
+                    
 
                 </div>
             </div>

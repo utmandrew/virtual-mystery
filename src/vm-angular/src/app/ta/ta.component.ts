@@ -12,13 +12,13 @@ export class TAComponent implements OnInit {
   private error: boolean = false;
   // for practicals
   private practical_data: Array<object>=[];
-  private chosen_practical: string = "Choose Practical";
+  private chosen_practical: string;
   // for groups
-  private chosen_group: string = "Choose Group";
+  private chosen_group: string;
   private group_data: Array<object>= [];
   // for users
   private list_users: Array<object>= [];
-  private chosen_user: string = "Choose User";
+  private chosen_user: string;
 
   // for the groups releases
   private groups_relases: Array<object>=[];
@@ -40,7 +40,24 @@ export class TAComponent implements OnInit {
 
   ngOnInit() {
     // get all the Practicals in the course so far
+    this.chosen_practical="Choose Practical";
+    this.chosen_group="Choose Group";
+    this.chosen_user = "Choose User";
+    this.result.feedback = "";
+    this.result.mark = 0;
+    this.result.id = 0;
     this.getPracticals();
+  }
+
+  reinitialize(){
+    this.chosenUser(this.chosen_user);
+    this.chosen_practical="Choose Practical";
+    this.chosen_group="Choose Group";
+    this.chosen_user = "Choose User";
+    this.result.feedback = "";
+    this.result.mark = 0;
+    this.result.id = 0;
+
   }
 
   public chosenPractical(praName){
@@ -178,8 +195,26 @@ export class TAComponent implements OnInit {
 
 
     console.log(result);
+
     this.taService.sendResult(result).subscribe((response)=>{
-    });
+      this.error = false;
+      this.reinitialize();
+ 
+    },
+    error => {
+      if(error.status === 400){
+        this.chosenUser(this.chosen_user);
+
+        
+      }
+      this.error = true;
+    }
+  
+    );
+    console.log(this.chosen_user)
+    //this.chosenUser(this.chosen_user);
+
+
 
   }
 

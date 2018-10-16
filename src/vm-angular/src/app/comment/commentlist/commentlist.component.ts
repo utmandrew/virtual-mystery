@@ -37,6 +37,7 @@ export class CommentlistComponent implements OnInit {
   public listComment(release) {
 	  this.commentService.listComment(release).subscribe((data: Array<Comment>) => {
 		  this.comments = data;
+		  console.log(data);
 		  this.error = false;
 	  },
 	  error => {

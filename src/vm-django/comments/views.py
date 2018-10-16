@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.authentication import TokenAuthentication
 
 from .serializers import ReplySerializer, CommentSerializer, ResultSerializer
-from .models import Comment
+from .models import Comment, Result
 from mystery.models import Instance
 # from mystery.models import Instance
 from release import get_current_release
@@ -197,20 +197,23 @@ class ResultCreate(APIView):
         """
 
         try:
-            print("here")
+            
             # check if user is ta
             data = request.data.copy()
 
             comment = Comment.objects.get(id=request.data.get('id')).id
+            comment_ob = Comment.objects.get(id=request.data.get('id'))
 
             
-            if request.user.is_ta:
-
+            if request.user.is_ta and (comment_ob.marked==False):
+                #print("here")
                 data['owner'] = request.user.username
-                print(data['owner'])
+                #print(data['owner'])
                 data['comment'] = comment
-                print(data['comment'])
-                print(data)
+                
+                Comment.objects.filter(pk=comment).update(marked=True)
+                print(comment_ob)
+
                 serializer = ResultSerializer(data=data)
 
 
@@ -226,9 +229,3 @@ class ResultCreate(APIView):
         return Response(status=status.HTTP_400_BAD_REQUEST)
         
 
-
-        
-
-
-
-    

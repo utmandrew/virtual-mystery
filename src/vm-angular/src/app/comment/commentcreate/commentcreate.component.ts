@@ -45,7 +45,6 @@ export class CommentcreateComponent implements OnInit, OnDestroy {
    /* creates user comment with comment info in model variable */
    public createComment() {
 	   this.commentService.createComment(this.model).subscribe((response) => {
-		   console.log(this.model);
 		   // redirect to comment list component
 		   this.commentService.showComments = true;
 		   
