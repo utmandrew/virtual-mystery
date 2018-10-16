@@ -123,6 +123,7 @@ class ReplyCreate(APIView):
             instance = request.user.group.instance.all()[0].id
 
             # checks if reply owner and parent comment are in the same instance
+            print(data)
             if Comment.objects.filter(instance=instance, id=data.get('parent',
                                                                      None)):
                 data['owner'] = request.user.id
@@ -200,15 +201,18 @@ class ResultCreate(APIView):
             # check if user is ta
             data = request.data.copy()
 
-            comment = Comment.objects.filter(id=request.data['id'])
-            print(comment)
+            comment = Comment.objects.get(id=request.data.get('id')).id
+
             
             if request.user.is_ta:
-                
-                data['owner'] = request.user.username
-                data['comment'] = comment
 
+                data['owner'] = request.user.username
+                print(data['owner'])
+                data['comment'] = comment
+                print(data['comment'])
+                print(data)
                 serializer = ResultSerializer(data=data)
+
 
         #except AttributeError:
             #return Response(status=status.HTTP_403_FORBIDDEN)

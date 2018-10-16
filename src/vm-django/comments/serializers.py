@@ -21,10 +21,11 @@ class ResultSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Result
-        fields = ('owner', 'mark','feedback','comment')
-        extra_kwargs = {'owner': {'write_only': True},
-                        'feedback': {'write_only': True},
-                        'mark': {'write_only': True},}
+        fields = ('owner', 'mark','feedback','comment','id')
+        #extra_kwargs = {'owner': {'write_only': True},
+                        #'feedback': {'write_only': True},
+                        #'mark': {'write_only': True},
+                        #'comment':{'write_only':True}}
 
 class CommentSerializer(serializers.ModelSerializer):
     """

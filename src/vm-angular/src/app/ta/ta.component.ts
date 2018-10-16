@@ -172,7 +172,8 @@ export class TAComponent implements OnInit {
   }*/
   
   public sendResult(result){
-    result.id = this.user_comment[0];
+    var temp = this.curr_release-1;
+    result.id = this.user_comment[temp];
     result.id = result.id.id;
 
 
