@@ -31,11 +31,11 @@ class CommentList(APIView):
         try:
             instance = request.user.group.instance.all()[0].id
             commented = Comment.objects.filter(instance=instance,
-                                        release=release, owner=request.user.id)
+                                               release=release).exists()
             current_release = get_current_release()
 
             # checks if user has commented on the current release
-            if request.user.is_ta or commented or int(release) < current_release:
+            if commented or int(release) < current_release:
                 comments = Comment.objects.filter(instance=instance,
                                                   release=release)
                 serializer = CommentSerializer(comments, many=True)
@@ -67,7 +67,6 @@ class CommentCreate(APIView):
         """
         try:
             instance = request.user.group.instance.all()[0].id
-            print(request.user.group.instance.all())
             release = get_current_release()
             commented = Comment.objects.filter(instance=instance,
                                           release=release,
@@ -82,7 +81,6 @@ class CommentCreate(APIView):
                     data['owner'] = request.user.id
                     data['instance'] = instance
                     data['release'] = release
-
 
                     serializer = CommentSerializer(data=data)
 
@@ -123,11 +121,9 @@ class ReplyCreate(APIView):
             instance = request.user.group.instance.all()[0].id
 
             # checks if reply owner and parent comment are in the same instance
-            print(data)
             if Comment.objects.filter(instance=instance, id=data.get('parent',
                                                                      None)):
                 data['owner'] = request.user.id
-                print(data)
                 serializer = ReplySerializer(data=data)
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -183,13 +179,13 @@ class TaCommentList(APIView):
             # catches if an object (instance) does not exist
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
+
 class ResultCreate(APIView):
     """
     All the Result Objects the t.a has made
     """
     authentication_classes = (TokenAuthentication,)
     permission_classes = (permissions.IsAuthenticated,)
-
 
     def post(self,request):
         """
@@ -203,22 +199,19 @@ class ResultCreate(APIView):
 
             comment = Comment.objects.get(id=request.data.get('id')).id
             comment_ob = Comment.objects.get(id=request.data.get('id'))
-
             
             if request.user.is_ta and (comment_ob.marked==False):
-                #print("here")
+                # print("here")
                 data['owner'] = request.user.username
-                #print(data['owner'])
+                # print(data['owner'])
                 data['comment'] = comment
                 
                 Comment.objects.filter(pk=comment).update(marked=True)
-                print(comment_ob)
 
                 serializer = ResultSerializer(data=data)
 
-
-        #except AttributeError:
-            #return Response(status=status.HTTP_403_FORBIDDEN)
+        # except AttributeError:
+            # return Response(status=status.HTTP_403_FORBIDDEN)
         except ObjectDoesNotExist:
             return Response(status=status.HTTP_403_BAD_REQUEST)
 

@@ -34,10 +34,8 @@ export class ReleaseViewComponent implements OnInit, OnDestroy {
 	  // Gets release id from url
 	  this.route.paramMap.subscribe((params: ParamMap) => {
 		this.release = parseInt(params.get('id'));
-    });
-    this.getUserVerified();
-
-
+	  });
+      this.getUserVerified();
   }
 
   /* Runs when component instance is destroyed */
@@ -58,7 +56,7 @@ export class ReleaseViewComponent implements OnInit, OnDestroy {
 
   /* navigates to the next release */
   nextRelease() {
-	    this.router.navigate(['mystery/release', this.release + 1]);
+	  this.router.navigate(['mystery/release', this.release + 1]);
   }
 
   /* navigates to the previous release */
@@ -73,8 +71,6 @@ export class ReleaseViewComponent implements OnInit, OnDestroy {
     this.mysteryService.getUserVerified().subscribe((data: Array<object>)=> {
       this.error = false;
       this.is_ta = data;
-
-    console.log(data);
     },
 
     error => {
