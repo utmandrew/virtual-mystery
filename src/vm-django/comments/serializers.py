@@ -24,9 +24,7 @@ class ResultSerializer(serializers.ModelSerializer):
         fields = ('owner', 'mark','feedback','comment')
         extra_kwargs = {'owner': {'write_only': True},
                         'feedback': {'write_only': True},
-                        'mark': {'write_only': True}}
-
-
+                        'mark': {'write_only': True},}
 
 class CommentSerializer(serializers.ModelSerializer):
     """

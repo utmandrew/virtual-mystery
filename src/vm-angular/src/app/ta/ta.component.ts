@@ -28,11 +28,12 @@ export class TAComponent implements OnInit {
 
   private user_comment: Array<object>=[];
 
+
   // the result for a student given by the t.a
   private result: any = {
     feedback: String,
     mark: Number,
-    id:{},
+    id: Number,
   };
 
   constructor(private taService: TAService) { }
@@ -172,7 +173,10 @@ export class TAComponent implements OnInit {
   
   public sendResult(result){
     result.id = this.user_comment[0];
-    console.log(this.user_comment[0]);
+    result.id = result.id.id;
+
+
+    console.log(result);
     this.taService.sendResult(result).subscribe((response)=>{
     });
 

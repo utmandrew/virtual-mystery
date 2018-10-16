@@ -199,19 +199,21 @@ class ResultCreate(APIView):
             print("here")
             # check if user is ta
             data = request.data.copy()
-            print(data)
-            comment = Comment.objects.filter(id=request.data.id)
+
+            comment = Comment.objects.filter(id=request.data['id'])
+            print(comment)
             
             if request.user.is_ta:
                 
                 data['owner'] = request.user.username
                 data['comment'] = comment
+
                 serializer = ResultSerializer(data=data)
 
-        except AttributeError:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+        #except AttributeError:
+            #return Response(status=status.HTTP_403_FORBIDDEN)
         except ObjectDoesNotExist:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response(status=status.HTTP_403_BAD_REQUEST)
 
         if serializer.is_valid():
             serializer.save()
