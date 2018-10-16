@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authentication import TokenAuthentication
 
-from .serializers import ReplySerializer, CommentSerializer, ResultSerializer
+from .serializers import ReplySerializer, CommentSerializer, ResultSerializer, TACommentSerializer
 from .models import Comment, Result
 from mystery.models import Instance
 # from mystery.models import Instance
@@ -168,7 +168,7 @@ class TaCommentList(APIView):
             if request.user.is_ta or commented or int(release) < current_release:
                 comments = Comment.objects.filter(instance=instance,
                                                   release=release)
-                serializer = CommentSerializer(comments, many=True)
+                serializer = TACommentSerializer(comments, many=True)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
                 # if requested release has not yet been reached

@@ -32,6 +32,23 @@ class CommentSerializer(serializers.ModelSerializer):
     Serializes/Deserializes Comment class objects.
     """
     reply = ReplySerializer(many=True, read_only=True)
+    #result = ResultSerializer(many=True, read_only=True)
+    username = serializers.CharField(source='owner.username', read_only=True)
+
+    class Meta:
+        model = Comment
+        fields = ('id', 'username', 'text','marked', 'reply', 'owner', 'instance',
+                  'release',)
+        read_only_fields = ('id', 'username', 'reply',)
+        extra_kwargs = {'owner': {'write_only': True},
+                        'release': {'write_only': True},
+                        'instance': {'write_only': True}}
+
+class TACommentSerializer(serializers.ModelSerializer):
+    """
+    Serializes/Deserializes Comment class objects.
+    """
+    reply = ReplySerializer(many=True, read_only=True)
     result = ResultSerializer(many=True, read_only=True)
     username = serializers.CharField(source='owner.username', read_only=True)
 
@@ -43,8 +60,6 @@ class CommentSerializer(serializers.ModelSerializer):
         extra_kwargs = {'owner': {'write_only': True},
                         'release': {'write_only': True},
                         'instance': {'write_only': True}}
-
-    
 
 
 
