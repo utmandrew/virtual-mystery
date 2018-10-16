@@ -10,6 +10,7 @@ export class TAService {
 
 
   API_URL = 'http://localhost:8000';
+  ASSETS_URL = this.API_URL + '/static/mystery';
 
   constructor(private httpClient: HttpService) { }
 
