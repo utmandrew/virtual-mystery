@@ -30,8 +30,9 @@ export class TAComponent implements OnInit {
 
   // the result for a student given by the t.a
   private result: any = {
-    feedback: "",
-    mark: 0,
+    feedback: String,
+    mark: Number,
+    id:{},
   };
 
 
@@ -171,6 +172,9 @@ export class TAComponent implements OnInit {
   }*/
   
   public sendResult(result){
+    result.id = this.user_comment[this.curr_release+1];
+
+    console.log(result);
     this.taService.sendResult(result).subscribe((response)=>{
     });
 

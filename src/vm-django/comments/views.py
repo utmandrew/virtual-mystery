@@ -67,6 +67,7 @@ class CommentCreate(APIView):
         """
         try:
             instance = request.user.group.instance.all()[0].id
+            print(request.user.group.instance.all())
             release = get_current_release()
             commented = Comment.objects.filter(instance=instance,
                                           release=release,
@@ -84,7 +85,7 @@ class CommentCreate(APIView):
 
 
                     serializer = CommentSerializer(data=data)
-                    print(serializer)
+
                     if serializer.is_valid():
                         # creates comment
                         serializer.save()
@@ -120,7 +121,7 @@ class ReplyCreate(APIView):
             data = request.data.copy()
             # current user instance
             instance = request.user.group.instance.all()[0].id
-            print(data)
+
             # checks if reply owner and parent comment are in the same instance
             if Comment.objects.filter(instance=instance, id=data.get('parent',
                                                                      None)):
@@ -188,17 +189,23 @@ class ResultCreate(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (permissions.IsAuthenticated,)
 
+
     def post(self,request):
         """
         Creates a Result for a certain comment
         """
+
         try:
+            print("here")
             # check if user is ta
             data = request.data.copy()
-
+            print(data)
+            comment = Comment.objects.filter(id=request.data.id)
+            
             if request.user.is_ta:
+                
                 data['owner'] = request.user.username
-                print(data)
+                data['comment'] = comment
                 serializer = ResultSerializer(data=data)
 
         except AttributeError:
@@ -208,7 +215,6 @@ class ResultCreate(APIView):
 
         if serializer.is_valid():
             serializer.save()
-
             return Response(status=status.HTTP_201_CREATED)
         
         return Response(status=status.HTTP_400_BAD_REQUEST)
