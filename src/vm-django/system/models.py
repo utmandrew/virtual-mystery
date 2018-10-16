@@ -8,6 +8,7 @@ class Practical(models.Model):
     """
     Practical model, Groups refer to a specific practical that they belong to.
     """
+    # practical name
     name = models.TextField()
 
 
@@ -16,7 +17,7 @@ class Group(models.Model):
     Group model, Users refer to a specific group that they belong to.
     """
     # group name
-    name = models.TextField(null=True)
+    name = models.TextField()
 
     # refers to a groups practical
     # remove null=True when in production (used for admin accounts)
