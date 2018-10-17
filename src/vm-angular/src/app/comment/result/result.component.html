@@ -1,16 +1,19 @@
 <div class="container m-3" *ngIf="show_result==true">
   <!-- when result is clicked we want to see the result for this user for this week -->
-  <div>
-    
+  <div *ngIf="show_result==true">
+    {{ result }}
+
   </div>
 
-  <button class="btn btn-outline-danger btn-block" (click)="show_result=false">
+  <button class="btn btn-outline-danger btn-block" (click)="toggleResult()">
     Show Result
+  </button>
+
+
+<div class="container m-3" *ngIf="show_result==false">
+  <button class="btn btn-outline-danger btn-block" (click)="toggleResult()">
+    Hide Result
   </button>
 </div>
 
-<div class="container m-3" *ngIf="show_result==false">
-  <button class="btn btn-outline-danger btn-block" (click)="show_result=true">
-    Hide Result
-  </button>
 </div>

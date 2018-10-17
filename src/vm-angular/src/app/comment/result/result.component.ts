@@ -14,12 +14,14 @@ export class ResultComponent implements OnInit {
   private show_result = true;
   private error: boolean = false;
   private user_comment: Array<object>=[];
+  private result : Array<object>=[];
+
   releaseSubscription: Subscription;
 
   ngOnInit() {
-    this.releaseSubscription = this.commentService.getRelease().subscribe((release: number) => {
+    
+    this.getResult();
 
-    })
   }
 
   public toggleResult(){
@@ -28,6 +30,23 @@ export class ResultComponent implements OnInit {
     }else{
       this.show_result=true;
     }
+  }
+
+
+  public getResult(){
+    this.resultService.getComment().subscribe((data: Array<object>)=> {
+      this.error = false;
+    this.result= data;
+
+    console.log(data);
+    },
+
+    error => {
+      // ann error on the API call
+      console.log("hi");
+      this.error=true;
+    });
+
   }
 
  
