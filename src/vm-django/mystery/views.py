@@ -76,14 +76,15 @@ class GroupsRelaseList(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (permissions.IsAuthenticated,)
 
-    def get(self, request, groupName):
+    def get(self, request, groupId):
         try:
+            print("HELLOOOWE WORDL")
             current_release = get_current_release()
             # checks if mystery has reached start date
             if current_release > 0 and request.user.is_ta :
-                mystery = Instance.objects.get(group__name=groupName)\
-                    .mystery
+                mystery = Instance.objects.get(group__id=groupId).mystery
                 # releases for mystery <= current_release
+                print(mystery.id)
                 releases = Release.objects.filter(mystery=mystery.id)
 
                 serializer = ArtifactSerializerTA(releases, many=True)

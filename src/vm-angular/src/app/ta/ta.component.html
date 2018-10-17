@@ -28,7 +28,7 @@
     </button>
     <div class="dropdown-menu">
         <div *ngFor="let group of group_data">
-            <button (click)="chosenGroup(group.name)" class="dropdown-item" > {{ group.name }}</button>
+            <button (click)="chosenGroup(group.id)" class="dropdown-item" > {{ group.name }}</button>
         </div>
     </div>
 </div>

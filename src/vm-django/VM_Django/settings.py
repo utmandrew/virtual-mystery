@@ -172,7 +172,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 DATETIME_FORMAT = "%d/%m/%Y %H:%M:%S"
 
 # mystery start datetime (in datetime format)
-START_DATETIME = "07/10/2018 00:00:00"
+START_DATETIME = "01/09/2018 00:00:00"
 
 # time interval in days
 RELEASE_INTERVAL = "7"
