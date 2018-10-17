@@ -50,3 +50,11 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 
+class UserResultSerializer(serializers.ModelSerializer):
+    """
+    Serializes/Deserializes Result class objects
+    """
+
+    class Meta:
+        model = Result
+        fields = ('owner', 'mark', 'feedback', 'comment', 'id')

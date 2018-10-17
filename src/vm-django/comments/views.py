@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authentication import TokenAuthentication
 
-from .serializers import ReplySerializer, CommentSerializer, ResultSerializer
+from .serializers import ReplySerializer, CommentSerializer, ResultSerializer, UserResultSerializer
 from .models import Comment, Result
 from mystery.models import Instance
 # from mystery.models import Instance
@@ -216,3 +216,33 @@ class ResultCreate(APIView):
 
 
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
+class UserResult(APIView):
+    """
+    Sends the User's Result for the indicated week 
+    """
+
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self,request):
+
+
+        try:
+            
+            results = Result.objects.filter(comment__owner=request.user)
+            serializer = ResultSerializer(results, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        except AttributeError:
+            # catches if an attribute does not exist
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        except ObjectDoesNotExist:
+            # catches if an object (instance) does not exist
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        
+        
+
+
+
+

@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^reply$', views.ReplyCreate.as_view(), name='reply_create'),
     url(r'^(?P<release>[0-9]*)/(?P<groupName>.*)$', views.TaCommentList.as_view(),name='ta_comment_list'),
     url(r'^resultCreate$', views.ResultCreate.as_view(), name='result_create'),
+    url(r'^userResult$', views.UserResult.as_view(), name='user_result'),
 
 
 ]
