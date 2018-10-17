@@ -24,9 +24,9 @@ export class TAService {
     return this.httpClient.get(`${this.API_URL}/system/groups/${name}`)
   }
 
-  getUsers(groupName: string){
+  getUsers(groupId: number){
     // Call to retrieve all users in groupName
-    return this.httpClient.get(`${this.API_URL}/system/users/${groupName}`)
+    return this.httpClient.get(`${this.API_URL}/system/users/${groupId}`)
   }
 
   getComment(userName: string){
@@ -34,12 +34,12 @@ export class TAService {
     return this.httpClient.get(`${this.API_URL}/system/userComment/${userName}`)
   }
 
-  getGroupsRelases(groupName: string){
-    return this.httpClient.get(`${this.API_URL}/mystery/release/${groupName}`)
+  getGroupsRelases(groupId: number){
+    return this.httpClient.get(`${this.API_URL}/mystery/release/group/${groupId}`)
   }
 
-  getGroupsComments(groupName, release){
-    return this.httpClient.get(`${this.API_URL}/comment/${release}/${groupName}`)
+  getGroupsComments(groupId, release){
+    return this.httpClient.get(`${this.API_URL}/comment/${release}/${groupId}`)
   }
 
   sendResult(data){

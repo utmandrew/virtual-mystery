@@ -148,7 +148,7 @@ class TaCommentList(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (permissions.IsAuthenticated,)
 
-    def get(self, request, release, groupName):
+    def get(self, request, release, groupId):
         """
         Returns a list of comments from the users instance and specified
         release.
@@ -156,7 +156,7 @@ class TaCommentList(APIView):
         """
 
         try:
-            instance = Instance.objects.filter(group__name=groupName).first()
+            instance = Instance.objects.filter(group__id=groupId).first()
             commented = Comment.objects.filter(instance=instance.id,
                                         release=release, owner=request.user.id)
             current_release = get_current_release()

@@ -14,7 +14,7 @@ export class TAComponent implements OnInit {
   private practical_data: Array<object>=[];
   private chosen_practical: string;
   // for groups
-  private chosen_group: string;
+  private chosen_group: number;
   private group_data: Array<object>= [];
   // for users
   private list_users: Array<object>= [];
@@ -41,7 +41,7 @@ export class TAComponent implements OnInit {
   ngOnInit() {
     // get all the Practicals in the course so far
     this.chosen_practical="Choose Practical";
-    this.chosen_group="Choose Group";
+    this.chosen_group= 0;
     this.chosen_user = "Choose User";
     this.result.feedback = "";
     this.result.mark = 0;
@@ -63,13 +63,13 @@ export class TAComponent implements OnInit {
   public chosenPractical(praName){
     this.getGroups(praName);
     this.chosen_practical = praName;
-    this.chosen_group = "Choose Group";
+    this.chosen_group = 0;
   }
 
-  public chosenGroup(groupName){
-    this.getUsers(groupName);
-    this.getGroupsRelases(groupName);
-    this.chosen_group = groupName;
+  public chosenGroup(groupId){
+    this.getUsers(groupId);
+    this.getGroupsRelases(groupId);
+    this.chosen_group = groupId;
     this.chosen_user = "Choose User";
   }
 
@@ -112,8 +112,8 @@ export class TAComponent implements OnInit {
     });
   }
 
-  public getUsers(groupName){
-    this.taService.getUsers(groupName).subscribe((data: Array<object>)=> {
+  public getUsers(groupId){
+    this.taService.getUsers(groupId).subscribe((data: Array<object>)=> {
       this.error = false;
     this.list_users = data;
     console.log(data);
@@ -136,14 +136,15 @@ export class TAComponent implements OnInit {
     });
   }
 
-  public getGroupsRelases(groupName){
-    this.taService.getGroupsRelases(groupName).subscribe((data: Array<object>)=> {
+  public getGroupsRelases(groupId){
+    this.taService.getGroupsRelases(groupId).subscribe((data: Array<object>)=> {
       this.error = false;
+
     this.groups_relases = data;
     this.curr_release = data.length;
     console.log(data);
     console.log(this.curr_release);
-    this.getGroupsComments(groupName, this.curr_release)
+    this.getGroupsComments(groupId, this.curr_release);
     },
     error => {
       // ann error on the API call
@@ -151,8 +152,8 @@ export class TAComponent implements OnInit {
     });
   }
 
-  public getGroupsComments(groupName, release){
-    this.taService.getGroupsComments(groupName, release).subscribe((data: Array<object>)=> {
+  public getGroupsComments(groupId, release){
+    this.taService.getGroupsComments(groupId, release).subscribe((data: Array<object>)=> {
       this.error = false;
     this.groups_comments = data;
     console.log(data);
@@ -165,12 +166,12 @@ export class TAComponent implements OnInit {
 
   public previousRelease(){
       this.curr_release = this.curr_release - 1;
-      this.getGroupsComments(this.chosen_group, this.curr_release)
+      this.getGroupsComments(this.chosen_group, this.curr_release);
   }
 
   public nextRelease(){
       this.curr_release = this.curr_release + 1;
-      this.getGroupsComments(this.chosen_group, this.curr_release)
+      this.getGroupsComments(this.chosen_group, this.curr_release);
   }
 
   /* toggles show_replies flag for CommentInterface object */

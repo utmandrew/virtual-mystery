@@ -64,10 +64,10 @@ class ListUsers(APIView):
     Take a Practical name as input and return all groups
     that are in that practical
     """
-    def get(self,request, groupName):
+    def get(self,request, groupId):
         # TO DO: need to send all names for all groups
 
-        group = Group.objects.filter(name = groupName).first()
+        group = Group.objects.filter(id = groupId).first()
 
         users = User.objects.filter(group=group)
 
