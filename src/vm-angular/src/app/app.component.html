@@ -1,13 +1,13 @@
 <nav class="navbar navbar-expand-sm mb-3 navbar-dark bg-primary">
 	<div class="container">
-		<a class="navbar-brand" href="mystery/release/list">Virtual Mystery</a>
+		<a class="navbar-brand"> <font color="white">Virtual Mystery</font> </a>
 		
 		<button class="navbar-toggler" data-toggle="collapse" data-target="#navbarNav">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 
 		<div class="collapse navbar-collapse" id="navbarNav">
-		<ul class="ml-auto navbar-nav" >
+		<ul class="ml-auto navbar-nav" *ngIf="authService.getUser()" >
 
 			<li class="nav-item">
 				<a class ="nav-link" (click)="currentClue()">Current clue</a>
@@ -17,18 +17,18 @@
 				<a class ="nav-link" routerLink="mystery/release/list">Overview</a>
 			</li>
 
-			<li class="nav-item">
+			<!-- <li class="nav-item">
 				<a class ="nav-link">Group</a>
 			</li>
 			
 			<li class="nav-item">
 				<a class ="nav-link">Grades</a>
-			</li>
+			</li> -->
 			
 			<!-- Logout Button -->
 			<li class="nav-item">
 				<div class="nav navbar-nav navbar-right" >
-					<app-logout *ngIf="authService.getUser()" ></app-logout>
+					<app-logout></app-logout>
 				</div>
 			</li>
 
