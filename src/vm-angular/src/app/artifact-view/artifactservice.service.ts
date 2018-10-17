@@ -9,7 +9,7 @@ import { HttpService} from '../http.service';
 export class ArtifactserviceService {
 
   API_URL = 'http://localhost:8000';
-  ASSETS_URL = this.API_URL + '/static/mystery';
+  ASSETS_URL = this.API_URL + '/assets';
 
   constructor(private httpClient: HttpService) { }
 

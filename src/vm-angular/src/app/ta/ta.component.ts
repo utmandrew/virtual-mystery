@@ -51,9 +51,9 @@ export class TAComponent implements OnInit {
 
   reinitialize(){
     this.chosenUser(this.chosen_user);
-    this.chosen_practical="Choose Practical";
-    this.chosen_group="Choose Group";
-    this.chosen_user = "Choose User";
+    // this.chosen_practical="Choose Practical";
+    // this.chosen_group="Choose Group";
+    // this.chosen_user = "Choose User";
     this.result.feedback = "";
     this.result.mark = 0;
     this.result.id = 0;
@@ -198,14 +198,14 @@ export class TAComponent implements OnInit {
 
     this.taService.sendResult(result).subscribe((response)=>{
       this.error = false;
-      this.reinitialize();
+      this.getComment(this.chosen_user);
+      //this.reinitialize();
  
     },
     error => {
       if(error.status === 400){
         this.chosenUser(this.chosen_user);
 
-        
       }
       this.error = true;
     }

@@ -5,11 +5,12 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authentication import TokenAuthentication
 
-from .serializers import ReplySerializer, CommentSerializer, ResultSerializer, TACommentSerializer
+from .serializers import ReplySerializer, CommentSerializer, ResultSerializer
 from .models import Comment, Result
 from mystery.models import Instance
 # from mystery.models import Instance
 from release import get_current_release
+
 
 
 # Create your views here.
@@ -164,7 +165,7 @@ class TaCommentList(APIView):
             if request.user.is_ta or commented or int(release) < current_release:
                 comments = Comment.objects.filter(instance=instance,
                                                   release=release)
-                serializer = TACommentSerializer(comments, many=True)
+                serializer = CommentSerializer(comments, many=True)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
                 # if requested release has not yet been reached
@@ -199,25 +200,27 @@ class ResultCreate(APIView):
 
             comment = Comment.objects.get(id=request.data.get('id')).id
             comment_ob = Comment.objects.get(id=request.data.get('id'))
-            
+            print(comment_ob.id)
+            print(comment_ob.marked)
             if request.user.is_ta and (comment_ob.marked==False):
-                # print("here")
+                print("here")
                 data['owner'] = request.user.username
-                # print(data['owner'])
+                print(data['owner'])
                 data['comment'] = comment
                 
-                Comment.objects.filter(pk=comment).update(marked=True)
+                x = Comment.objects.filter(pk=comment).update(marked=True)
 
                 serializer = ResultSerializer(data=data)
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response(status=status.HTTP_201_CREATED)
+            
 
-        # except AttributeError:
-            # return Response(status=status.HTTP_403_FORBIDDEN)
+        except AttributeError:
+            return Response(status=status.HTTP_403_FORBIDDEN)
         except ObjectDoesNotExist:
             return Response(status=status.HTTP_403_BAD_REQUEST)
 
-        if serializer.is_valid():
-            serializer.save()
-            return Response(status=status.HTTP_201_CREATED)
         
         return Response(status=status.HTTP_400_BAD_REQUEST)
         
