@@ -81,9 +81,6 @@ export class TAComponent implements OnInit {
     this.result.id = 0;
 
 
-    this.getComment(userName);
-
-
   }
 
   public getPracticals(){
@@ -187,20 +184,18 @@ export class TAComponent implements OnInit {
       }
     }
   }*/
-  
-  public sendResult(result){
-    var temp = this.curr_release-1;
-    result.id = this.user_comment[temp];
-    result.id = result.id.id;
+
+  public sendResult(result, id){
+    result.id = id;
 
 
     console.log(result);
 
     this.taService.sendResult(result).subscribe((response)=>{
       this.error = false;
-      this.getComment(this.chosen_user);
       //this.reinitialize();
- 
+      this.getGroupsComments(this.chosen_group, this.curr_release);
+
     },
     error => {
       if(error.status === 400){
@@ -209,7 +204,7 @@ export class TAComponent implements OnInit {
       }
       this.error = true;
     }
-  
+
     );
     console.log(this.chosen_user)
     //this.chosenUser(this.chosen_user);

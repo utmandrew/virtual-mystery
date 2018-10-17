@@ -194,34 +194,25 @@ class ResultCreate(APIView):
         """
 
         try:
-            
+
             # check if user is ta
             data = request.data.copy()
-
-            comment = Comment.objects.get(id=request.data.get('id')).id
-            comment_ob = Comment.objects.get(id=request.data.get('id'))
-            print(comment_ob.id)
-            print(comment_ob.marked)
-            if request.user.is_ta and (comment_ob.marked==False):
-                print("here")
+            comment = Comment.objects.get(id=request.data.get('id'))
+            if request.user.is_ta and (comment.marked==False):
                 data['owner'] = request.user.username
-                print(data['owner'])
-                data['comment'] = comment
-                
-                x = Comment.objects.filter(pk=comment).update(marked=True)
+                data['comment'] = comment.id
+                Comment.objects.filter(id=comment.id).update(marked=True)
 
                 serializer = ResultSerializer(data=data)
                 if serializer.is_valid():
                     serializer.save()
                     return Response(status=status.HTTP_201_CREATED)
-            
+
 
         except AttributeError:
             return Response(status=status.HTTP_403_FORBIDDEN)
         except ObjectDoesNotExist:
-            return Response(status=status.HTTP_403_BAD_REQUEST)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        
+
         return Response(status=status.HTTP_400_BAD_REQUEST)
-        
-

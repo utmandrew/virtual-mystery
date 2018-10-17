@@ -85,7 +85,7 @@
             </h5>
         </div>
     </div>
-    
+
   </div>
   </div>
 
@@ -93,18 +93,19 @@
   <div *ngIf="groups_comments.length > 0" >
   	<div class="container m-0 p-0" *ngFor="let comment of groups_comments">
 
-      <div *ngIf="comment.username == chosen_user">
+      <div *ngIf="comment.username == chosen_user || chosen_user == 'Choose User' ">
         <!-- Top Level Comments -->
 
             <!-- this car contains selected user's comments and ability for a ta to
                  submit a mark to the user and some feedback-->
 
             <div class="card bg-light my-3">
-                
+
                 <div class="card-body">
                     <div class="card-title font-weight-bold text-uppercase"> {{ comment.username }}</div>
                     <p class="card-text font-italic"> {{ comment.text }}</p>
                     <hr>
+                    <div *ngIf="!comment.marked">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text">Feedback</span>
@@ -119,15 +120,19 @@
                         <input class="form-control" type="text" placeholder="Your mark" [(ngModel)] = "result.mark">
                     </div>
 
-                    <button class="btn btn-outline-danger float-right" [disabled]="comment.marked==true" (click)="sendResult(result)"> Submit </button>
-                    
+                    <button class="btn btn-outline-danger float-right" [disabled]="comment.marked==true" (click)="sendResult(result, comment.id)"> Submit </button>
+                  </div>
+                  <div *ngIf="comment.marked">
+                      <p class="card-text font-italic"> Feedback: {{ comment.result[0].feedback }}</p>
+                      <p class="card-text font-italic"> Mark: {{ comment.result[0].mark }}</p>
+                  </div>
 
                 </div>
             </div>
-            
-            <!-- Toggle Replies Button 
+
+            <!-- Toggle Replies Button
     					<span class="float-right">-->
-    					<!-- Shows replies button only if replies exist <span *ngIf="comment.reply.length" class="float-right"> 
+    					<!-- Shows replies button only if replies exist <span *ngIf="comment.reply.length" class="float-right">
     						<button type="button" class="btn btn-sm" (click)="toggleReply(comment.id)" > replies </button>
                         </span>
             -->

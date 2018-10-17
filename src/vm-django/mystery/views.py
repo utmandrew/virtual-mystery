@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.authentication import TokenAuthentication
 
 from .models import Release, Instance
-from .serializers import ReleaseSerializer, ArtifactSerializer
+from .serializers import ReleaseSerializer, ArtifactSerializer, ArtifactSerializerTA
 from release import get_current_release
 
 # Create your views here.
@@ -86,7 +86,7 @@ class GroupsRelaseList(APIView):
                 # releases for mystery <= current_release
                 releases = Release.objects.filter(mystery=mystery.id)
 
-                serializer = ArtifactSerializer(releases, many=True)
+                serializer = ArtifactSerializerTA(releases, many=True)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
