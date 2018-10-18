@@ -26,6 +26,7 @@ import { ReleaseListComponent } from './mystery/release-list/release-list.compon
 import { ArtifactViewComponent } from './artifact-view/artifact-view.component';
 import { TAComponent } from './ta/ta.component';
 import { ResultComponent } from './comment/result/result.component';
+import { ResultViewComponent } from './mystery/release-view/result-view/result-view.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { ResultComponent } from './comment/result/result.component';
   ArtifactViewComponent,
   TAComponent,
   ResultComponent,
+  ResultViewComponent,
   ],
   imports: [
     BrowserModule,
