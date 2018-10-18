@@ -13,7 +13,9 @@ export class ArtifactViewComponent implements OnInit, OnChanges {
   @Input() release: number;
   // error flag
   private error: boolean = false;
-  private  release_data:  Array<object> = [];
+  private release_data:  Array<object> = [];
+  // show clue image flag
+  private show_image: boolean  = true;
 
   constructor(private artifactService: ArtifactserviceService ) { }
 
@@ -32,12 +34,18 @@ export class ArtifactViewComponent implements OnInit, OnChanges {
     this.artifactService.getData(release).subscribe((data:  Array<object>) => {
         this.error = false;
 		this.release_data  =  data;
+		this.show_image = true;
     },
 	error => {
 		// an error occurred during api call
 		this.error = true;
 	});
 
+  }
+  
+  setShowImage(bool: boolean) {
+	  // sets show_image variable to bool
+	  this.show_image = bool;
   }
 
 }
