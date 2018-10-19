@@ -1,3 +1,31 @@
-<p>
-  result-view works!
-</p>
+<div class="container m-3" *ngIf="show_result==true">
+    <!-- when result is clicked we want to see the result for this user for this week -->
+
+    
+    <div class="card bg-dark text-white">
+        <div class="card-body">
+            <h4 class="card-title">Results:</h4>
+            <p class="card-text">
+              {{ result.feedback }}
+            </p>
+            <p>Grade: {{ result.mark }}</p>
+            
+        </div>
+    </div>
+
+</div>
+  
+<div class="container m-3" *ngIf="show_result==false">
+  <button class="btn btn-outline-danger btn-block" (click)="toggleResult()">
+    Show Result
+  </button>
+</div>
+  
+<div class="container m-3" *ngIf="show_result==true">
+  <button class="btn btn-outline-danger btn-block" (click)="toggleResult()">
+    Hide Result
+  </button>
+</div>
+  
+  
+  

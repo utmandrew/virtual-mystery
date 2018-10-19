@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { CommentService } from '../comment.service';
 import { Comment } from '../comment.interface';
 
+
 @Component({
   selector: 'app-commentlist',
   templateUrl: './commentlist.component.html',
@@ -16,15 +17,27 @@ export class CommentlistComponent implements OnInit {
   private comments: Array<Comment> = [];
   // error flag
   error: boolean = false;
+  private show_result = true;
 
-  constructor(private commentService: CommentService) { }
+  private user_comment: Array<object>=[];
+  private result : Array<object>=[];
+
+
+
+  constructor(private commentService: CommentService, ) { }
 
   ngOnInit() {
 	// subscribes to the commentService release value observable
 	this.releaseSubscription = this.commentService.getRelease().subscribe((release: number) => {
 		this.listComment(release);
 	})
+	
+
+
   }
+
+
+ 
 
   ngOnDestroy() {
 	  // ensures no memory leaks
@@ -70,5 +83,5 @@ export class CommentlistComponent implements OnInit {
 		  comment.reply.push($event[1]);
 	  }
   }
-
+  
 }

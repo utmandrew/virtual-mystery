@@ -32,7 +32,8 @@ class CommentList(APIView):
         try:
             instance = request.user.group.instance.all()[0].id
             commented = Comment.objects.filter(instance=instance,
-                                               release=release).exists()
+                                               release=release, 
+                                               owner=request.user.id).exists()
             current_release = get_current_release()
 
             # checks if user has commented on the current release
@@ -157,12 +158,10 @@ class TaCommentList(APIView):
 
         try:
             instance = Instance.objects.filter(group__id=groupId).first()
-            commented = Comment.objects.filter(instance=instance.id,
-                                        release=release, owner=request.user.id)
             current_release = get_current_release()
 
-            # checks if user has commented on the current release
-            if request.user.is_ta or commented or int(release) < current_release:
+            # check if user is a ta to get the release 
+            if request.user.is_ta or int(release) < current_release:
                 comments = Comment.objects.filter(instance=instance,
                                                   release=release)
                 serializer = CommentSerializer(comments, many=True)
@@ -225,13 +224,13 @@ class UserResult(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (permissions.IsAuthenticated,)
 
-    def get(self,request):
+    def get(self,request,release):
 
 
         try:
             
-            results = Result.objects.filter(comment__owner=request.user)
-            serializer = ResultSerializer(results, many=True)
+            results = Result.objects.get(comment__owner=request.user, comment__release = get_current_release())
+            serializer = ResultSerializer(results)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         except AttributeError:

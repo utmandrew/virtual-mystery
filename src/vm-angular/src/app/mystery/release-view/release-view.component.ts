@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, NavigationEnd } from '@angular/router';
 import { MysteryService } from '../mystery.service';
+import {HttpClientModule} from '@angular/common/http';
 
 
 @Component({
