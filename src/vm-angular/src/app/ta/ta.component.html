@@ -119,9 +119,39 @@
                         </div>
                         <input class="form-control" type="text" placeholder="Your mark" [(ngModel)] = "result.mark">
                     </div>
+                    <!--
+                    <button class="btn btn-outline-danger float-right" (click)="sendResult(result, comment.id)"> Submit </button>
+                    
+                    Button trigger modal -->
 
-                    <button class="btn btn-outline-danger float-right" [disabled]="comment.marked==true" (click)="sendResult(result, comment.id)"> Submit </button>
-                  </div>
+                    <button type="button" class="btn btn-outline-danger float-right" data-toggle="modal" data-target="#confirmModal">
+                        Submit
+                    </button>
+                    
+                    <!-- Modal -->
+                    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Confirm mark for  {{ comment.username }}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                                <p> Feedback: {{ result.feedback }}  </p>
+                                <p> Mark:  {{ result.mark  }}</p>
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Change</button>
+                            <button type="button" class="btn btn-primary" (click)="sendResult(result, comment.id)" data-dismiss="modal">Submit Result</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                
+                </div>
+
                   <div *ngIf="comment.marked">
                       <p class="card-text font-italic"> Feedback: {{ comment.result[0].feedback }}</p>
                       <p class="card-text font-italic"> Mark: {{ comment.result[0].mark }}</p>
