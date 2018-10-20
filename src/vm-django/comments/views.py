@@ -224,7 +224,7 @@ class UserResult(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (permissions.IsAuthenticated,)
 
-    def get(self,request,release):
+    def get(self,request):
 
 
         try:
