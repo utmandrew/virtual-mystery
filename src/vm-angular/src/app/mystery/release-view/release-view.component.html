@@ -10,8 +10,8 @@
 	<!-- release navigation buttons -->
 	<div class="btn-toolbar mx-auto my-3" style="width: 200px;">
 		<div class="btn-group">
-		<button (click)="previousRelease()" [disabled]="release == 1" class="btn btn-primary" > Previous Clue </button>
-		<button (click)="nextRelease()" [disabled]="mysteryService.getRelease() == release" class="btn btn-primary" > Next Clue </button>
+		<button (click)="previousRelease()" [disabled]="release == 1" class="btn btn-sm btn-dark" > Previous Clue </button>
+		<button (click)="nextRelease()" [disabled]="mysteryService.getRelease() == release" class="btn btn-sm btn-dark" > Next Clue </button>
 		</div>
 	</div>
 
