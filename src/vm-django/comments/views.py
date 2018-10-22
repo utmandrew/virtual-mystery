@@ -240,6 +240,30 @@ class UserResult(APIView):
             # catches if an object (instance) does not exist
             return Response(status=status.HTTP_400_BAD_REQUEST)
         
+class UserGradesList(APIView):
+    """
+    Sends the User's Result for the indicated week 
+    """
+
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self,request):
+
+        try:
+            
+            #results = Result.objects.get(comment__owner=request.user, comment__release = get_current_release())
+            comments = Comment.objects.filter(owner= request.user)
+            print(comments)
+            serializer = CommentSerializer(comments, many = True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        except AttributeError:
+            # catches if an attribute does not exist
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        except ObjectDoesNotExist:
+            # catches if an object (instance) does not exist
+            return Response(status=status.HTTP_400_BAD_REQUEST)
         
 
 

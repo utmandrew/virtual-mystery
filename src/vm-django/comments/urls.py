@@ -10,6 +10,8 @@ urlpatterns = [
     url(r'^(?P<release>[0-9]*)/(?P<groupId>.*)$', views.TaCommentList.as_view(),name='ta_comment_list'),
     url(r'^resultCreate$', views.ResultCreate.as_view(), name='result_create'),
     url(r'^userResult$', views.UserResult.as_view(), name='user_result'),
+    url(r'^userGrades$', views.UserGradesList.as_view(), name='user_grades'),
+
 
 
 

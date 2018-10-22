@@ -27,6 +27,7 @@ import { ArtifactViewComponent } from './artifact-view/artifact-view.component';
 import { TAComponent } from './ta/ta.component';
 
 import { ResultViewComponent } from './mystery/release-view/result-view/result-view.component';
+import { GradesComponent } from './grades/grades.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,8 @@ import { ResultViewComponent } from './mystery/release-view/result-view/result-v
   TAComponent,
 
   ResultViewComponent,
+
+  GradesComponent,
   ],
   imports: [
     BrowserModule,
