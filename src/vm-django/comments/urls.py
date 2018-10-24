@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^resultCreate$', views.ResultCreate.as_view(), name='result_create'),
     url(r'^userResult$', views.UserResult.as_view(), name='user_result'),
     url(r'^userGrades$', views.UserGradesList.as_view(), name='user_grades'),
+    url(r'^taCreate$', views.TaCommentCreate.as_view(), name='ta_comment_create'),
 
 
 

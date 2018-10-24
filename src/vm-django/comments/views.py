@@ -32,7 +32,7 @@ class CommentList(APIView):
         try:
             instance = request.user.group.instance.all()[0].id
             commented = Comment.objects.filter(instance=instance,
-                                               release=release, 
+                                               release=release,
                                                owner=request.user.id).exists()
             current_release = get_current_release()
 
@@ -160,7 +160,7 @@ class TaCommentList(APIView):
             instance = Instance.objects.filter(group__id=groupId).first()
             current_release = get_current_release()
 
-            # check if user is a ta to get the release 
+            # check if user is a ta to get the release
             if request.user.is_ta or int(release) < current_release:
                 comments = Comment.objects.filter(instance=instance,
                                                   release=release)
@@ -218,7 +218,7 @@ class ResultCreate(APIView):
 
 class UserResult(APIView):
     """
-    Sends the User's Result for the indicated week 
+    Sends the User's Result for the indicated week
     """
 
     authentication_classes = (TokenAuthentication,)
@@ -228,7 +228,7 @@ class UserResult(APIView):
 
 
         try:
-            
+
             results = Result.objects.get(comment__owner=request.user, comment__release = get_current_release())
             serializer = ResultSerializer(results)
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -239,10 +239,10 @@ class UserResult(APIView):
         except ObjectDoesNotExist:
             # catches if an object (instance) does not exist
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        
+
 class UserGradesList(APIView):
     """
-    Sends the User's Result for the indicated week 
+    Sends the User's Result for the indicated week
     """
 
     authentication_classes = (TokenAuthentication,)
@@ -251,7 +251,7 @@ class UserGradesList(APIView):
     def get(self,request):
 
         try:
-            
+
             #results = Result.objects.get(comment__owner=request.user, comment__release = get_current_release())
             comments = Comment.objects.filter(owner= request.user)
             print(comments)
@@ -264,8 +264,37 @@ class UserGradesList(APIView):
         except ObjectDoesNotExist:
             # catches if an object (instance) does not exist
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        
 
 
 
+class TaCommentCreate(APIView):
+    """
+    Creates a new comment.
+    """
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (permissions.IsAuthenticated,)
 
+    def post(self, request):
+        """
+        Creates a comment through info submitted in a post request.
+        """
+        print(request.data)
+        instance = Instance.objects.filter(group=request.data['group'], mystery=request.data['mystery']).first()
+        release = request.data['release']
+        # checks if mystery start date has been reached
+        if release > 0:
+            # (.copy returns a mutable QueryDict object)
+            data = request.data.copy()
+            data['owner'] = request.user.id
+            data['instance'] = instance.id
+            data['release'] = release
+
+            serializer = CommentSerializer(data=data)
+
+            if serializer.is_valid():
+                # creates comment
+                serializer.save()
+                return Response(status=status.HTTP_201_CREATED)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)

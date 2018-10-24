@@ -46,5 +46,9 @@ export class TAService {
     return this.httpClient.post(`${this.API_URL}/comment/resultCreate`,data);
   }
 
+  createTaComment(data){
+    return this.httpClient.post(`${this.API_URL}/comment/taCreate`,data);
+  }
+
 
 }

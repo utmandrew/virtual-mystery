@@ -78,7 +78,6 @@ class GroupsRelaseList(APIView):
 
     def get(self, request, groupId):
         try:
-            print("HELLOOOWE WORDL")
             current_release = get_current_release()
             # checks if mystery has reached start date
             if current_release > 0 and request.user.is_ta :

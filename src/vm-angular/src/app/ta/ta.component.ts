@@ -36,6 +36,13 @@ export class TAComponent implements OnInit {
     id: Number,
   };
 
+  private taComment: any = {
+    release: Number,
+    mystery: Number,
+    text: String,
+    group: Number,
+  };
+
   constructor(private taService: TAService) { }
 
   ngOnInit() {
@@ -156,6 +163,7 @@ export class TAComponent implements OnInit {
     this.taService.getGroupsComments(groupId, release).subscribe((data: Array<object>)=> {
       this.error = false;
     this.groups_comments = data;
+    this.taComment.text = '';
     console.log(data);
     },
     error => {
@@ -209,6 +217,31 @@ export class TAComponent implements OnInit {
     );
     console.log(this.chosen_user)
     //this.chosenUser(this.chosen_user);
+
+
+
+  }
+
+  public createTaComment(release, mystery){
+    this.taComment.release = release;
+    this.taComment.mystery = mystery;
+    this.taComment.group = this.chosen_group;
+
+    this.taService.createTaComment(this.taComment).subscribe((response)=>{
+      this.error = false;
+      //this.reinitialize();
+      this.getGroupsComments(this.chosen_group, this.curr_release);
+      this.taComment.text = '';
+    },
+    error => {
+      if(error.status === 400){
+        this.chosenPractical(this.chosen_practical);
+
+      }
+      this.error = true;
+    }
+
+    );
 
 
 
