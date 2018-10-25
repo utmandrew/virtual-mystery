@@ -7,7 +7,7 @@
 		</button>
 
 		<div class="collapse navbar-collapse" id="navbarNav">
-		<ul class="ml-auto navbar-nav" *ngIf="authService.getUser()" >
+		<ul class="ml-auto navbar-nav" *ngIf="getAuthUser()" >
 
 			<li class="nav-item">
 				<a class ="nav-link" (click)="currentClue()">Current clue</a>

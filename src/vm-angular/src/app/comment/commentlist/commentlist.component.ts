@@ -69,5 +69,10 @@ export class CommentlistComponent implements OnInit {
 		  comment.reply.push($event[1]);
 	  }
   }
+  
+  getComments() {
+	  // used in html
+	  return this.comments;
+  }
 
 }

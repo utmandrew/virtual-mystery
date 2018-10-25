@@ -1,2 +1,2 @@
-<app-commentlist *ngIf="commentService.showComments" ></app-commentlist>
-<app-commentcreate *ngIf="!commentService.showComments" ></app-commentcreate>
+<app-commentlist *ngIf="getShowComments()" ></app-commentlist>
+<app-commentcreate *ngIf="!getShowComments()" ></app-commentcreate>

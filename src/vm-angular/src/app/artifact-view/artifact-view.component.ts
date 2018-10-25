@@ -1,6 +1,7 @@
 import { Component, OnInit, OnChanges, Input } from '@angular/core';
 import { ArtifactserviceService } from './artifactservice.service';
 import { HttpService } from '../http.service';
+import { Release } from './release-data.interface';
 import { CommentComponent } from '../comment/comment.component';
 
 @Component({
@@ -12,10 +13,10 @@ export class ArtifactViewComponent implements OnInit, OnChanges {
 
   @Input() release: number;
   // error flag
-  private error: boolean = false;
-  private release_data:  Array<object> = [];
+  public error: boolean = false;
+  public release_data: Release;
   // show clue image flag
-  private show_image: boolean  = true;
+  public show_image: boolean  = true;
 
   constructor(private artifactService: ArtifactserviceService ) { }
 
@@ -31,7 +32,7 @@ export class ArtifactViewComponent implements OnInit, OnChanges {
   /* Calls artifact service function getData with the inputted release and assigns the return value to data variable */
   public getData(release: number) {
     
-    this.artifactService.getData(release).subscribe((data:  Array<object>) => {
+    this.artifactService.getData(release).subscribe((data: Release) => {
         this.error = false;
 		this.release_data  =  data;
 		this.show_image = true;

@@ -20,4 +20,9 @@ export class AppComponent {
 	  this.router.navigate(['mystery/release', release]);
   }
   
+  getAuthUser() {
+	  // Used in html
+	  return this.authService.getUser();
+  }
+  
 }
