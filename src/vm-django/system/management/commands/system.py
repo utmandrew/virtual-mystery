@@ -10,6 +10,9 @@ from system.models import Practical, Group
 
 # private directory relative path
 STATIC_DIR = os.path.join("system", "private")
+# makes static dir if it doesn't already exist
+if not os.path.exists(STATIC_DIR):
+    os.makedirs(STATIC_DIR)
 
 # user model
 UserModel = get_user_model()
