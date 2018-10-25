@@ -254,7 +254,7 @@ class UserGradesList(APIView):
 
             #results = Result.objects.get(comment__owner=request.user, comment__release = get_current_release())
             comments = Comment.objects.filter(owner= request.user)
-            print(comments)
+
             serializer = CommentSerializer(comments, many = True)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -278,7 +278,7 @@ class TaCommentCreate(APIView):
         """
         Creates a comment through info submitted in a post request.
         """
-        print(request.data)
+
         instance = Instance.objects.filter(group=request.data['group'], mystery=request.data['mystery']).first()
         release = request.data['release']
         # checks if mystery start date has been reached
@@ -298,3 +298,5 @@ class TaCommentCreate(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+

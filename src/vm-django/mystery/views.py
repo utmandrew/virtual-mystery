@@ -83,7 +83,7 @@ class GroupsRelaseList(APIView):
             if current_release > 0 and request.user.is_ta :
                 mystery = Instance.objects.get(group__id=groupId).mystery
                 # releases for mystery <= current_release
-                print(mystery.id)
+
                 releases = Release.objects.filter(mystery=mystery.id)
 
                 serializer = ArtifactSerializerTA(releases, many=True)

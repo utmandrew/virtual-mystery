@@ -49,7 +49,7 @@ class ArtifactViewData(APIView):
         mystery_name = Mystery.objects.get(pk=1)
 
         mystery_ob = Release.objects.get(pk=current_week)
-        #print( Release.objects.get(pk=1))
+
 
 
         # Need to implement a method to assign mysteries to groups in a list format
