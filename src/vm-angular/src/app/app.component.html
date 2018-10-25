@@ -7,24 +7,23 @@
 		</button>
 
 		<div class="collapse navbar-collapse" id="navbarNav">
-		<ul class="ml-auto navbar-nav" >
+		<ul class="ml-auto navbar-nav" *ngIf="!is_ta.is_ta" >
 
 			<li class="nav-item">
-				<a class ="nav-link font-weight-bold" (click)="currentClue()">Current clue</a>
+				<a class ="nav-link font-weight-bold" (click)="currentClue()">Current Clue</a>
 			</li>
-			
+		
+		
 			<li class="nav-item">
 				<a class ="nav-link font-weight-bold" routerLink="mystery/release/list">Overview</a>
 			</li>
-
-			<li class="nav-item">
-				<a class ="nav-link font-weight-bold" >Group</a>
-			</li>
 			
-			<li class="nav-item">
+			
+			<li class="nav-item" >
 				<a class ="nav-link font-weight-bold" routerLink="grades">Grades</a>
 			</li>
-			
+
+
 			<!-- Logout Button -->
 			<li class="nav-item">
 				<div class="nav navbar-nav navbar-right" >
@@ -32,6 +31,24 @@
 				</div>
 			</li>
 
+		</ul>
+
+		<ul class="ml-auto navbar-nav" *ngIf="is_ta.is_ta">
+
+			<li class="nav-item">
+				<a class ="nav-link font-weight-bold" routerLink="taview">Home</a>
+			</li>
+			
+			<li class="nav-item">
+				<a class ="nav-link font-weight-bold" routerLink="taview">Instructions</a>
+			</li>
+
+			<li class="nav-item">
+				<div class="nav navbar-nav navbar-right" >
+					<app-logout *ngIf="authService.getUser()" ></app-logout>
+				</div>
+			</li>
+			
 		</ul>
 		</div>
 	</div>

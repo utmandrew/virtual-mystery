@@ -39,12 +39,12 @@ export class ResultViewComponent implements OnInit {
       this.error = false;
     this.result= data;
 
-    console.log(data);
+
     },
 
     error => {
       // ann error on the API call
-      console.log("hi");
+
       this.error=true;
     });
 

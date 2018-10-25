@@ -7,6 +7,7 @@ import { ReleaseListComponent } from '../mystery/release-list/release-list.compo
 import { NotFoundComponent } from '../not-found.component';
 import { AuthGuardService } from '../auth/auth-guard.service';
 import { GradesComponent } from '../grades/grades.component';
+import { TAComponent } from '../ta/ta.component';
 
 const routes: Routes = [
 	{ path: '', redirectTo: 'auth', pathMatch: 'full' },
@@ -24,7 +25,8 @@ const routes: Routes = [
 	},
 	{ path: 'grades', component: GradesComponent },
 
-	
+	{path: 'taview', component: TAComponent},
+
 	// Make sure ** is the last path!
 	{ path: '**', component: NotFoundComponent }
 ];

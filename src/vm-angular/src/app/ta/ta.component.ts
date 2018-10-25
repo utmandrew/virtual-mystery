@@ -94,7 +94,7 @@ export class TAComponent implements OnInit {
     this.taService.getPracticals().subscribe((data: Array<object>)=> {
       this.error = false;
     this.practical_data = data;
-    console.log(data);
+
     },
 
     error => {
@@ -110,7 +110,7 @@ export class TAComponent implements OnInit {
       this.error = false;
     this.group_data = data;
 
-    console.log(data);
+
     },
 
     error => {
@@ -123,7 +123,7 @@ export class TAComponent implements OnInit {
     this.taService.getUsers(groupId).subscribe((data: Array<object>)=> {
       this.error = false;
     this.list_users = data;
-    console.log(data);
+
     },
     error => {
       // ann error on the API call
@@ -135,7 +135,7 @@ export class TAComponent implements OnInit {
     this.taService.getComment(userName).subscribe((data: Array<object>)=> {
       this.error = false;
     this.user_comment = data;
-    console.log(data);
+
     },
     error => {
       // ann error on the API call
@@ -149,8 +149,8 @@ export class TAComponent implements OnInit {
 
     this.groups_relases = data;
     this.curr_release = data.length;
-    console.log(data);
-    console.log(this.curr_release);
+
+
     this.getGroupsComments(groupId, this.curr_release);
     },
     error => {
@@ -164,7 +164,7 @@ export class TAComponent implements OnInit {
       this.error = false;
     this.groups_comments = data;
     this.taComment.text = '';
-    console.log(data);
+
     },
     error => {
       // ann error on the API call
@@ -198,7 +198,7 @@ export class TAComponent implements OnInit {
     result.id = id;
 
 
-    console.log(result);
+
 
     this.taService.sendResult(result).subscribe((response)=>{
       this.error = false;
@@ -215,7 +215,7 @@ export class TAComponent implements OnInit {
     }
 
     );
-    console.log(this.chosen_user)
+
     //this.chosenUser(this.chosen_user);
 
 

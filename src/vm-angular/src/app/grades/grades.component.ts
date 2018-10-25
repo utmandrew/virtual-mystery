@@ -24,7 +24,7 @@ export class GradesComponent implements OnInit {
     this.gradesService.getGradesList().subscribe((data: Array<object>)=> {
       this.error = false;
     this.list_comments = data;
-    console.log(data);
+
     },
     error => {
       // ann error on the API call
