@@ -25,4 +25,4 @@ class ProfileSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = User
-        fields = ('username','group')
+        fields = ('first_name','group')

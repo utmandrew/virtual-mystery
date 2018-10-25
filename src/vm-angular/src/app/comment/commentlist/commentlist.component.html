@@ -2,8 +2,8 @@
 <p class="alert alert-warning text-center" *ngIf="error"> <strong>An error occurred, please try again.</strong> </p>
 
 <!-- No Comments Message -->
-<div *ngIf="comments.length == 0"> 
-	<p class="alert alert-warning font-weight-bold text-center">No comments to display.</p> 
+<div *ngIf="comments.length == 0">
+	<p class="alert alert-warning font-weight-bold text-center">No comments to display.</p>
 </div>
 
 <!-- Comments -->
@@ -15,11 +15,12 @@
 				<img src="assets/misc/profile.png" class="media-object" style="width:50px">
 			</div>
 			<div class="media-body">
+
 				<h6 class="text-uppercase font-weight-bold media-heading rounded">{{ comment.username }} </h6>
-				<p class= "lead rounded bg-info text-light p-2 pb-3">{{ comment.text }}</p>
+				<p class= "lead rounded text-light p-2 pb-3" [ngClass]="{'bg-dark': comment.is_ta===true , 'bg-info': comment.is_ta===false}">{{ comment.text }}</p>
 
 
-				<button type="button" class="p-2 m-2 btn btn-outline-dark btn-sm btn-block" (click)="toggleReply(comment.id)" > replies </button> 
+				<button type="button" class="p-2 m-2 btn btn-outline-dark btn-sm btn-block" (click)="toggleReply(comment.id)" > replies </button>
 
 
 				<div *ngIf="comment.show_replies" >
@@ -32,21 +33,18 @@
 											<h6 class=" text-uppercase font-weight-bold media-heading rounded ">{{ reply.username }}</h6>
 											<p class="lead rounded bg-info text-light p-2">{{ reply.text }}
 											</p>
-									
+
 										</div>
 									</div>
 						</div>
 						<!-- ReplyCreate Component -->
 						<app-replycreate [parentId]="comment.id"  (replyEvent)="recieveReply($event)" ></app-replycreate>
 					</div>
-				
+
 			</div>
 		</div>
-		
+
 		<!-- Replies -->
-		
+
 	</div>
 </div>
-
-
-

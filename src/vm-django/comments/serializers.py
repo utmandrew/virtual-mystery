@@ -6,7 +6,7 @@ class ReplySerializer(serializers.ModelSerializer):
     """
     Serializes/Deserializes and creates reply class objects.
     """
-    username = serializers.CharField(source='owner.username', read_only=True)
+    username = serializers.CharField(source='owner.first_name', read_only=True)
 
     class Meta:
         model = Reply
@@ -36,7 +36,7 @@ class CommentSerializer(serializers.ModelSerializer):
     """
     reply = ReplySerializer(many=True, read_only=True)
     result = ResultSerializer(many=True, read_only=True)
-    username = serializers.CharField(source='owner.username', read_only=True)
+    username = serializers.CharField(source='owner.first_name', read_only=True)
     is_ta = serializers.BooleanField(source='owner.is_ta', read_only=True)
 
     class Meta:

@@ -45,7 +45,7 @@
         </button>
         <div class="dropdown-menu">
             <div *ngFor="let user of list_users">
-                <button (click)="chosenUser(user.username)" class="dropdown-item" > {{ user.username }}</button>
+                <button (click)="chosenUser(user.first_name)" class="dropdown-item" > {{ user.first_name }}</button>
             </div>
         </div>
   </div>
