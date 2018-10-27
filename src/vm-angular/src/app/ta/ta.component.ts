@@ -28,6 +28,8 @@ export class TAComponent implements OnInit {
 
   private user_comment: Array<object>=[];
 
+  private edit: Boolean = false;
+
 
   // the result for a student given by the t.a
   private result: any = {
@@ -199,7 +201,7 @@ export class TAComponent implements OnInit {
 
 
 
-
+    console.log(result);
     this.taService.sendResult(result).subscribe((response)=>{
       this.error = false;
       //this.reinitialize();
@@ -245,6 +247,20 @@ export class TAComponent implements OnInit {
 
 
 
+  }
+
+  public toggleEdit(feedback, mark, id){
+    this.result.id = id;
+    if (this.edit == false){
+      this.edit = true;
+    }else{
+      this.edit = false;
+    }
+  }
+  public selectEdit(feedback,mark){
+    this.result.feedback = feedback;
+    this.result.mark = mark;
+    
   }
 
 }

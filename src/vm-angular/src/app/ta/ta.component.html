@@ -177,8 +177,31 @@
                 </div>
 
                   <div *ngIf="comment.marked">
-                      <p class="card-text font-italic"> Feedback: {{ comment.result[0].feedback }}</p>
-                      <p class="card-text font-italic"> Mark: {{ comment.result[0].mark }}</p>
+                        <p class="card-text font-italic"> Feedback: {{ comment.result[0].feedback }}</p>
+                        <p class="card-text font-italic"> Mark: {{ comment.result[0].mark }}</p>
+
+                        <button *ngIf="edit==false" class="btn btn-outline-light float-right" (click)="toggleEdit(); selectEdit(comment.result[0].feedback,comment.result[0].mark)"> 
+                            Edit Marks 
+                        </button>
+
+                        <div *ngIf="edit==true">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Feedback</span>
+                                </div>
+                                <input class="form-control" type="text" placeholder="Your feedback" [(ngModel)] = "result.feedback">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Mark</span>
+                                </div>
+                                <input class="form-control" type="text" placeholder="Your mark" [(ngModel)] = "result.mark">
+                            </div>
+
+                            <button class="btn btn-light float-right" (click)="sendResult(result, comment.id); toggleEdit()"> Submit </button>
+                            <button class="btn btn-light mr -2 float-right" (click)="toggleEdit()"> Cancel </button>
+                        </div>
+
                   </div>
 
                 </div>

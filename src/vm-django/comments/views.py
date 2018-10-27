@@ -197,6 +197,13 @@ class ResultCreate(APIView):
             # check if user is ta
             data = request.data.copy()
             comment = Comment.objects.get(id=request.data.get('id'))
+            
+            # #Update the result
+            if comment.marked==True:
+                Result.objects.filter(comment=comment).update(mark=data['mark'],feedback=data['feedback'])
+                return Response(status=status.HTTP_201_CREATED)
+
+            #Create a result
             if request.user.is_ta and (comment.marked==False):
                 data['owner'] = request.user.username
                 data['comment'] = comment.id
