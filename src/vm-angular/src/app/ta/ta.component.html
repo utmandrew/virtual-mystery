@@ -110,13 +110,6 @@
 <!-- Top for this group -->
   <div *ngIf="groups_comments.length > 0" >
   	<div class="container m-0 p-0" *ngFor="let comment of groups_comments">
-
-      <div class="card my-3" *ngIf="comment.is_ta">
-        <div class="card-body">
-          <div class="card-title font-weight-bold text-uppercase"> TA: {{ comment.username }}</div>
-          <p class="card-text font-italic"> {{ comment.text }}</p>
-        </div>
-      </div>
       <div *ngIf="(comment.username == chosen_user || chosen_user == 'Choose User') && !(comment.is_ta) ">
         <!-- Top Level Comments -->
 
@@ -180,8 +173,8 @@
                         <p class="card-text font-italic"> Feedback: {{ comment.result[0].feedback }}</p>
                         <p class="card-text font-italic"> Mark: {{ comment.result[0].mark }}</p>
 
-                        <button *ngIf="edit==false" class="btn btn-outline-light float-right" (click)="toggleEdit(); selectEdit(comment.result[0].feedback,comment.result[0].mark)"> 
-                            Edit Marks 
+                        <button *ngIf="edit==false" class="btn btn-outline-light float-right" (click)="toggleEdit(); selectEdit(comment.result[0].feedback,comment.result[0].mark)">
+                            Edit Marks
                         </button>
 
                         <div *ngIf="edit==true">
@@ -229,6 +222,14 @@
 
   		</div>
   	</div>
+    <div class="container m-0 p-0" *ngFor="let comment of groups_comments" >
+      <div class="card my-3" *ngIf="comment.is_ta">
+        <div class="card-body">
+          <div class="card-title font-weight-bold text-uppercase"> TA: {{ comment.username }}</div>
+          <p class="card-text font-italic"> {{ comment.text }}</p>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- release navigation buttons -->
