@@ -1,0 +1,21 @@
+<div *ngFor="let comment of list_comments">
+    <div class="card my-3" [ngClass]="{'bg-info text-white': comment.marked===true}">
+
+        <div class="card-body">
+
+            <div class="card-title font-weight-bold text-uppercase">{{ comment.username }}</div>
+
+            <p class="card-text font-italic"> My Comment: {{ comment.text }}</p>
+
+            <div *ngIf="comment.marked===true">
+              <p>T.A's Feedback: {{ comment.result[0].feedback }}</p>
+              <p>My Mark: {{ comment.result[0].mark }}</p>
+            </div>
+            <div *ngIf="!comment.marked===true">
+              <p>Your submission is still being marked :) </p>
+            </div>
+        </div>
+    </div>
+
+  </div>
+

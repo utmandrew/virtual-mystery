@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.db.models.signals import post_save
 
 # Create your models here.
 
@@ -32,5 +31,8 @@ class User(AbstractUser):
     """
     # refers to a users group
     # remove null=True when in production (used for admin accounts)
+
+    is_ta = models.BooleanField(default=False)
+    
     group = models.ForeignKey(Group, null=True, related_name='profile',
                               on_delete=models.CASCADE)

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '../http.service';
+import {HttpClientModule} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -27,5 +28,11 @@ export class MysteryService {
 		sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
 	  }
   }
+ 
+  getUserVerified(){
+    // API  call to get all the groups
+    return this.httpClient.get(`${this.API_URL}/system/userCheck/`)
+  }
+  
   
 }

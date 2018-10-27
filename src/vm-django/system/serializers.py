@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Profile, Group, Practical
+from .models import User, Group, Practical
 
 
 class PracticalSerializer(serializers.ModelSerializer):
@@ -8,7 +8,7 @@ class PracticalSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Practical
-        fields = ('id',)
+        fields = ('id','name')
 
 class GroupSerializer(serializers.ModelSerializer):
     """
@@ -24,5 +24,5 @@ class ProfileSerializer(serializers.ModelSerializer):
     Serializes/Deserializes Profile class objects
     """
     class Meta:
-        model = Profile
-        fields = ('group',)
+        model = User
+        fields = ('first_name','group')

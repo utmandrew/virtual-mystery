@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { CommentService } from '../comment.service';
 import { Comment } from '../comment.interface';
 
+
 @Component({
   selector: 'app-commentlist',
   templateUrl: './commentlist.component.html',
@@ -16,40 +17,53 @@ export class CommentlistComponent implements OnInit {
   private comments: Array<Comment> = [];
   // error flag
   error: boolean = false;
+  private show_result = true;
 
-  constructor(private commentService: CommentService) { }
+  private user_comment: Array<object>=[];
+  private result : Array<object>=[];
+
+
+
+  constructor(private commentService: CommentService, ) { }
 
   ngOnInit() {
 	// subscribes to the commentService release value observable
 	this.releaseSubscription = this.commentService.getRelease().subscribe((release: number) => {
 		this.listComment(release);
 	})
+	
+
+
   }
-  
+
+
+ 
+
   ngOnDestroy() {
 	  // ensures no memory leaks
 	  if (this.releaseSubscription) {
 		  this.releaseSubscription.unsubscribe();
 	  }
   }
-  
+
   /* requests and displays instance comments for a specific release */
   public listComment(release) {
 	  this.commentService.listComment(release).subscribe((data: Array<Comment>) => {
 		  this.comments = data;
+
 		  this.error = false;
 	  },
 	  error => {
 		  if (error.status === 403) {
 			  // 403 indicates that user has not submitted a comment
-			  
+
 			  // redirect to comment create component
 			  this.commentService.showComments = false;
 		  }
 		  this.error = true
 	  });
   }
-  
+
   /* toggles show_replies flag for CommentInterface object */
   public toggleReply(id) {
 	  var comment = this.comments.find(c => c.id === id);
@@ -61,7 +75,7 @@ export class CommentlistComponent implements OnInit {
 		  }
 	  }
   }
-  
+
   /* recieves newly created reply from replycreate component and adds it to it's parent comment reply list*/
   private recieveReply($event) {
 	  var comment = this.comments.find(c => c.id === $event[0]);
@@ -74,5 +88,5 @@ export class CommentlistComponent implements OnInit {
 	  // used in html
 	  return this.comments;
   }
-
+  
 }

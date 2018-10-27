@@ -170,8 +170,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 # https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior
 
 DATETIME_FORMAT = "%d/%m/%Y %H:%M:%S"
-# mystery start datetime (in datetime format)
 
+# mystery start datetime (in datetime format)
 START_DATETIME = "07/10/2018 00:00:00"
 
 # time interval in days

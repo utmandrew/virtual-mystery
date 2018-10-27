@@ -15,66 +15,34 @@
 				<img src="assets/misc/profile.png" class="media-object" style="width:50px">
 			</div>
 			<div class="media-body">
+
 				<h6 class="text-uppercase font-weight-bold media-heading rounded">{{ comment.username }} </h6>
-				<p class= "lead rounded bg-info text-light p-2 pb-3">{{ comment.text }}</p>
+				<p class= "lead rounded text-light p-2 pb-3" [ngClass]="{'bg-dark': comment.is_ta===true , 'bg-info': comment.is_ta===false}">{{ comment.text }}</p>
 
 
-				<button type="button" class="p-2 m-2 btn btn-outline-dark btn-sm btn-block" (click)="toggleReply(comment.id)" > replies </button> 
+				<button type="button" class="p-2 m-2 btn btn-outline-dark btn-sm btn-block" (click)="toggleReply(comment.id)" > replies </button>
 
 				<!-- Replies -->
 
 				<div *ngIf="comment.show_replies" >
-						<div class="container" *ngFor="let reply of comment.reply" >
-								<div class="media">
-										<div class="media-left">
-											<img src="assets/misc/profile.png" class="media-object" style="width:50px">
-										</div>
-										<div class="media-body rounded">
-											<h6 class=" text-uppercase font-weight-bold media-heading rounded ">{{ reply.username }}</h6>
-											<p class="lead rounded bg-info text-light p-2">{{ reply.text }}
-											</p>
-									
-										</div>
+					<div class="container" *ngFor="let reply of comment.reply" >
+							<div class="media">
+									<div class="media-left">
+										<img src="assets/misc/profile.png" class="media-object" style="width:50px">
 									</div>
-						</div>
-						<!-- ReplyCreate Component -->
-						<app-replycreate [parentId]="comment.id"  (replyEvent)="recieveReply($event)" ></app-replycreate>
+									<div class="media-body rounded">
+										<h6 class=" text-uppercase font-weight-bold media-heading rounded ">{{ reply.username }}</h6>
+										<p class="lead rounded bg-info text-light p-2">{{ reply.text }}
+										</p>
+
+									</div>
+								</div>
 					</div>
-				
+					<!-- ReplyCreate Component -->
+					<app-replycreate [parentId]="comment.id"  (replyEvent)="recieveReply($event)" ></app-replycreate>
+				</div>		
 			</div>
 		</div>
 	</div>
 </div>
 
-
-
-
-<!-- inside the comment body 
-<div class="media">
-		<div class="media-left">
-			<img src="assets/misc/profile.png" class="media-object" style="width:50px">
-		</div>
-		<div class="media-body rounded">
-			<h6 class=" text-uppercase font-weight-bold media-heading rounded ">Name</h6>
-			<p class="lead rounded bg-info text-light p-1">Comment
-			</p>
-	
-		</div>
-	</div>
--->
-
-<!-- old
-<div class="alert alert-primary p-2 m-1" >
-		<p class="alert-heading font-weight-bold" >{{ comment.username }}</p>
-		<div class="pl-4" >
-			<p>
-				{{ comment.text }}
-
-				<span class="float-right"> 
-
-					<button type="button" class="btn btn-sm" (click)="toggleReply(comment.id)" > replies </button> 
-				</span>
-			</p>
-		</div>
-	</div>
--->

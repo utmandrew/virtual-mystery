@@ -18,7 +18,7 @@ export class ArtifactViewComponent implements OnInit, OnChanges {
   // show clue image flag
   public show_image: boolean  = true;
 
-  constructor(private artifactService: ArtifactserviceService ) { }
+  constructor(private artifactService: ArtifactserviceService) { }
 
   ngOnInit() {
     this.getData(this.release);
@@ -33,14 +33,14 @@ export class ArtifactViewComponent implements OnInit, OnChanges {
   public getData(release: number) {
     
     this.artifactService.getData(release).subscribe((data: Release) => {
-        this.error = false;
-		this.release_data  =  data;
-		this.show_image = true;
+      this.error = false;
+		  this.release_data  =  data;
+		  this.show_image = true;
     },
-	error => {
-		// an error occurred during api call
-		this.error = true;
-	});
+	  error => {
+		  // an error occurred during api call
+		  this.error = true;
+	  });
 
   }
   

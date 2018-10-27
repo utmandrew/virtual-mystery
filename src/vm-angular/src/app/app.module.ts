@@ -24,6 +24,11 @@ import { ReleaseViewComponent } from './mystery/release-view/release-view.compon
 import { NotFoundComponent } from './not-found.component';
 import { ReleaseListComponent } from './mystery/release-list/release-list.component';
 import { ArtifactViewComponent } from './artifact-view/artifact-view.component';
+import { TAComponent } from './ta/ta.component';
+
+import { ResultViewComponent } from './mystery/release-view/result-view/result-view.component';
+import { GradesComponent } from './grades/grades.component';
+import { TaInstructionsComponent } from './ta-instructions/ta-instructions.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +45,13 @@ import { ArtifactViewComponent } from './artifact-view/artifact-view.component';
 	ReleaseViewComponent,
   ReleaseListComponent,
   ArtifactViewComponent,
+  TAComponent,
+
+  ResultViewComponent,
+
+  GradesComponent,
+
+  TaInstructionsComponent,
   ],
   imports: [
     BrowserModule,
