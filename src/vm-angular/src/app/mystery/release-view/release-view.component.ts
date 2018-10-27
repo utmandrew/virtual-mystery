@@ -27,7 +27,7 @@ export class ReleaseViewComponent implements OnInit, OnDestroy {
   }
 
   // selected release
-  private release: number;
+  public release: number;
   // router event observable subscription
   navigationSubscription;
 
@@ -65,6 +65,11 @@ export class ReleaseViewComponent implements OnInit, OnDestroy {
 	  if (this.release > 1) {
 		this.router.navigate(['mystery/release', this.release - 1]);
 	  }
+  }
+  
+  getMysteryRelease() {
+	  // used in html
+	  return this.mysteryService.getRelease();
   }
 
   public getUserVerified(){

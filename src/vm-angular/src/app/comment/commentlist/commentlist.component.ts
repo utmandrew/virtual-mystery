@@ -84,4 +84,9 @@ export class CommentlistComponent implements OnInit {
 	  }
   }
   
+  getComments() {
+	  // used in html
+	  return this.comments;
+  }
+  
 }

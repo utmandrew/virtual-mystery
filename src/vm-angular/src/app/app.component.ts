@@ -11,43 +11,27 @@ import { AuthService } from './auth/auth.service';
 export class AppComponent {
   title = 'app';
   private error : Boolean = false;
-  private is_ta : Array<object> = [];
   // AuthService is used in the html
-  constructor(private authService: AuthService, private mysteryService: MysteryService, public router: Router) {  }
-
-  onInit(){
-    this.getUserVerified();
-  }
+  constructor(private authService: AuthService, private mysteryService: MysteryService, public router: Router) {  
+  
   // navigates to the current week
   currentClue() {
 	  var release = this.mysteryService.getRelease();
     this.router.navigate(['mystery/release', release]);
-    this.getUserVerified();
-
-
   }
 
   public verifyUserType(){
-    if (this.authService. getUser()){
+    // used in html
+    if (this.authService.getUser()){
       return this.authService.getUserType();
     } else{
       return false;
     }
-
+  }
+  
+  getAuthUser() {
+	  // Used in html
+	  return this.authService.getUser();
   }
 
-  public getUserVerified(){
-
-    this.mysteryService.getUserVerified().subscribe((data: Array<object>)=> {
-      this.error = false;
-      this.is_ta = data;
-
-    },
-
-    error => {
-      // ann error on the API call
-      this.error=true;
-    });
-
-  }
 }

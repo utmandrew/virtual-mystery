@@ -2,12 +2,12 @@
 <p class="alert alert-warning text-center" *ngIf="error"> <strong>An error occurred, please try again.</strong> </p>
 
 <!-- No Comments Message -->
-<div *ngIf="comments.length == 0">
-	<p class="alert alert-warning font-weight-bold text-center">No comments to display.</p>
+<div *ngIf="getComments().length == 0"> 
+	<p class="alert alert-warning font-weight-bold text-center">No comments to display.</p> 
 </div>
 
 <!-- Comments -->
-<div *ngIf="comments.length > 0" >
+<div *ngIf="getComments().length > 0" >
 	<div class="container" *ngFor="let comment of comments">
 		<!-- Top Level Comments -->
 		<div class="media">
@@ -22,6 +22,7 @@
 
 				<button type="button" class="p-2 m-2 btn btn-outline-dark btn-sm btn-block" (click)="toggleReply(comment.id)" > replies </button>
 
+				<!-- Replies -->
 
 				<div *ngIf="comment.show_replies" >
 						<div class="container" *ngFor="let reply of comment.reply" >
@@ -39,12 +40,9 @@
 						</div>
 						<!-- ReplyCreate Component -->
 						<app-replycreate [parentId]="comment.id"  (replyEvent)="recieveReply($event)" ></app-replycreate>
-					</div>
-
+					</div>		
 			</div>
 		</div>
-
-		<!-- Replies -->
-
 	</div>
 </div>
+

@@ -21,5 +21,10 @@ export class CommentComponent implements OnInit, OnChanges {
   ngOnChanges(release) {
 	  this.commentService.setRelease(this.release);
   }
+  
+  getShowComments() {
+	  // used in html
+	  return this.commentService.showComments;
+  }
 
 }
