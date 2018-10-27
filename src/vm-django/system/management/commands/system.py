@@ -80,12 +80,14 @@ def create_group(name, practical):
     return group
 
 
-def create_user(uname, group):
+def create_user(uname, fname, email, group):
     """
     Returns the newly created and saved user object.
 
     :param group: group object
-    :param uname: user name
+    :param uname: username
+    :param fname: user first name
+    :param email: user email
     :return: password string
     """
     password = generate_password()
@@ -93,6 +95,8 @@ def create_user(uname, group):
     # creates user
     user = UserModel.objects.create_user(
         username=uname,
+        first_name=fname,
+        email=email,
         password=password,
         group=group
     )
@@ -113,7 +117,7 @@ class Command(BaseCommand):
 
     File Type: csv
 
-    Format: User,PRA,Group
+    Format: User,FirstName,PRA,Group,Email
     """
 
     help = 'Used to create system app objects and connections from csv file ' \
@@ -143,9 +147,10 @@ class Command(BaseCommand):
                         try:
                             # csv entries are stripped of leading and trailing
                             # whitespace
-                            practical = create_pra(row[1].strip())
-                            group = create_group(row[2].strip(), practical)
-                            _ = create_user(row[0].strip(), group)
+                            practical = create_pra(row[2].strip())
+                            group = create_group(row[3].strip(), practical)
+                            _ = create_user(row[0].strip(),row[1].strip(),
+                                            row[4].strip(), group)
 
                         except IntegrityError:
                             # duplicate information
