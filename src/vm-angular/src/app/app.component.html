@@ -1,24 +1,24 @@
 <nav class="navbar navbar-expand-sm mb-3 navbar-dark bg-dark">
 	<div class="container">
 		<a class="navbar-brand" href="mystery/release/list">Virtual Mystery</a>
-		
+
 		<button class="navbar-toggler" data-toggle="collapse" data-target="#navbarNav">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 
 		<div class="collapse navbar-collapse" id="navbarNav">
-		<ul class="ml-auto navbar-nav" *ngIf="!is_ta.is_ta" >
+		<ul class="ml-auto navbar-nav" *ngIf="!verifyUserType()" >
 
 			<li class="nav-item">
 				<a class ="nav-link font-weight-bold" (click)="currentClue()">Current Clue</a>
 			</li>
-		
-		
+
+
 			<li class="nav-item">
 				<a class ="nav-link font-weight-bold" routerLink="mystery/release/list">Overview</a>
 			</li>
-			
-			
+
+
 			<li class="nav-item" >
 				<a class ="nav-link font-weight-bold" routerLink="grades">Grades</a>
 			</li>
@@ -33,14 +33,14 @@
 
 		</ul>
 
-		<ul class="ml-auto navbar-nav" *ngIf="is_ta.is_ta">
+		<ul class="ml-auto navbar-nav" *ngIf="verifyUserType()">
 
 			<li class="nav-item">
 				<a class ="nav-link font-weight-bold" routerLink="taview">Home</a>
 			</li>
-			
+
 			<li class="nav-item">
-				<a class ="nav-link font-weight-bold" routerLink="taview">Instructions</a>
+				<a class ="nav-link font-weight-bold" routerLink="tainstructions">Instructions</a>
 			</li>
 
 			<li class="nav-item">
@@ -48,7 +48,7 @@
 					<app-logout *ngIf="authService.getUser()" ></app-logout>
 				</div>
 			</li>
-			
+
 		</ul>
 		</div>
 	</div>
@@ -59,4 +59,3 @@
 		<router-outlet></router-outlet>
 
 </div>
-

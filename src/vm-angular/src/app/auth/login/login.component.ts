@@ -34,10 +34,10 @@ export class LoginComponent implements OnInit {
 		  // redirect to current release view
 
 		if (response['is_ta']){
-			
+
 			this.router.navigate(['taview']);
 		} else{
-		 this.router.navigate(['mystery/release', response['release']]);
+		  this.router.navigate(['mystery/release/list']);
 		}
 	  },
 	  // sets error flag to true iff an error occurs with the request
@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
 	  });
   };
 
-  
+
 
 
 }

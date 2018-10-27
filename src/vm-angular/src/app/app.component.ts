@@ -14,19 +14,10 @@ export class AppComponent {
   private is_ta : Array<object> = [];
   // AuthService is used in the html
   constructor(private authService: AuthService, private mysteryService: MysteryService, public router: Router) {  }
-  
 
-
-
-  ngOnInit() {
-  this.getUserVerified();
-
-  }
-  ngOnChanges(){
+  onInit(){
     this.getUserVerified();
-
   }
-
   // navigates to the current week
   currentClue() {
 	  var release = this.mysteryService.getRelease();
@@ -35,13 +26,21 @@ export class AppComponent {
 
 
   }
-  
+
+  public verifyUserType(){
+    if (this.authService. getUser()){
+      return this.authService.getUserType();
+    } else{
+      return false;
+    }
+
+  }
+
   public getUserVerified(){
 
     this.mysteryService.getUserVerified().subscribe((data: Array<object>)=> {
       this.error = false;
       this.is_ta = data;
-
 
     },
 

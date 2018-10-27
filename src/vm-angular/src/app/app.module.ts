@@ -28,6 +28,7 @@ import { TAComponent } from './ta/ta.component';
 
 import { ResultViewComponent } from './mystery/release-view/result-view/result-view.component';
 import { GradesComponent } from './grades/grades.component';
+import { TaInstructionsComponent } from './ta-instructions/ta-instructions.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,8 @@ import { GradesComponent } from './grades/grades.component';
   ResultViewComponent,
 
   GradesComponent,
+
+  TaInstructionsComponent,
   ],
   imports: [
     BrowserModule,

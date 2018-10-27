@@ -8,6 +8,7 @@ import { NotFoundComponent } from '../not-found.component';
 import { AuthGuardService } from '../auth/auth-guard.service';
 import { GradesComponent } from '../grades/grades.component';
 import { TAComponent } from '../ta/ta.component';
+import { TaInstructionsComponent } from '../ta-instructions/ta-instructions.component';
 
 const routes: Routes = [
 	{ path: '', redirectTo: 'auth', pathMatch: 'full' },
@@ -26,6 +27,7 @@ const routes: Routes = [
 	{ path: 'grades', component: GradesComponent , canActivate: [AuthGuardService], runGuardsAndResolvers: 'always'},
 
 	{path: 'taview', component: TAComponent, canActivate: [AuthGuardService], runGuardsAndResolvers: 'always'},
+	{path: 'tainstructions', component: TaInstructionsComponent, canActivate: [AuthGuardService], runGuardsAndResolvers: 'always'},
 
 	// Make sure ** is the last path!
 	{ path: '**', component: NotFoundComponent }
