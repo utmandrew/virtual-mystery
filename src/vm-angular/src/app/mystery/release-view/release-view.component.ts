@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, NavigationEnd } from '@angular/router';
 import { MysteryService } from '../mystery.service';
+import { AuthService } from '../../auth/auth.service';
 import {HttpClientModule} from '@angular/common/http';
 
 
@@ -11,11 +12,10 @@ import {HttpClientModule} from '@angular/common/http';
 })
 export class ReleaseViewComponent implements OnInit, OnDestroy {
 
-  private error: boolean = false;
-  private is_ta: Array<object> = [];
+  error: boolean = false;
 
 
-  constructor(private route: ActivatedRoute, private mysteryService: MysteryService, public router: Router) {
+  constructor(private route: ActivatedRoute, private mysteryService: MysteryService, private authService: AuthService, public router: Router) {
 
 	// subscribes to router events observable
 	this.navigationSubscription = this.router.events.subscribe((e: any) => {
@@ -36,7 +36,6 @@ export class ReleaseViewComponent implements OnInit, OnDestroy {
 	  this.route.paramMap.subscribe((params: ParamMap) => {
 		this.release = parseInt(params.get('id'));
 	  });
-      this.getUserVerified();
   }
 
   /* Runs when component instance is destroyed */
@@ -72,18 +71,13 @@ export class ReleaseViewComponent implements OnInit, OnDestroy {
 	  return this.mysteryService.getRelease();
   }
 
-  public getUserVerified(){
-
-    this.mysteryService.getUserVerified().subscribe((data: Array<object>)=> {
-      this.error = false;
-      this.is_ta = data;
-    },
-
-    error => {
-      // ann error on the API call
-      this.error=true;
-    });
-
+  public verifyUserType(){
+    // used in html
+    if (this.authService.getUser()){
+      return this.authService.getUserType();
+    } else{
+      return false;
+    }
   }
 
 

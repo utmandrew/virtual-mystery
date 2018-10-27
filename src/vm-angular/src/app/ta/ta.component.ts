@@ -9,26 +9,26 @@ import { TAService } from './ta.service';
 export class TAComponent implements OnInit {
 
 
-  private error: boolean = false;
+  error: boolean = false;
   // for practicals
-  private practical_data: Array<object>=[];
-  private chosen_practical: string;
+  practical_data: Array<object>=[];
+  chosen_practical: string;
   // for groups
-  private chosen_group: number;
-  private group_data: Array<object>= [];
+  chosen_group: number;
+  group_data: Array<object>= [];
   // for users
-  private list_users: Array<object>= [];
-  private chosen_user: string;
+  list_users: Array<object>= [];
+  chosen_user: string;
 
   // for the groups releases
-  private groups_relases: Array<object>=[];
-  private curr_release: number;
+  groups_relases: Array<object>=[];
+  curr_release: number;
 
-  private groups_comments: Array<object>=[];
+  groups_comments: Array<object>=[];
 
-  private user_comment: Array<object>=[];
+  user_comment: Array<object>=[];
 
-  private edit: Boolean = false;
+  edit: Boolean = false;
 
 
   // the result for a student given by the t.a

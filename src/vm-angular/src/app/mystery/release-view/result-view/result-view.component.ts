@@ -11,10 +11,10 @@ import { Subscription } from 'rxjs';
 export class ResultViewComponent implements OnInit {
 
   constructor( private resultViewService: ResultViewService) { }
-  private show_result = true;
-  private error: boolean = false;
-  private user_comment: Array<object>=[];
-  private result : Array<object>=[];
+  show_result = true;
+  error: boolean = false;
+  user_comment: Array<object>=[];
+  result : Array<object>=[];
 
 
   

@@ -10,8 +10,8 @@ export class GradesComponent implements OnInit {
 
   constructor(private gradesService: GradesService) { }
 
-  private list_comments: Array<object>;
-  private error: boolean = false;
+  list_comments: Array<object>;
+  error: boolean = false;
 
 
   ngOnInit() {
