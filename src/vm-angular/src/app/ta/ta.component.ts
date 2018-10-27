@@ -201,7 +201,7 @@ export class TAComponent implements OnInit {
 
 
 
-    console.log(result);
+
     this.taService.sendResult(result).subscribe((response)=>{
       this.error = false;
       //this.reinitialize();
@@ -260,7 +260,7 @@ export class TAComponent implements OnInit {
   public selectEdit(feedback,mark){
     this.result.feedback = feedback;
     this.result.mark = mark;
-    
+
   }
 
 }
