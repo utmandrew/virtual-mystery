@@ -7,7 +7,7 @@ System Parser:
  CSV file path
 
  * File Format *
- UserID,PracticalSection,GroupName
+ UserID,FirstName,PracticalSection,GroupName,Email
 
  * Overview *
  Parses each line of the csv file and creates a practical object with name, PracticalSection. It then creates a group object with name, GroupName and assigns it to the practical. Note that if the practical and group already exist, the parser retrieves them from the database. A user is then created with username, UserId, and a randomly generated 8 character password. The user is then assigned to group, GroupName.

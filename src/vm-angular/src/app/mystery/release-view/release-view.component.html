@@ -1,7 +1,7 @@
 <!-- release navigation buttons -->
 <div>
 	<button (click)="previousRelease()" [disabled]="release == 1" class="btn btn-primary" > Previous Clue </button>
-	<button (click)="nextRelease()" [disabled]="mysteryService.getRelease() == release" class="btn btn-primary" > Next Clue </button>
+	<button (click)="nextRelease()" [disabled]="getMysteryRelease() == release" class="btn btn-primary" > Next Clue </button>
 </div>
 
 <!-- ArtifactView Component -->

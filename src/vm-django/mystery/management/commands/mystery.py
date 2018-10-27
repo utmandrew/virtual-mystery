@@ -1,6 +1,8 @@
 import os
 import re
+import chardet
 from shutil import copyfile
+from django.db import IntegrityError
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.base import BaseCommand, CommandError
@@ -8,6 +10,19 @@ from mystery.models import Mystery, Release
 
 
 STATIC_DIR = os.path.join("mystery", "static", "mystery")
+# makes static dir if it doesn't already exist
+if not os.path.exists(STATIC_DIR):
+    os.makedirs(STATIC_DIR)
+
+
+def decode_bytes(rawdata):
+    """
+    Returns decoded string from byte data, rawdata.
+    :param rawdata: bytes object
+    :return: string
+    """
+    encoding = chardet.detect(rawdata)['encoding']
+    return rawdata.decode(encoding)
 
 
 def get_release_number(rname):
@@ -85,6 +100,11 @@ def create_release_folder(mhash, rhash):
 def move_images(mhash, rhash, rpath, nimages):
     """
     Moves images from release folder to release hash folder in static folder.
+
+    Notes:
+      - assumes images have .jpg or .JPG file extensions
+      - assigns copied image files .jpg extensions
+
     :param mhash: mystery hash (string)
     :param rhash: release hash (string)
     :param rpath: release folder absolute path (string)
@@ -93,9 +113,17 @@ def move_images(mhash, rhash, rpath, nimages):
     abs_path = os.path.join(settings.BASE_DIR, STATIC_DIR, mhash, rhash)
     if os.path.exists(abs_path):
         while nimages != 0:
-            image = "image" + str(nimages) + ".jpg"
-            copyfile(os.path.join(rpath, image),
-                     os.path.join(abs_path, image))
+            image = "image" + str(nimages)
+            if os.path.isfile(os.path.join(abs_path, image + ".jpg")):
+                # image file extension .jpg
+                image += ".jpg"
+                copyfile(os.path.join(rpath, image),
+                         os.path.join(abs_path, image))
+            else:
+                # image file extension .JPG
+                orig_image = image + ".JPG"
+                copyfile(os.path.join(rpath, orig_image),
+                         os.path.join(abs_path, image + ".jpg"))
             nimages -= 1
 
 
@@ -149,18 +177,18 @@ class Command(BaseCommand):
                                 if file_path.lower().endswith("clue.txt"):
                                     # clue file
                                     with open(os.path.join(root, file_path),
-                                              'r') as file:
+                                              'rb') as file:
 
                                         # saves clue
-                                        clue = file.read()
+                                        clue = decode_bytes(file.read())
 
                                 elif file_path.lower().endswith("ans.txt"):
                                     # answer file
                                     with open(os.path.join(root, file_path),
-                                              'r') as file:
+                                              'rb') as file:
 
                                         # saves answer
-                                        ans = file.read()
+                                        ans = decode_bytes(file.read())
 
                                 elif file_path.lower().endswith("jpg"):
                                     # image file
