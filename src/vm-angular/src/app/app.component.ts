@@ -12,11 +12,11 @@ export class AppComponent {
   title = 'app';
   private error : Boolean = false;
   // AuthService is used in the html
-  constructor(private authService: AuthService, private mysteryService: MysteryService, public router: Router) {  
+  constructor(private authService: AuthService, private mysteryService: MysteryService, public router: Router) { } 
   
   // navigates to the current week
   currentClue() {
-	  var release = this.mysteryService.getRelease();
+	var release = this.mysteryService.getRelease();
     this.router.navigate(['mystery/release', release]);
   }
 

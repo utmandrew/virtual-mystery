@@ -6,41 +6,50 @@
 			<span class="navbar-toggler-icon"></span>
 		</button>
 
-		<div class="collapse navbar-collapse" id="navbarNav *ngIf="getAuthUser()">
-		<ul class="ml-auto navbar-nav" *ngIf="!verifyUserType()" >
+		<div class="collapse navbar-collapse" id="navbarNav" *ngIf="getAuthUser()">
+			<ul class="ml-auto navbar-nav" *ngIf="!verifyUserType()" >
 
-			<li class="nav-item">
-				<a class ="nav-link font-weight-bold" (click)="currentClue()">Current Clue</a>
-			</li>
-
-
-			<li class="nav-item">
-				<a class ="nav-link font-weight-bold" routerLink="mystery/release/list">Overview</a>
-			</li>
+				<li class="nav-item">
+					<a class ="nav-link font-weight-bold" (click)="currentClue()">Current Clue</a>
+				</li>
 
 
-			<li class="nav-item" >
-				<a class ="nav-link font-weight-bold" routerLink="grades">Grades</a>
-			</li>
+				<li class="nav-item">
+					<a class ="nav-link font-weight-bold" routerLink="mystery/release/list">Overview</a>
+				</li>
+
+
+				<li class="nav-item" >
+					<a class ="nav-link font-weight-bold" routerLink="grades">Grades</a>
+				</li>
+				
+				<!-- Logout Button -->
+				<li class="nav-item">
+					<div class="nav navbar-nav navbar-right" >
+						<app-logout></app-logout>
+					</div>
+				</li>
                                                                  
-		</ul>
+			</ul>
 
-		<ul class="ml-auto navbar-nav" *ngIf="verifyUserType()">
+			<ul class="ml-auto navbar-nav" *ngIf="verifyUserType()">
 
-			<li class="nav-item">
-				<a class ="nav-link font-weight-bold" routerLink="taview">Home</a>
-			</li>
+				<li class="nav-item">
+					<a class ="nav-link font-weight-bold" routerLink="taview">Home</a>
+				</li>
 
-			<li class="nav-item">
-				<a class ="nav-link font-weight-bold" routerLink="tainstructions">Instructions</a>
-			</li>
+				<li class="nav-item">
+					<a class ="nav-link font-weight-bold" routerLink="tainstructions">Instructions</a>
+				</li>
+				
+				<!-- Logout Button -->
+				<li class="nav-item">
+					<div class="nav navbar-nav navbar-right" >
+						<app-logout></app-logout>
+					</div>
+				</li>
 
-		</ul>
-                                                                         
-    <!-- Logout Button -->
-		<div class="nav navbar-nav navbar-right" >
-		  <app-logout></app-logout>
-		</div>
+			</ul>
                                       
 		</div>
 	</div>
