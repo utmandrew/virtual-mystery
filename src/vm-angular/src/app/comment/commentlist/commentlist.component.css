@@ -8,3 +8,9 @@
 .bg-reply{
 	background-color: #999999;
 }
+#circle {
+    background: #292929;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}
