@@ -8,26 +8,28 @@
 
 <ng-template #Student>
 	<!-- ArtifactView Component -->
-
-	<div>
-		<app-artifact-view [release]="release" ></app-artifact-view>
-	</div>
-
-	<!-- release navigation buttons -->
-	<div class="btn-toolbar mx-auto my-3 text-center" style="width: 200px;">
-		<div class="btn-group">
-		<button (click)="previousRelease()" [disabled]="release == 1" class="btn btn-left-rad btn-sm btn-dark" > Previous Clue </button>
-		<button (click)="nextRelease()" [disabled]="getMysteryRelease() == release" class="btn btn-right-rad btn-sm btn-dark" > Next Clue </button>
-		</div>
-	</div>
+	<div class="col-md-8 offset-md-2">
 
 	
+		<div>
+			<app-artifact-view [release]="release" ></app-artifact-view>
+		</div>
 
-	<!-- Comment Component -->
-	<div>
-		<app-comment [release]="release" ></app-comment>
+		<!-- release navigation buttons -->
+		<div class="btn-toolbar mx-auto my-3 text-center" style="width: 200px;">
+			<div class="btn-group">
+			<button (click)="previousRelease()" [disabled]="release == 1" class="btn btn-left-rad btn-sm btn-dark" > Previous Clue </button>
+			<button (click)="nextRelease()" [disabled]="getMysteryRelease() == release" class="btn btn-right-rad btn-sm btn-dark" > Next Clue </button>
+			</div>
+		</div>
+
+		
+
+		<!-- Comment Component -->
+		<div>
+			<app-comment [release]="release" ></app-comment>
+		</div>
 	</div>
-
 	<!-- View grade component -->
 	
 
