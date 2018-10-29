@@ -2,8 +2,11 @@
 </ng-container>
 
 <!-- TA Component -->
+
 <ng-template #TA>
+	<div class="col-md-6 offset-md-2">
 		<app-ta></app-ta>
+	</div>
 </ng-template>
 
 <ng-template #Student>
@@ -18,8 +21,8 @@
 		<!-- release navigation buttons -->
 		<div class="btn-toolbar mx-auto my-3 text-center" style="width: 200px;">
 			<div class="btn-group">
-			<button (click)="previousRelease()" [disabled]="release == 1" class="btn btn-left-rad btn-sm btn-dark" > Previous Clue </button>
-			<button (click)="nextRelease()" [disabled]="getMysteryRelease() == release" class="btn btn-right-rad btn-sm btn-dark" > Next Clue </button>
+			<button (click)="previousRelease()" [disabled]="release == 1" class="btn btn-left-rad shadow btn-sm btn-dark" > Previous Clue </button>
+			<button (click)="nextRelease()" [disabled]="getMysteryRelease() == release" class="btn btn-right-rad shadow btn-sm btn-dark" > Next Clue </button>
 			</div>
 		</div>
 

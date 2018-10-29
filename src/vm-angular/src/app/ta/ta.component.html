@@ -1,8 +1,8 @@
-
+<div class="col-md-8 offset-md-2">
 <div>
 <!-- list of practicals in course -->
 
-<div class="btn-group  m-2">
+<div class="btn-group">
     <button class="btn btn-dark btn-sm" type="button">
         {{ chosen_practical }}
     </button>
@@ -19,7 +19,7 @@
 
 <!-- list of groups in chosen practical-->
 
-<div class="btn-group  m-2">
+<div class="btn-group  mx-2">
     <button class="btn btn-dark btn-sm" type="button">
         {{ chosen_group }}
     </button>
@@ -36,7 +36,7 @@
 
 <!-- list of users in chosen group-->
 
-<div class="btn-group m-2">
+<div class="btn-group ">
         <button class="btn btn-dark btn-sm" type="button">
             {{ chosen_user }}
         </button>
@@ -53,7 +53,7 @@
 <!-- list of users in that group -->
 
 </div>
-
+<hr>
 
 
 <div>
@@ -127,7 +127,9 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">Feedback</span>
                         </div>
-                        <input class="form-control" type="text" placeholder="Your feedback" [(ngModel)] = "result.feedback">
+                        <textarea class="form-control" rows="3" name="text" [(ngModel)]="result.feedback" #text="ngModel" placeholder="Your feedback for this student"></textarea>
+
+                        
                     </div>
 
                     <div class="input-group mb-1">
@@ -136,16 +138,16 @@
                         </div>
                         <input class="form-control" type="text" placeholder="Your mark" [(ngModel)] = "result.mark">
                     </div>
-                    <!--
+                   
                     <button class="btn btn-outline-danger float-right" (click)="sendResult(result, comment.id)"> Submit </button>
 
-                    Button trigger modal -->
-
+                    
+                        <!--
                     <button type="button" class="btn btn-outline-danger float-right" data-toggle="modal" data-target="#confirmModal">
                         Submit
                     </button>
 
-                    <!-- Modal -->
+
                     <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -166,6 +168,8 @@
                         </div>
                         </div>
                     </div>
+                        Button trigger modal -->
+
 
                 </div>
 
@@ -231,14 +235,15 @@
       </div>
     </div>
   </div>
-
+ 
   <!-- release navigation buttons -->
 	<div class="btn-toolbar mx-auto my-3" style="width: 200px;">
 		<div class="btn-group-sm">
-		<button (click)="previousRelease()" [disabled]="curr_release == 1" class="btn btn-dark mr-2" > Previous Clue </button>
-		<button (click)="nextRelease()" [disabled]="curr_release == groups_relases.length" class="btn btn-dark" > Next Clue </button>
+		<button (click)="previousRelease()" [disabled]="curr_release == 1" class="btn btn-left-rad btn-dark mr-2" > Previous Clue </button>
+		<button (click)="nextRelease()" [disabled]="curr_release == groups_relases.length" class="btn btn-right-rad btn-dark" > Next Clue </button>
 		</div>
 	</div>
 
 
+</div>
 </div>
