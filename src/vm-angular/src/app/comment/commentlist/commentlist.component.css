@@ -2,3 +2,9 @@
 	overflow: auto;
 	line-height: 32px;
 }
+.bg-ta{
+	background-color: #f89568 ;
+}
+.bg-reply{
+	background-color: #999999;
+}
