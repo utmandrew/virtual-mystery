@@ -7,19 +7,21 @@
 </ng-template>
 
 <ng-template #Student>
-	<!-- release navigation buttons -->
-	<div class="btn-toolbar mx-auto my-3" style="width: 200px;">
-		<div class="btn-group">
-		<button (click)="previousRelease()" [disabled]="release == 1" class="btn btn-sm btn-dark" > Previous Clue </button>
-		<button (click)="nextRelease()" [disabled]="getMysteryRelease() == release" class="btn btn-sm btn-dark" > Next Clue </button>
-		</div>
-	</div>
-
 	<!-- ArtifactView Component -->
 
 	<div>
 		<app-artifact-view [release]="release" ></app-artifact-view>
 	</div>
+
+	<!-- release navigation buttons -->
+	<div class="btn-toolbar mx-auto my-3 text-center" style="width: 200px;">
+		<div class="btn-group">
+		<button (click)="previousRelease()" [disabled]="release == 1" class="btn btn-left-rad btn-sm btn-dark" > Previous Clue </button>
+		<button (click)="nextRelease()" [disabled]="getMysteryRelease() == release" class="btn btn-right-rad btn-sm btn-dark" > Next Clue </button>
+		</div>
+	</div>
+
+	
 
 	<!-- Comment Component -->
 	<div>
