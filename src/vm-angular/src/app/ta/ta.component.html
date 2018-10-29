@@ -21,14 +21,14 @@
 
 <div class="btn-group  mx-2">
     <button class="btn btn-dark btn-sm" type="button">
-        {{ chosen_group }}
+        {{ chosen_group_name }}
     </button>
     <button type="button" class="btn btn-sm btn-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span class="sr-only">Toggle Dropdown</span>
     </button>
     <div class="dropdown-menu">
         <div *ngFor="let group of group_data">
-            <button (click)="chosenGroup(group.id)" class="dropdown-item" > {{ group.name }}</button>
+            <button (click)="chosenGroup(group)" class="dropdown-item" > {{ group.name }}</button>
         </div>
     </div>
 </div>
@@ -60,7 +60,7 @@
 
   <div *ngFor="let release_data of groups_relases">
     <div *ngIf="release_data.number == curr_release" >
-    <div class="card mb-3" >
+    <div class="card shadow-sm mb-3" >
         <div class="card-header">
     		<h4 *ngIf="!error">Release {{ release_data.number }}</h4>
     		<p class="alert alert-warning text-center" *ngIf="error"> <strong>An error occurred, please try again.</strong> </p>
@@ -71,7 +71,7 @@
         </div>
     </div>
 
-    <div class="card mb-3 ">
+    <div class="card shadow-sm mb-3 ">
         <div class="card-header card-title">
             <h4>Clue:</h4>
             <h5>
@@ -79,7 +79,7 @@
             </h5>
         </div>
     </div>
-    <div class="card mb-3 ">
+    <div class="card shadow-sm mb-3 ">
         <div class="card-header card-title">
             <h4>Answer:</h4>
             <h5>
@@ -88,7 +88,7 @@
         </div>
     </div>
     <div class="card mb-3 ">
-        <div class="card-header card-title">
+        <div class="card-header shadow-sm card-title">
             <form (ngSubmit)="createTaComment(release_data.number, release_data.mystery)" #f="ngForm">
         			<p class="alert alert-warning text-center" *ngIf="error"> <strong>An error occurred, please try again.</strong> </p>
 
@@ -116,7 +116,7 @@
             <!-- this car contains selected user's comments and ability for a ta to
                  submit a mark to the user and some feedback-->
 
-            <div class="card my-3" [ngClass]="{'bg-info rounded text-white': comment.marked===true}">
+            <div class="card shadow-sm my-3" [ngClass]="{'bg-info rounded text-white': comment.marked===true}">
 
                 <div class="card-body">
                     <div class="card-title font-weight-bold text-uppercase"> {{ comment.username }}</div>
@@ -227,7 +227,7 @@
   		</div>
   	</div>
     <div class="container m-0 p-0" *ngFor="let comment of groups_comments" >
-      <div class="card my-3" *ngIf="comment.is_ta">
+      <div class="card shadow-sm my-3" *ngIf="comment.is_ta">
         <div class="card-body">
           <div class="card-title font-weight-bold text-uppercase"> TA: {{ comment.username }}</div>
           <p class="card-text font-italic"> {{ comment.text }}</p>

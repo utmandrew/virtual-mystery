@@ -29,6 +29,8 @@ export class TAComponent implements OnInit {
   user_comment: Array<object>=[];
 
   edit: Boolean = false;
+  chosen_group_name: String="Choose Group";
+  
 
 
   // the result for a student given by the t.a
@@ -75,10 +77,11 @@ export class TAComponent implements OnInit {
     this.chosen_group = 0;
   }
 
-  public chosenGroup(groupId){
-    this.getUsers(groupId);
-    this.getGroupsRelases(groupId);
-    this.chosen_group = groupId;
+  public chosenGroup(group){
+    this.getUsers(group.id);
+    this.getGroupsRelases(group.id);
+    this.chosen_group = group.id;
+    this.chosen_group_name = group.name
     this.chosen_user = "Choose User";
   }
 
