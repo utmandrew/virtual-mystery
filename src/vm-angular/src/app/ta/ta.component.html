@@ -93,8 +93,8 @@
         			<p class="alert alert-warning text-center" *ngIf="error"> <strong>An error occurred, please try again.</strong> </p>
 
         			<div class="form-group">
-        				<label class="font-weight-bold" for="text">Ta Comment:</label>
-        				<textarea class="form-control" rows="3" name="text" placeholder="Your top level comment" [(ngModel)]="taComment.text"></textarea>
+        				<label class="font-weight-bold" for="text">Your Comment:</label>
+        				<textarea class="form-control" rows="3" name="text" placeholder="Comment for the group" [(ngModel)]="taComment.text"></textarea>
         			</div>
 
         			<div class="text-center">
@@ -116,21 +116,21 @@
             <!-- this car contains selected user's comments and ability for a ta to
                  submit a mark to the user and some feedback-->
 
-            <div class="card my-3" [ngClass]="{'bg-info text-white': comment.marked===true}">
+            <div class="card my-3" [ngClass]="{'bg-info rounded text-white': comment.marked===true}">
 
                 <div class="card-body">
                     <div class="card-title font-weight-bold text-uppercase"> {{ comment.username }}</div>
-                    <p class="card-text font-italic"> {{ comment.text }}</p>
+                    <p class="card-text font-italic" >" {{ comment.text }} "</p>
                     <hr>
                     <div *ngIf="!comment.marked">
-                    <div class="input-group mb-3">
+                    <div class="input-group mb-1">
                         <div class="input-group-prepend">
                             <span class="input-group-text">Feedback</span>
                         </div>
                         <input class="form-control" type="text" placeholder="Your feedback" [(ngModel)] = "result.feedback">
                     </div>
 
-                    <div class="input-group mb-3">
+                    <div class="input-group mb-1">
                         <div class="input-group-prepend">
                             <span class="input-group-text">Mark</span>
                         </div>
@@ -173,7 +173,7 @@
                         <p class="card-text font-italic"> Feedback: {{ comment.result[0].feedback }}</p>
                         <p class="card-text font-italic"> Mark: {{ comment.result[0].mark }}</p>
 
-                        <button *ngIf="edit==false" class="btn btn-outline-light float-right" (click)="toggleEdit(); selectEdit(comment.result[0].feedback,comment.result[0].mark)">
+                        <button *ngIf="edit==false" class="btn btn-light shadow-lg btn-sm float-right" (click)="toggleEdit(); selectEdit(comment.result[0].feedback,comment.result[0].mark)">
                             Edit Marks
                         </button>
 
@@ -191,8 +191,8 @@
                                 <input class="form-control" type="text" placeholder="Your mark" [(ngModel)] = "result.mark">
                             </div>
 
-                            <button class="btn btn-light float-right" (click)="sendResult(result, comment.id); toggleEdit()"> Submit </button>
-                            <button class="btn btn-light mr -2 float-right" (click)="toggleEdit()"> Cancel </button>
+                            <button class="btn btn-light shadow-lg btn-sm float-right" (click)="sendResult(result, comment.id); toggleEdit()"> Submit </button>
+                            <button class="btn btn-light shadow-lg btn-sm mr-2 float-right" (click)="toggleEdit()"> Cancel </button>
                         </div>
 
                   </div>
