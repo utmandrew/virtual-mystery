@@ -35,7 +35,7 @@
 						<div class="" *ngFor="let reply of comment.reply" >
 								<div class="media">
 									<div class="media-left">
-										<img src="assets/misc/shapepprofile.png" class="media-object" style="width:50px">
+										<img src="assets/misc/shapeprofile.png" class="media-object" style="width:40px">
 									</div>
 									<div class="media-body rounded">
 										<h6 class="text-uppercase font-weight-bold media-heading rounded ">{{ reply.username }}</h6>
@@ -47,7 +47,7 @@
 						<div class="media">
 										
 								<div class="media-left">
-									<img src="assets/misc/shapeprofile.png" class="media-object" style="width:50px">
+									<img src="assets/misc/shapeprofile.png" class="media-object" style="width:40px">
 								</div>
 								<div class="media-body rounded">
 									<app-replycreate [parentId]="comment.id"  (replyEvent)="recieveReply($event)" ></app-replycreate>
