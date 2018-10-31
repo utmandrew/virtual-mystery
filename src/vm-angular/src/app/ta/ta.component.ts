@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TAService } from './ta.service';
-import { Result } from './result.class.ts';
+import { Result } from './result.class';
 @Component({
   selector: 'app-ta',
   templateUrl: './ta.component.html',

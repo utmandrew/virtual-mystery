@@ -1,6 +1,6 @@
 export class Result {
-  feedback: String,
-  mark: Number,
-  id: Number,
-  edit: Boolean = false,
+  feedback: string;
+  mark: string;
+  id: number;
+  edit: boolean = false;
 };
