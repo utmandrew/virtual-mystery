@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TAService } from './ta.service';
-
+import { Result } from './result.class.ts';
 @Component({
   selector: 'app-ta',
   templateUrl: './ta.component.html',
@@ -26,21 +26,16 @@ export class TAComponent implements OnInit {
 
   groups_comments: Array<object>=[];
 
-  user_comment: Array<object>=[];
 
   edit: Boolean = false;
   chosen_group_name: String="Choose Group";
 
   invalid: Boolean = false;
 
+  // the results for a student given by the t.a
+  results: Array<Result> = [];
 
-  results: Array<result> = [];
-  // the result for a student given by the t.a
-  private result: any = {
-    feedback: String,
-    mark: Number,
-    id: Number,
-  };
+
 
   private taComment: any = {
     release: Number,
@@ -56,9 +51,6 @@ export class TAComponent implements OnInit {
     this.chosen_practical="Choose Practical";
     this.chosen_group= 0;
     this.chosen_user = "Choose User";
-    this.result.feedback = "";
-    this.result.mark = 0;
-    this.result.id = 0;
     this.getPracticals();
   }
 
@@ -67,9 +59,6 @@ export class TAComponent implements OnInit {
     // this.chosen_practical="Choose Practical";
     // this.chosen_group="Choose Group";
     // this.chosen_user = "Choose User";
-    this.result.feedback = "";
-    this.result.mark = 0;
-    this.result.id = 0;
 
   }
 
@@ -77,6 +66,9 @@ export class TAComponent implements OnInit {
     this.getGroups(praName);
     this.chosen_practical = praName;
     this.chosen_group = 0;
+    this.groups_comments = [];
+    this.chosen_group_name = 'Choose Group';
+    this.groups_relases = [];
   }
 
   public chosenGroup(group){
@@ -90,10 +82,6 @@ export class TAComponent implements OnInit {
   public chosenUser(userName){
     // now that a user is picked get his/her top-level to be marked
     this.chosen_user = userName;
-    this.result.feedback = "";
-    this.result.mark = 0;
-    this.result.id = 0;
-
 
   }
 
@@ -138,17 +126,6 @@ export class TAComponent implements OnInit {
     });
   }
 
-  public getComment(userName){
-    this.taService.getComment(userName).subscribe((data: Array<object>)=> {
-      this.error = false;
-    this.user_comment = data;
-
-    },
-    error => {
-      // ann error on the API call
-      this.error=true;
-    });
-  }
 
   public getGroupsRelases(groupId){
     this.taService.getGroupsRelases(groupId).subscribe((data: Array<object>)=> {
@@ -169,8 +146,11 @@ export class TAComponent implements OnInit {
   public getGroupsComments(groupId, release){
     this.taService.getGroupsComments(groupId, release).subscribe((data: Array<object>)=> {
       this.error = false;
-    this.groups_comments = data;
-    this.taComment.text = '';
+      this.groups_comments = data;
+      this.taComment.text = '';
+      for (let i = 0; i < this.groups_comments.length; i++ ){
+        this.createResultModel(i);
+      }
 
     },
     error => {
@@ -214,7 +194,6 @@ export class TAComponent implements OnInit {
       this.error = false;
       //this.reinitialize();
       this.getGroupsComments(this.chosen_group, this.curr_release);
-      this.toggleEdit();
 
     },
     error => {
@@ -254,26 +233,29 @@ export class TAComponent implements OnInit {
 
     );
 
-
-
   }
 
-  public toggleEdit(feedback, mark, id){
-    this.result.id = id;
+  public toggleEdit(id){
     this.invalid = false;
-    if (this.edit == false){
-      this.edit = true;
+    if (this.results[id].edit == false){
+      this.results[id].edit = true;
     }else{
-      this.edit = false;
+      this.results[id].edit = false;
     }
   }
-  public selectEdit(feedback,mark){
-    this.result.feedback = feedback;
-    this.result.mark = mark;
+  public selectEdit(feedback, mark, id){
+    this.results[id].feedback = feedback;
+    this.results[id].mark = mark;
 
   }
 
-  public createResultModel(){
+  public createResultModel(id){
+    let result = new Result();
+    if (id >= this.results.length){
+      this.results.push(result);
+    } else{
+      this.results[id] = result;
+    }
 
   }
 

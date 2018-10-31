@@ -109,7 +109,7 @@
 
 <!-- Top for this group -->
   <div *ngIf="groups_comments.length > 0" >
-  	<div class="container m-0 p-0" *ngFor="let comment of groups_comments">
+  	<div class="container m-0 p-0" *ngFor="let comment of groups_comments; let i = index;">
       <div *ngIf="(comment.username == chosen_user || chosen_user == 'Choose User') && !(comment.is_ta) ">
         <!-- Top Level Comments -->
 
@@ -127,7 +127,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">Feedback</span>
                         </div>
-                        <textarea class="form-control" rows="3" name="text" [(ngModel)]="result.feedback" #text="ngModel" placeholder="Your feedback for this student"></textarea>
+                        <textarea class="form-control" rows="3" name="text" [(ngModel)]="results[i].feedback" #text="ngModel" placeholder="Your feedback for this student"></textarea>
 
 
                     </div>
@@ -136,10 +136,12 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">Mark</span>
                         </div>
-                        <input class="form-control" type="text" placeholder="Your mark" [(ngModel)] = "result.mark">
+                        <input class="form-control" type="text" placeholder="Your mark" [(ngModel)] = "results[i].mark">
                     </div>
-
-                    <button class="btn btn-outline-danger float-right" (click)="sendResult(result, comment.id)"> Submit </button>
+                    <div *ngIf="invalid" class="alert alert-danger" role="alert">
+                      Marks can only be either 1 or 0
+                    </div>
+                    <button class="btn btn-outline-danger float-right" (click)="sendResult(results[i], comment.id)"> Submit </button>
 
 
                         <!--
@@ -177,29 +179,29 @@
                         <p class="card-text font-italic"> Feedback: {{ comment.result[0].feedback }}</p>
                         <p class="card-text font-italic"> Mark: {{ comment.result[0].mark }}</p>
 
-                        <button *ngIf="edit==false" class="btn btn-light shadow-lg btn-sm float-right" (click)="toggleEdit(); selectEdit(comment.result[0].feedback,comment.result[0].mark)">
+                        <button *ngIf="results[i].edit==false" class="btn btn-light shadow-lg btn-sm float-right" (click)="toggleEdit(i); selectEdit(comment.result[0].feedback,comment.result[0].mark, i)">
                             Edit Marks
                         </button>
 
-                        <div *ngIf="edit==true">
+                        <div *ngIf="results[i].edit==true">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Feedback</span>
                                 </div>
-                                <textarea class="form-control" type="text" placeholder="Your feedback" [(ngModel)] = "result.feedback"></textarea>
+                                <textarea class="form-control" type="text" placeholder="Your feedback" [(ngModel)] = "results[i].feedback"></textarea>
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Mark</span>
                                 </div>
-                                <input class="form-control" type="text" placeholder="Your mark" [(ngModel)] = "result.mark">
+                                <input class="form-control" type="text" placeholder="Your mark" [(ngModel)] = "results[i].mark">
                             </div>
                             <div *ngIf="invalid" class="alert alert-danger" role="alert">
                               Marks can only be either 1 or 0
                             </div>
 
-                            <button class="btn btn-light shadow-lg btn-sm float-right" (click)="sendResult(result, comment.id);"> Submit </button>
-                            <button class="btn btn-light shadow-lg btn-sm mr-2 float-right" (click)="toggleEdit()"> Cancel </button>
+                            <button class="btn btn-light shadow-lg btn-sm float-right" (click)="sendResult(results[i], comment.id);"> Submit </button>
+                            <button class="btn btn-light shadow-lg btn-sm mr-2 float-right" (click)="toggleEdit(i)"> Cancel </button>
                         </div>
 
                   </div>
