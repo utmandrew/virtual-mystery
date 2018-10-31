@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authentication import TokenAuthentication
 
-from .serializers import ReplySerializer, CommentSerializer, ResultSerializer, UserResultSerializer, TACommentSerializer
+from .serializers import ReplySerializer, CommentSerializer, ResultSerializer, TACommentSerializer
 from .models import Comment, Result
 from mystery.models import Instance
 # from mystery.models import Instance
