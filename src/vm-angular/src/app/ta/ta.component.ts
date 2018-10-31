@@ -30,9 +30,11 @@ export class TAComponent implements OnInit {
 
   edit: Boolean = false;
   chosen_group_name: String="Choose Group";
-  
+
+  invalid: Boolean = false;
 
 
+  results: Array<result> = [];
   // the result for a student given by the t.a
   private result: any = {
     feedback: String,
@@ -201,14 +203,18 @@ export class TAComponent implements OnInit {
 
   public sendResult(result, id){
     result.id = id;
-
-
+    if (!(result.mark == 0 || result.mark == 1)){
+      this.invalid = true;
+      return
+    }
+    this.invalid = false;
 
 
     this.taService.sendResult(result).subscribe((response)=>{
       this.error = false;
       //this.reinitialize();
       this.getGroupsComments(this.chosen_group, this.curr_release);
+      this.toggleEdit();
 
     },
     error => {
@@ -254,6 +260,7 @@ export class TAComponent implements OnInit {
 
   public toggleEdit(feedback, mark, id){
     this.result.id = id;
+    this.invalid = false;
     if (this.edit == false){
       this.edit = true;
     }else{
@@ -263,6 +270,10 @@ export class TAComponent implements OnInit {
   public selectEdit(feedback,mark){
     this.result.feedback = feedback;
     this.result.mark = mark;
+
+  }
+
+  public createResultModel(){
 
   }
 

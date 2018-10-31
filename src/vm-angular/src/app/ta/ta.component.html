@@ -129,7 +129,7 @@
                         </div>
                         <textarea class="form-control" rows="3" name="text" [(ngModel)]="result.feedback" #text="ngModel" placeholder="Your feedback for this student"></textarea>
 
-                        
+
                     </div>
 
                     <div class="input-group mb-1">
@@ -138,10 +138,10 @@
                         </div>
                         <input class="form-control" type="text" placeholder="Your mark" [(ngModel)] = "result.mark">
                     </div>
-                   
+
                     <button class="btn btn-outline-danger float-right" (click)="sendResult(result, comment.id)"> Submit </button>
 
-                    
+
                         <!--
                     <button type="button" class="btn btn-outline-danger float-right" data-toggle="modal" data-target="#confirmModal">
                         Submit
@@ -186,7 +186,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Feedback</span>
                                 </div>
-                                <input class="form-control" type="text" placeholder="Your feedback" [(ngModel)] = "result.feedback">
+                                <textarea class="form-control" type="text" placeholder="Your feedback" [(ngModel)] = "result.feedback"></textarea>
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
@@ -194,8 +194,11 @@
                                 </div>
                                 <input class="form-control" type="text" placeholder="Your mark" [(ngModel)] = "result.mark">
                             </div>
+                            <div *ngIf="invalid" class="alert alert-danger" role="alert">
+                              Marks can only be either 1 or 0
+                            </div>
 
-                            <button class="btn btn-light shadow-lg btn-sm float-right" (click)="sendResult(result, comment.id); toggleEdit()"> Submit </button>
+                            <button class="btn btn-light shadow-lg btn-sm float-right" (click)="sendResult(result, comment.id);"> Submit </button>
                             <button class="btn btn-light shadow-lg btn-sm mr-2 float-right" (click)="toggleEdit()"> Cancel </button>
                         </div>
 
@@ -235,7 +238,7 @@
       </div>
     </div>
   </div>
- 
+
   <!-- release navigation buttons -->
 	<div class="btn-toolbar mx-auto my-3" style="width: 200px;">
 		<div class="btn-group-sm">
