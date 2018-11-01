@@ -13,8 +13,11 @@ def get_current_release():
     START_DATETIME not yet reached.
 
     Note:
-        - START_DATETIME and RELEASE_INTERVAL are set in the main settings file
+        - START_DATETIME, RELEASE_INTERVAL and MARK_INTERVAL are set in the
+          main settings file
         - times are in the timezone TIME_ZONE, set in the main settings file
+        - returned release number is a decimal (ie. 1.5) if current datetime is
+          within the mark_interval
 
     Test:
         - before start date (pass)

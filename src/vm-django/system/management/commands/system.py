@@ -18,7 +18,7 @@ if not os.path.exists(STATIC_DIR):
 UserModel = get_user_model()
 
 
-def user_credentials(uname, password):
+def user_credentials(uname, password, email):
     """
     Creates/opens a text file and appends the newly created user's username and
     password into the file.
@@ -35,7 +35,7 @@ def user_credentials(uname, password):
         mode = 'w+'
 
     with open(fpath, mode) as file:
-        file.write("{} {}\n".format(uname, password))
+        file.write("{},{},{}\n".format(uname, password, email))
 
 
 def generate_password():
@@ -105,7 +105,7 @@ def create_user(uname, fname, email, group):
     user.save()
 
     # saves user credentials
-    user_credentials(uname, password)
+    user_credentials(uname, password, email)
 
     return user
 
