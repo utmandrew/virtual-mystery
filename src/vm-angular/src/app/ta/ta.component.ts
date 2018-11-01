@@ -183,7 +183,7 @@ export class TAComponent implements OnInit {
 
   public sendResult(result, id){
     result.id = id;
-    if (!(result.mark == 0 || result.mark == 1) || result.feedback == undefined || result.feedback.length == 0){
+    if (result.mark == undefined || !(result.mark == 0 || result.mark == 1) || result.feedback == undefined || result.feedback.length == 0){
       this.invalid = true;
       return
     }
