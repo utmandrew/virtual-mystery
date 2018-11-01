@@ -197,11 +197,8 @@ export class TAComponent implements OnInit {
 
     },
     error => {
-      if(error.status === 400){
-        this.chosenUser(this.chosen_user);
-
-      }
       this.error = true;
+
     }
 
     );
