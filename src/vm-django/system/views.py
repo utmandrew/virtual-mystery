@@ -20,6 +20,7 @@ from comments.serializers import CommentSerializer
 
 from release import get_current_release
 
+
 class ListPracticals(APIView):
     """
     Return list of all practical objects

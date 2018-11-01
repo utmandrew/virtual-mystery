@@ -25,9 +25,10 @@ def get_current_release():
 
     :return: int
     """
-    release = 0
 
-    interval = timedelta(days=int(settings.RELEASE_INTERVAL))
+    release_interval = timedelta(days=int(settings.RELEASE_INTERVAL))
+
+    mark_interval = timedelta(days=int(settings.MARK_INTERVAL))
 
     start = timezone.make_aware(datetime.strptime(settings.START_DATETIME,
             settings.DATETIME_FORMAT), timezone.get_default_timezone())
@@ -35,7 +36,19 @@ def get_current_release():
     current = timezone.localtime(timezone.now(),
                                  timezone.get_default_timezone())
 
-    while start + release*interval <= current:
-        release += 1
+    release = 0
 
-    return release
+    mark = 0
+
+    date_time = start
+
+    while date_time <= current:
+        release += 1
+        date_time += release_interval
+        if date_time <= current:
+            mark += 1
+        date_time += mark_interval
+
+    if release != mark:
+        return release
+    return release + 0.5
