@@ -127,7 +127,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">Feedback</span>
                         </div>
-                        <textarea class="form-control" rows="3" name="text" [(ngModel)]="results[i].feedback" #text="ngModel" placeholder="Your feedback for this student"></textarea>
+                        <textarea class="form-control" rows="1" name="text" required minlength="2" [(ngModel)]="results[i].feedback" #text="ngModel" placeholder="Your feedback for this student"></textarea>
 
 
                     </div>
@@ -136,10 +136,10 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">Mark</span>
                         </div>
-                        <input class="form-control" type="text" placeholder="Your mark" [(ngModel)] = "results[i].mark">
+                        <input class="form-control" type="text" placeholder="Your mark" required minlength="2" [(ngModel)] = "results[i].mark">
                     </div>
                     <div *ngIf="invalid" class="alert alert-danger" role="alert">
-                      Marks can only be either 1 or 0
+                      Error must give feedback and marks can only be either 1 or 0
                     </div>
                     <button class="btn btn-outline-danger float-right" (click)="sendResult(results[i], comment.id)"> Submit </button>
 
@@ -188,16 +188,16 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Feedback</span>
                                 </div>
-                                <textarea class="form-control" type="text" placeholder="Your feedback" [(ngModel)] = "results[i].feedback"></textarea>
+                                <textarea class="form-control" type="text" rows="1" placeholder="Your feedback" required minlength="2" [(ngModel)] = "results[i].feedback"></textarea>
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Mark</span>
                                 </div>
-                                <input class="form-control" type="text" placeholder="Your mark" [(ngModel)] = "results[i].mark">
+                                <input class="form-control" type="text" placeholder="Your mark" required minlength="1" [(ngModel)] = "results[i].mark">
                             </div>
                             <div *ngIf="invalid" class="alert alert-danger" role="alert">
-                              Marks can only be either 1 or 0
+                              Error must give feedback and marks can only be either 1 or 0
                             </div>
 
                             <button class="btn btn-light shadow-lg btn-sm float-right" (click)="sendResult(results[i], comment.id);"> Submit </button>
