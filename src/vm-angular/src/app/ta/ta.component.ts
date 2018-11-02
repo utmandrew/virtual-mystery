@@ -29,6 +29,8 @@ export class TAComponent implements OnInit {
   user_comment: Array<object>=[];
 
   edit: Boolean = false;
+  
+  show_image: boolean = true;
 
 
   // the result for a student given by the t.a
@@ -149,8 +151,9 @@ export class TAComponent implements OnInit {
     this.taService.getGroupsRelases(groupId).subscribe((data: Array<object>)=> {
       this.error = false;
 
-    this.groups_relases = data;
-    this.curr_release = data.length;
+	  this.groups_relases = data;
+      this.curr_release = data.length;
+	  this.show_image = true;
 
 
     this.getGroupsComments(groupId, this.curr_release);
@@ -177,11 +180,13 @@ export class TAComponent implements OnInit {
   public previousRelease(){
       this.curr_release = this.curr_release - 1;
       this.getGroupsComments(this.chosen_group, this.curr_release);
+	  this.show_image = true;
   }
 
   public nextRelease(){
       this.curr_release = this.curr_release + 1;
       this.getGroupsComments(this.chosen_group, this.curr_release);
+	  this.show_image = true;
   }
 
   /* toggles show_replies flag for CommentInterface object */
@@ -261,6 +266,11 @@ export class TAComponent implements OnInit {
     this.result.feedback = feedback;
     this.result.mark = mark;
 
+  }
+  
+  setShowImage(bool: boolean) {
+	  // sets show_image variable to bool
+	  this.show_image = bool;
   }
 
 }
