@@ -20,12 +20,13 @@ UserModel = get_user_model()
 
 def user_credentials(uname, password, email):
     """
-    Creates/opens a text file and appends the newly created user's username and
-    password into the file.
+    Creates/opens a csv file and appends the newly created user's username,
+    password and email into the file.
     :param uname: username (string)
     :param password: password (string)
+    :param email: email (string)
     """
-    fpath = os.path.join(settings.BASE_DIR, STATIC_DIR, "users.txt")
+    fpath = os.path.join(settings.BASE_DIR, STATIC_DIR, "users.csv")
 
     if os.path.exists(fpath):
         # file exists
@@ -121,7 +122,7 @@ class Command(BaseCommand):
     """
 
     help = 'Used to create system app objects and connections from csv file ' \
-           '(Format: User,PRA,Group)'
+           '(Format: User,FirstName,PRA,Group,Email)'
 
     def add_arguments(self, parser):
         """
