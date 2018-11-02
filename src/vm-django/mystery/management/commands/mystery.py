@@ -114,7 +114,7 @@ def move_images(mhash, rhash, rpath, nimages):
     if os.path.exists(abs_path):
         while nimages != 0:
             image = "image" + str(nimages)
-            if os.path.isfile(os.path.join(abs_path, image + ".jpg")):
+            if os.path.isfile(os.path.join(rpath, image + ".jpg")):
                 # image file extension .jpg
                 image += ".jpg"
                 copyfile(os.path.join(rpath, image),
