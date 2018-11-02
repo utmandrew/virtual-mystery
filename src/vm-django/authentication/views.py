@@ -1,3 +1,4 @@
+from math import floor
 from django.contrib.auth import authenticate
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import status
@@ -34,7 +35,7 @@ class Login(ObtainAuthToken):
             if user is not None:
                 # successfully authenticated
                 token, created = Token.objects.get_or_create(user=user)
-                release = get_current_release()
+                release = floor(get_current_release())
                 # mystery = Instance.objects.get(group=user.group).mystery.hash
                 return Response({
                     'token': token.key,

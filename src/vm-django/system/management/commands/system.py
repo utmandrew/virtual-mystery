@@ -18,14 +18,15 @@ if not os.path.exists(STATIC_DIR):
 UserModel = get_user_model()
 
 
-def user_credentials(uname, password):
+def user_credentials(uname, password, email):
     """
-    Creates/opens a text file and appends the newly created user's username and
-    password into the file.
+    Creates/opens a csv file and appends the newly created user's username,
+    password and email into the file.
     :param uname: username (string)
     :param password: password (string)
+    :param email: email (string)
     """
-    fpath = os.path.join(settings.BASE_DIR, STATIC_DIR, "users.txt")
+    fpath = os.path.join(settings.BASE_DIR, STATIC_DIR, "users.csv")
 
     if os.path.exists(fpath):
         # file exists
@@ -35,7 +36,7 @@ def user_credentials(uname, password):
         mode = 'w+'
 
     with open(fpath, mode) as file:
-        file.write("{} {}\n".format(uname, password))
+        file.write("{},{},{}\n".format(uname, password, email))
 
 
 def generate_password():
@@ -105,7 +106,7 @@ def create_user(uname, fname, email, group):
     user.save()
 
     # saves user credentials
-    user_credentials(uname, password)
+    user_credentials(uname, password, email)
 
     return user
 
@@ -121,7 +122,7 @@ class Command(BaseCommand):
     """
 
     help = 'Used to create system app objects and connections from csv file ' \
-           '(Format: User,PRA,Group)'
+           '(Format: User,FirstName,PRA,Group,Email)'
 
     def add_arguments(self, parser):
         """
@@ -168,7 +169,7 @@ class Command(BaseCommand):
 
                 # prints users.txt file path
                 self.stdout.write("User File Location: {}".format(
-                    os.path.join(settings.BASE_DIR, STATIC_DIR, "users.txt")
+                    os.path.join(settings.BASE_DIR, STATIC_DIR, "users.csv")
                 ))
 
             else:

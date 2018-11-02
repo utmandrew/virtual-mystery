@@ -33,13 +33,13 @@ export class ArtifactViewComponent implements OnInit, OnChanges {
   public getData(release: number) {
     
     this.artifactService.getData(release).subscribe((data: Release) => {
-      this.error = false;
-		  this.release_data  =  data;
-		  this.show_image = true;
+        this.error = false;
+		this.release_data  =  data;
+		this.show_image = true;
     },
 	  error => {
-		  // an error occurred during api call
-		  this.error = true;
+		// an error occurred during api call
+		this.error = true;
 	  });
 
   }
