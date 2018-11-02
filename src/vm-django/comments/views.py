@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authentication import TokenAuthentication
 
-from .serializers import ReplySerializer, CommentSerializer, ResultSerializer, UserResultSerializer, TACommentSerializer
+from .serializers import ReplySerializer, CommentSerializer, ResultSerializer, TACommentSerializer
 from .models import Comment, Result
 from mystery.models import Instance
 # from mystery.models import Instance
@@ -207,17 +207,20 @@ class ResultCreate(APIView):
             if request.user.is_ta and (comment.marked==False):
                 data['owner'] = request.user.username
                 data['comment'] = comment.id
-                Comment.objects.filter(id=comment.id).update(marked=True)
 
                 serializer = ResultSerializer(data=data)
                 if serializer.is_valid():
+                    Comment.objects.filter(id=comment.id).update(marked=True)
                     serializer.save()
                     return Response(status=status.HTTP_201_CREATED)
+                return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
         except AttributeError:
             return Response(status=status.HTTP_403_FORBIDDEN)
         except ObjectDoesNotExist:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        except ValueError:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 

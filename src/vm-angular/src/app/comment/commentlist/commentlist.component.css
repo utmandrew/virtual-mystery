@@ -2,3 +2,15 @@
 	overflow: auto;
 	line-height: 32px;
 }
+.bg-ta{
+	background-color: #3b3b3b ;
+}
+.bg-reply{
+	background-color: #999999;
+}
+#circle {
+    background: #292929;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}

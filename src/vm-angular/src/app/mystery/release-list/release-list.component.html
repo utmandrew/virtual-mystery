@@ -1,24 +1,25 @@
 <!-- Release List Error Message -->
 <p class="alert alert-warning text-center" *ngIf="error"> <strong>An error occurred, please try again.</strong> </p>
 
+
 <!-- List of releases -->
 <div class="container" *ngFor="let release of releases">
 	<!-- Commented Release -->
 	<div class="alert alert-success p-2 m-1" *ngIf="release.commented" >
 		<p class="alert-heading font-weight-bold" >Clue {{ release.number }} (commented)</p>
-		
+
 		<!-- View Release Button -->
-		<span> 
-			<button type="button" class="btn btn-sm float-right" (click)="selectedRelease(release.number)" > View </button> 
+		<span>
+			<button type="button" class="btn btn-sm float-right" (click)="selectedRelease(release.number)" > View </button>
 		</span>
 	</div>
-	
+
 	<!-- Uncommented Release -->
 	<div class="alert alert-danger p-2 m-1" *ngIf="!release.commented" >
 		<p class="alert-heading font-weight-bold" >Clue {{ release.number }}</p>
 		<!-- View Release Button -->
-		<span class="alert-align"> 
-			<button type="button" class="btn btn-sm float-right" (click)="selectedRelease(release.number)" > View </button> 
+		<span class="alert-align">
+			<button type="button" class="btn btn-sm float-right" (click)="selectedRelease(release.number)" > View </button>
 		</span>
 	</div>
 

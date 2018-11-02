@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TAService } from './ta.service';
-
+import { Result } from './result.class';
 @Component({
   selector: 'app-ta',
   templateUrl: './ta.component.html',
@@ -26,19 +26,19 @@ export class TAComponent implements OnInit {
 
   groups_comments: Array<object>=[];
 
-  user_comment: Array<object>=[];
 
   edit: Boolean = false;
   
   show_image: boolean = true;
+  
+  chosen_group_name: String="Choose Group";
+
+  invalid: Boolean = false;
+
+  // the results for a student given by the t.a
+  results: Array<Result> = [];
 
 
-  // the result for a student given by the t.a
-  private result: any = {
-    feedback: String,
-    mark: Number,
-    id: Number,
-  };
 
   private taComment: any = {
     release: Number,
@@ -54,9 +54,6 @@ export class TAComponent implements OnInit {
     this.chosen_practical="Choose Practical";
     this.chosen_group= 0;
     this.chosen_user = "Choose User";
-    this.result.feedback = "";
-    this.result.mark = 0;
-    this.result.id = 0;
     this.getPracticals();
   }
 
@@ -65,9 +62,6 @@ export class TAComponent implements OnInit {
     // this.chosen_practical="Choose Practical";
     // this.chosen_group="Choose Group";
     // this.chosen_user = "Choose User";
-    this.result.feedback = "";
-    this.result.mark = 0;
-    this.result.id = 0;
 
   }
 
@@ -75,22 +69,22 @@ export class TAComponent implements OnInit {
     this.getGroups(praName);
     this.chosen_practical = praName;
     this.chosen_group = 0;
+    this.groups_comments = [];
+    this.chosen_group_name = 'Choose Group';
+    this.groups_relases = [];
   }
 
-  public chosenGroup(groupId){
-    this.getUsers(groupId);
-    this.getGroupsRelases(groupId);
-    this.chosen_group = groupId;
+  public chosenGroup(group){
+    this.getUsers(group.id);
+    this.getGroupsRelases(group.id);
+    this.chosen_group = group.id;
+    this.chosen_group_name = group.name
     this.chosen_user = "Choose User";
   }
 
   public chosenUser(userName){
     // now that a user is picked get his/her top-level to be marked
     this.chosen_user = userName;
-    this.result.feedback = "";
-    this.result.mark = 0;
-    this.result.id = 0;
-
 
   }
 
@@ -135,17 +129,6 @@ export class TAComponent implements OnInit {
     });
   }
 
-  public getComment(userName){
-    this.taService.getComment(userName).subscribe((data: Array<object>)=> {
-      this.error = false;
-    this.user_comment = data;
-
-    },
-    error => {
-      // ann error on the API call
-      this.error=true;
-    });
-  }
 
   public getGroupsRelases(groupId){
     this.taService.getGroupsRelases(groupId).subscribe((data: Array<object>)=> {
@@ -167,8 +150,11 @@ export class TAComponent implements OnInit {
   public getGroupsComments(groupId, release){
     this.taService.getGroupsComments(groupId, release).subscribe((data: Array<object>)=> {
       this.error = false;
-    this.groups_comments = data;
-    this.taComment.text = '';
+      this.groups_comments = data;
+      this.taComment.text = '';
+      for (let i = 0; i < this.groups_comments.length; i++ ){
+        this.createResultModel(i);
+      }
 
     },
     error => {
@@ -203,8 +189,11 @@ export class TAComponent implements OnInit {
 
   public sendResult(result, id){
     result.id = id;
-
-
+    if (result.mark == '' || result.mark == undefined || !(result.mark == '0' || result.mark == '1') || result.feedback == undefined || result.feedback.length == 0){
+      this.invalid = true;
+      return
+    }
+    this.invalid = false;
 
 
     this.taService.sendResult(result).subscribe((response)=>{
@@ -214,11 +203,8 @@ export class TAComponent implements OnInit {
 
     },
     error => {
-      if(error.status === 400){
-        this.chosenUser(this.chosen_user);
-
-      }
       this.error = true;
+
     }
 
     );
@@ -250,21 +236,29 @@ export class TAComponent implements OnInit {
 
     );
 
-
-
   }
 
-  public toggleEdit(feedback, mark, id){
-    this.result.id = id;
-    if (this.edit == false){
-      this.edit = true;
+  public toggleEdit(id){
+    this.invalid = false;
+    if (this.results[id].edit == false){
+      this.results[id].edit = true;
     }else{
-      this.edit = false;
+      this.results[id].edit = false;
     }
   }
-  public selectEdit(feedback,mark){
-    this.result.feedback = feedback;
-    this.result.mark = mark;
+  public selectEdit(feedback, mark, id){
+    this.results[id].feedback = feedback;
+    this.results[id].mark = mark;
+
+  }
+
+  public createResultModel(id){
+    let result = new Result();
+    if (id >= this.results.length){
+      this.results.push(result);
+    } else{
+      this.results[id] = result;
+    }
 
   }
   

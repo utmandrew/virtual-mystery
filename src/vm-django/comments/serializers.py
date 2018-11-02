@@ -60,18 +60,6 @@ class TACommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ('id', 'username', 'text', 'marked', 'reply', 'owner', 'result',
                   'instance', 'release', 'is_ta')
-        read_only_fields = ('id', 'username', 'reply', 'is_ta' )
+        read_only_fields = ('id', 'username', 'reply', 'is_ta','release')
         extra_kwargs = {'owner': {'write_only': True},
-                        'release': {'write_only': True},
                         'instance': {'write_only': True}}
-
-
-
-class UserResultSerializer(serializers.ModelSerializer):
-    """
-    Serializes/Deserializes Result class objects
-    """
-
-    class Meta:
-        model = Result
-        fields = ('owner', 'mark', 'feedback', 'comment', 'id')
