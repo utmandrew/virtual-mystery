@@ -169,7 +169,7 @@ class Command(BaseCommand):
 
                 # prints users.txt file path
                 self.stdout.write("User File Location: {}".format(
-                    os.path.join(settings.BASE_DIR, STATIC_DIR, "users.txt")
+                    os.path.join(settings.BASE_DIR, STATIC_DIR, "users.csv")
                 ))
 
             else:
