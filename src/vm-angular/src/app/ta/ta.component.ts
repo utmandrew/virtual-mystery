@@ -134,8 +134,15 @@ export class TAComponent implements OnInit {
     this.taService.getGroupsRelases(groupId).subscribe((data: Array<object>)=> {
       this.error = false;
 
-	  this.groups_relases = data;
+    this.groups_relases = data;
+    if(data.length > 0 ){
+      this.curr_release = data.length -1;
+    }else{
       this.curr_release = data.length;
+    }
+
+
+
 	  this.show_image = true;
 
 
