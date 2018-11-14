@@ -16,7 +16,7 @@ const routes: Routes = [
 	{
 		path: 'mystery',
 		children: [
-			{ path: 'release/list', component: ReleaseListComponent },
+			//{ path: 'release/list', component: ReleaseListComponent },
 
 			// Make sure release/:id is the last path!
 			{ path: 'release/:id', component: ReleaseViewComponent },

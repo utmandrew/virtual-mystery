@@ -197,7 +197,7 @@
                                 <input class="form-control" type="text" placeholder="Your mark" required minlength="1" [(ngModel)] = "results[i].mark">
                             </div>
                             <div *ngIf="invalid" class="alert alert-danger" role="alert">
-                              Error must give feedback and marks can only be either 1 or 0
+                              Marks can only be either 1 or 0. Feedback can be empty.
                             </div>
 
                             <button class="btn btn-light shadow-lg btn-sm float-right" (click)="sendResult(results[i], comment.id);"> Submit </button>

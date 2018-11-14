@@ -54,7 +54,7 @@ class Result(models.Model):
     # Mark Integer
     mark = models.PositiveIntegerField()
     # feedback comment
-    feedback = models.TextField()
+    feedback = models.TextField(null=True,blank=True)
     # the comment which is being marked
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE,
                                related_name='result')

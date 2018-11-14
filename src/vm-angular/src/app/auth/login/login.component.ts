@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
 
 			this.router.navigate(['taview']);
 		} else{
-		  this.router.navigate(['mystery/release/list']);
+		  this.router.navigate(['grades']);
 		}
 	  },
 	  // sets error flag to true iff an error occurs with the request
