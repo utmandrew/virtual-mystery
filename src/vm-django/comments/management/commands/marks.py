@@ -1,9 +1,7 @@
 import os
-from django.db import IntegrityError
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.core.exceptions import ObjectDoesNotExist
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from comments.models import Result
 from mystery.models import Release
 
@@ -109,23 +107,20 @@ class Command(BaseCommand):
                     self.stderr.write(
                         self.style.WARNING("(Warning) error during mark "
                                     "extraction: {}".format(user.username)))
-                except ObjectDoesNotExist:
-                    # will not occur so far
-                    pass
-                except IntegrityError:
-                    # will not occur so far
+                except IOError:
+                    # error writing file
                     self.stderr.write(
-                        self.style.WARNING("(Warning) an error occurred: "
-                                           "{}".format(user.username)))
+                        self.style.ERROR("(Warning) Problem writing"
+                                         " to file: {}".format(user.username)))
 
             # prints users.txt file path
             self.stdout.write("Marks File Location: {}".format(
                 os.path.join(settings.BASE_DIR, STATIC_DIR, "marks.csv")
             ))
-        except FileNotFoundError:
-            # file path does not exist
-            self.stderr.write(self.style.ERROR("(Error) File does not exist."))
+
         except IOError:
-            # error reading file
-            self.stderr.write(self.style.ERROR("(Error) Problem writing"
-                                               " to file."))
+            # error writing file
+            self.stderr.write(
+                self.style.ERROR("(Error) IOError."))
+
+
