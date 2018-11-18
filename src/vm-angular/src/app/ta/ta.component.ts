@@ -135,11 +135,7 @@ export class TAComponent implements OnInit {
       this.error = false;
 
 	  this.groups_relases = data;
-      if(data.length > 0 ){
-        this.curr_release = data.length - 1;
-      }else{
-        this.curr_release = data.length;
-	  }
+      this.curr_release = JSON.parse(sessionStorage.getItem('currentUser'))['release'];
 	  this.show_image = true;
 
 
