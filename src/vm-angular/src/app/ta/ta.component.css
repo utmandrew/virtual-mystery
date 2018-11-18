@@ -1,7 +1,9 @@
-.btn-left-rad {
-    border-radius: 15px 0 0 15px;
+.btn-rad {
+    border-radius: 15px 15px 15px 15px;
+    background-color:  #24405a;
+    border: none;
 
 }
-.btn-right-rad{
-    border-radius: 0 15px 15px 0;
+.btn-rad:hover {
+    background-color: rgb(13, 168, 189) ;
 }
