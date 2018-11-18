@@ -135,7 +135,11 @@ export class TAComponent implements OnInit {
       this.error = false;
 
 	  this.groups_relases = data;
-      this.curr_release = data.length;
+      if(data.length > 0 ){
+        this.curr_release = data.length - 1;
+      }else{
+        this.curr_release = data.length;
+	  }
 	  this.show_image = true;
 
 
@@ -189,11 +193,15 @@ export class TAComponent implements OnInit {
 
   public sendResult(result, id){
     result.id = id;
-    if (result.mark == '' || result.mark == undefined || !(result.mark == '0' || result.mark == '1') || result.feedback == undefined || result.feedback.length == 0){
+    if (result.mark == '' || result.mark == undefined || !(result.mark == '0' || result.mark == '1') {
       this.invalid = true;
       return
     }
     this.invalid = false;
+	
+	if (result.feedback==undefined || result.feedback.length == 0){
+      result.feedback="No Feedback";
+	}
 
 
     this.taService.sendResult(result).subscribe((response)=>{
