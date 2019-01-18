@@ -139,7 +139,7 @@
                         <input class="form-control" type="text" placeholder="Your mark" required minlength="2" [(ngModel)] = "results[i].mark">
                     </div>
                     <div *ngIf="invalid" class="alert alert-danger" role="alert">
-                      Error must give feedback and marks can only be either 1 or 0
+                      Marks must be either 1 or 0. Feedback can be empty.
                     </div>
                     <button class="btn btn-outline-danger float-right" (click)="sendResult(results[i], comment.id)"> Submit </button>
 
@@ -244,8 +244,8 @@
   <!-- release navigation buttons -->
 	<div class="btn-toolbar mx-auto my-3" style="width: 200px;">
 		<div class="btn-group-sm">
-		<button (click)="previousRelease()" [disabled]="curr_release == 1" class="btn btn-left-rad btn-dark mr-2" > Previous Clue </button>
-		<button (click)="nextRelease()" [disabled]="curr_release == groups_relases.length" class="btn btn-right-rad btn-dark" > Next Clue </button>
+		<button (click)="previousRelease()" [disabled]="curr_release == 1" class="btn btn-rad btn-dark mr-2" > Previous Clue </button>
+		<button (click)="nextRelease()" [disabled]="curr_release == groups_relases.length" class="btn btn-rad btn-dark" > Next Clue </button>
 		</div>
 	</div>
 
