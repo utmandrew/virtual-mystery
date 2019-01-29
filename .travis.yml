@@ -12,9 +12,11 @@ branches:
 
 before_script:
   - npm install -g @angular/cli
+  - cd src/vm-angular
+  - npm install
+  - npm install --save-dev @angular-devkit/build-angular
 
 script:
-  - cd src/vm-angular
   - ng test
   - ng build --prod --aot
   
