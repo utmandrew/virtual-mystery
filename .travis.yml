@@ -17,6 +17,6 @@ before_script:
   - npm install --save-dev @angular-devkit/build-angular
 
 script:
-  - ng test
+  - ng test --browsers ChromeHeadless
   - ng build --prod --aot
   
