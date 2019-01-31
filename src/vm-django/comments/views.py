@@ -100,9 +100,6 @@ class CommentCreate(APIView):
         except ObjectDoesNotExist:
             # catches if an object (instance) does not exist
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        except ValidationError:
-            # comment creation race condition
-            return Response(status=status.HTTP_403_FORBIDDEN)
 
 
 class ReplyCreate(APIView):
