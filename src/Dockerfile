@@ -6,6 +6,7 @@ ENV PYTHONUNBUFFERED 1
 
 # create a directory to work in for the project
 RUN mkdir /virtual-mystery
+
 WORKDIR /virtual-mystery
 
 # at this point the container doesn't have anything
@@ -13,8 +14,7 @@ WORKDIR /virtual-mystery
 # now we copy the code "all the code in 'src' ...I think"
 COPY . /virtual-mystery/
 
-
 # install all the requirements fromt he 
 # Requirements file from the parent directory
-RUN pip install -r ../Requirements.txt
+RUN pip install -r Requirements.txt
 

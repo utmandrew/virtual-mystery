@@ -3,6 +3,9 @@ version: '3'
 services: 
   web:
     build: .
-    command: python src/vm-django/manage.py runserver 0.0.0.0:8000
+    command: python vm-django/manage.py runserver 0.0.0.0:8000
     volumes: 
       - .:/virtual-mystery
+    ports:
+      - "8000:8000"
+      
