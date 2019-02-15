@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MysteryService } from './mystery/mystery.service';
 import { AuthService } from './auth/auth.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -12,8 +13,8 @@ export class AppComponent {
   title = 'app';
   private error : Boolean = false;
   // AuthService is used in the html
-  constructor(private authService: AuthService, private mysteryService: MysteryService, public router: Router) { } 
-  
+  constructor(private authService: AuthService, private mysteryService: MysteryService, public router: Router) { }
+
   // navigates to the current week
   currentClue() {
 	var release = this.mysteryService.getRelease();
@@ -28,7 +29,7 @@ export class AppComponent {
       return false;
     }
   }
-  
+
   getAuthUser() {
 	  // Used in html
 	  return this.authService.getUser();

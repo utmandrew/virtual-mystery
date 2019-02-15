@@ -30,7 +30,32 @@ import { TAComponent } from './ta/ta.component';
 import { ResultViewComponent } from './mystery/release-view/result-view/result-view.component';
 import { GradesComponent } from './grades/grades.component';
 import { TaInstructionsComponent } from './ta-instructions/ta-instructions.component';
+import { AuthGuardService } from './auth/auth-guard.service';
+import { Routes, RouterModule } from '@angular/router';
+
 describe('AppComponent', () => {
+    const routes: Routes = [
+    	{ path: '', redirectTo: 'auth', pathMatch: 'full' },
+    	{ path: 'auth', component: LoginComponent },
+    	{
+    		path: 'mystery',
+    		children: [
+    			{ path: 'release/list', component: ReleaseListComponent },
+
+    			// Make sure release/:id is the last path!
+    			{ path: 'release/:id', component: ReleaseViewComponent },
+    		],
+    		canActivate: [AuthGuardService],
+    		runGuardsAndResolvers: 'always'
+    	},
+    	{ path: 'grades', component: GradesComponent , canActivate: [AuthGuardService], runGuardsAndResolvers: 'always'},
+
+    	{path: 'taview', component: TAComponent, canActivate: [AuthGuardService], runGuardsAndResolvers: 'always'},
+    	{path: 'tainstructions', component: TaInstructionsComponent, canActivate: [AuthGuardService], runGuardsAndResolvers: 'always'},
+
+    	// Make sure ** is the last path!
+    	{ path: '**', component: NotFoundComponent }
+    ];
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -60,9 +85,11 @@ describe('AppComponent', () => {
     	HttpClientModule,
     	AppRoutingModule,
     	FormsModule,
-    	ReactiveFormsModule
+    	ReactiveFormsModule,
+        RouterModule.forRoot(routes)
       ],
-      providers: [
+
+      providers: [ HttpClientModule,
         { provide: APP_BASE_HREF, useValue: '/'}
       ],
       schemas: [ NO_ERRORS_SCHEMA ],
@@ -82,6 +109,6 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to vm-angular!');
+    expect(compiled.querySelector('h3').textContent).toContain('Virtual Mystery');
   }));
 });

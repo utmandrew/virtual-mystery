@@ -61,6 +61,7 @@ import { TaInstructionsComponent } from './ta-instructions/ta-instructions.compo
 	ReactiveFormsModule
   ],
   providers: [
+    HttpClientModule,
 	{
 		provide: HTTP_INTERCEPTORS,
 		useClass: AuthInterceptor,
