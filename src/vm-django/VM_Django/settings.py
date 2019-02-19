@@ -25,7 +25,7 @@ SECRET_KEY = '4^7f5krp_bjs(i67^g*(-nxd)djak2yga7*khl8g85p74jluvq'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Custom user model settings
 # refer to https://docs.djangoproject.com/en/2.0/topics/auth/customizing/
@@ -92,10 +92,10 @@ WSGI_APPLICATION = 'VM_Django.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'vm_database',
-        'USER': 'vm_db_user',
+        'NAME': 'postgres',
+        'USER': 'postgres',
         'PASSWORD': 'vm_password',
-        'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }

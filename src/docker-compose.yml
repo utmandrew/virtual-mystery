@@ -3,6 +3,8 @@ version: '3'
 services: 
   web:
     build: .
+    command: python vm-django/manage.py makemigrations
+    command: python vm-django/manage.py migrate
     command: python vm-django/manage.py runserver 0.0.0.0:8000
     volumes: 
       - .:/virtual-mystery
@@ -12,3 +14,14 @@ services:
       - db
   db:
     image: postgres
+    volumes:
+      - test_db:/var/lib/postgresql/data
+  #make angular container
+  #angular:
+    #build: 
+
+volumes:
+  test_db:
+
+
+
