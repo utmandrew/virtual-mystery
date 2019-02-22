@@ -32,6 +32,7 @@ import { GradesComponent } from './grades/grades.component';
 import { TaInstructionsComponent } from './ta-instructions/ta-instructions.component';
 import { AuthGuardService } from './auth/auth-guard.service';
 import { Routes, RouterModule } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('AppComponent', () => {
     const routes: Routes = [
@@ -86,7 +87,8 @@ describe('AppComponent', () => {
     	AppRoutingModule,
     	FormsModule,
     	ReactiveFormsModule,
-        RouterModule.forRoot(routes)
+        RouterModule.forRoot(routes),
+        RouterTestingModule
       ],
 
       providers: [ HttpClientModule,
