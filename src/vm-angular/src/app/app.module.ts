@@ -53,6 +53,28 @@ import { TaInstructionsComponent } from './ta-instructions/ta-instructions.compo
 
   TaInstructionsComponent,
   ],
+  exports: [
+    AppComponent,
+    AuthComponent,
+    LoginComponent,
+    LogoutComponent,
+    CommentComponent,
+    CommentcreateComponent,
+    CommentlistComponent,
+    ReplycreateComponent,
+    NotFoundComponent,
+    MysteryComponent,
+  ReleaseViewComponent,
+  ReleaseListComponent,
+  ArtifactViewComponent,
+  TAComponent,
+
+  ResultViewComponent,
+
+  GradesComponent,
+
+  TaInstructionsComponent,
+  ],
   imports: [
     BrowserModule,
 	HttpClientModule,

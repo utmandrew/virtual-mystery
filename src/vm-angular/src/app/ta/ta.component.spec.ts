@@ -1,6 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { TAComponent } from './ta.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { Routes, RouterModule } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('TAComponent', () => {
   let component: TAComponent;
@@ -8,7 +14,16 @@ describe('TAComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TAComponent ]
+      declarations: [ TAComponent ],
+      imports:[
+          BrowserModule,
+          FormsModule,
+          ReactiveFormsModule,
+          HttpClientModule,
+          RouterModule,
+          RouterTestingModule
+      ],
+      schemas: [ NO_ERRORS_SCHEMA ]
     })
     .compileComponents();
   }));

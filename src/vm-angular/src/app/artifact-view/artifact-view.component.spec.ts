@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { ArtifactViewComponent } from './artifact-view.component';
 import { BrowserModule } from '@angular/platform-browser';
@@ -22,7 +23,8 @@ describe('ArtifactViewComponent', () => {
            RouterTestingModule,
            HttpClientTestingModule,
            HttpClientModule,
-       ]
+       ],
+       schemas: [ NO_ERRORS_SCHEMA ]
     })
     .compileComponents();
   }));

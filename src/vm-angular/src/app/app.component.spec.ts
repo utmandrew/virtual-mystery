@@ -34,6 +34,8 @@ import { AuthGuardService } from './auth/auth-guard.service';
 import { Routes, RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { AppModule } from './app.module';
+
 describe('AppComponent', () => {
     const routes: Routes = [
     	{ path: '', redirectTo: 'auth', pathMatch: 'full' },
