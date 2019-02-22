@@ -1,15 +1,39 @@
-<!-- release navigation buttons -->
-<div>
-	<button (click)="previousRelease()" [disabled]="release == 1" class="btn btn-primary" > Previous Clue </button>
-	<button (click)="nextRelease()" [disabled]="mysteryService.getRelease() == release" class="btn btn-primary" > Next Clue </button>
-</div>
+<ng-container *ngIf="verifyUserType(); then TA; else Student">
+</ng-container>
 
-<!-- ArtifactView Component -->
-<div>
-	<app-artifact-view [release]="release" ></app-artifact-view>
-</div>
+<!-- TA Component -->
 
-<!-- Comment Component -->
-<div>
-	<app-comment [release]="release" ></app-comment>
-</div>
+<ng-template #TA>
+	<div class="col-md-6 offset-md-2">
+		<app-ta></app-ta>
+	</div>
+</ng-template>
+
+<ng-template #Student>
+	<!-- ArtifactView Component -->
+	<div class="col-md-8 offset-md-2">
+
+	
+		<div>
+			<app-artifact-view [release]="release" ></app-artifact-view>
+		</div>
+
+		<!-- release navigation buttons -->
+		<div class="btn-toolbar mx-auto my-3 text-center" style="width: 200px;">
+			<div class="btn-group">
+			<button (click)="previousRelease()" [disabled]="release == 1" class="btn btn-left-rad shadow btn-sm btn-dark" > Previous Clue </button>
+			<button (click)="nextRelease()" [disabled]="getMysteryRelease() == release" class="btn btn-right-rad shadow btn-sm btn-dark" > Next Clue </button>
+			</div>
+		</div>
+
+		
+
+		<!-- Comment Component -->
+		<div>
+			<app-comment [release]="release" ></app-comment>
+		</div>
+	</div>
+	<!-- View grade component -->
+	
+
+</ng-template>

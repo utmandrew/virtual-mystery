@@ -11,7 +11,7 @@ import { Release } from '../release.interface';
 export class ReleaseListComponent implements OnInit {
 	
   // list of releases
-  private releases: Array<Release> = [];
+  public releases: Array<Release> = [];
   // error flag
   error: boolean = false;
 

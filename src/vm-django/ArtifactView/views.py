@@ -14,9 +14,6 @@ from rest_framework.permissions import IsAuthenticated
 
 from release import get_current_release
 
-
-
-
 from . import models
 from mystery.models import Mystery,Release
 
@@ -52,7 +49,7 @@ class ArtifactViewData(APIView):
         mystery_name = Mystery.objects.get(pk=1)
 
         mystery_ob = Release.objects.get(pk=current_week)
-        #print( Release.objects.get(pk=1))
+
 
 
         # Need to implement a method to assign mysteries to groups in a list format
@@ -70,7 +67,6 @@ class ArtifactViewData(APIView):
         path_clue = mystery_ob.clue
         #path_answer = "assets/anthro-virtual-mysteries/Archaeology-demo/"
         path_answer = mystery_ob.answer
-
 
         path_image += str(mystery_name.name) + "/Release" +str(current_week) +"/image1.jpg"
         #path_clue += str(request.user.group.mystery1) + "/Release" +str(current_week)+"/clue.txt"

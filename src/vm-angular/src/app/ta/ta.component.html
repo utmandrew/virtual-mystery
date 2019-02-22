@@ -1,0 +1,254 @@
+<div class="col-md-8 offset-md-2">
+<div>
+<!-- list of practicals in course -->
+
+<div class="btn-group mt-2">
+    <button class="btn btn-dark btn-sm" type="button">
+        {{ chosen_practical }}
+    </button>
+    <button type="button" class="btn btn-sm btn-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <span class="sr-only">Toggle Dropdown</span>
+    </button>
+    <div class="dropdown-menu">
+        <div *ngFor="let practical of practical_data">
+            <button (click)="chosenPractical(practical.name)" class="dropdown-item" > {{ practical.name }}</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- list of groups in chosen practical-->
+
+<div class="btn-group  mx-2 mt-2">
+    <button class="btn btn-dark btn-sm" type="button">
+        {{ chosen_group_name }}
+    </button>
+    <button type="button" class="btn btn-sm btn-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="sr-only">Toggle Dropdown</span>
+    </button>
+    <div class="dropdown-menu">
+        <div *ngFor="let group of group_data">
+            <button (click)="chosenGroup(group)" class="dropdown-item" > {{ group.name }}</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- list of users in chosen group-->
+
+<div class="btn-group mt-2">
+        <button class="btn btn-dark btn-sm" type="button">
+            {{ chosen_user }}
+        </button>
+        <button type="button" class="btn btn-sm btn-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <div class="dropdown-menu">
+            <div *ngFor="let user of list_users">
+                <button (click)="chosenUser(user.first_name)" class="dropdown-item" > {{ user.first_name }}</button>
+            </div>
+        </div>
+  </div>
+
+<!-- list of users in that group -->
+
+</div>
+<hr>
+
+
+<div>
+
+  <div *ngFor="let release_data of groups_relases">
+    <div *ngIf="release_data.number == curr_release" >
+    <div class="card shadow-sm mb-3" >
+        <div class="card-header">
+    		<h4 *ngIf="!error">Release {{ release_data.number }}</h4>
+    		<p class="alert alert-warning text-center" *ngIf="error"> <strong>An error occurred, please try again.</strong> </p>
+        </div>
+
+        <div class="card-body" *ngIf="show_image">
+            <img class="card-img-top img-responsive rounded mx-auto d-block mb-3" style="width:50%;" src ="{{taService.ASSETS_URL}}/{{release_data.mystery_hash}}/{{release_data.hash}}/image1.jpg" (error)="setShowImage(false)">
+        </div>
+    </div>
+
+    <div class="card shadow-sm mb-3 ">
+        <div class="card-header card-title">
+            <h4>Clue:</h4>
+            <h5>
+                {{ release_data.clue }}
+            </h5>
+        </div>
+    </div>
+    <div class="card shadow-sm mb-3 ">
+        <div class="card-header card-title">
+            <h4>Answer:</h4>
+            <h5>
+                {{ release_data.answer }}
+            </h5>
+        </div>
+    </div>
+    <div class="card mb-3 ">
+        <div class="card-header shadow-sm card-title">
+            <form (ngSubmit)="createTaComment(release_data.number, release_data.mystery)" #f="ngForm">
+        			<p class="alert alert-warning text-center" *ngIf="error"> <strong>An error occurred, please try again.</strong> </p>
+
+        			<div class="form-group">
+        				<label class="font-weight-bold" for="text">Your Comment:</label>
+        				<textarea class="form-control" rows="3" name="text" placeholder="Comment for the group" [(ngModel)]="taComment.text"></textarea>
+        			</div>
+
+        			<div class="text-center">
+        				<button type="submit" class="btn btn-outline-primary" >Submit</button>
+        			</div>
+        		</form>
+        </div>
+    </div>
+
+  </div>
+  </div>
+
+<!-- Top for this group -->
+  <div *ngIf="groups_comments.length > 0" >
+  	<div class="container m-0 p-0" *ngFor="let comment of groups_comments; let i = index;">
+      <div *ngIf="(comment.username == chosen_user || chosen_user == 'Choose User') && !(comment.is_ta) ">
+        <!-- Top Level Comments -->
+
+            <!-- this car contains selected user's comments and ability for a ta to
+                 submit a mark to the user and some feedback-->
+
+            <div class="card shadow-sm my-3" [ngClass]="{'bg-info rounded text-white': comment.marked===true}">
+
+                <div class="card-body">
+                    <div class="card-title font-weight-bold text-uppercase"> {{ comment.username }}</div>
+                    <p class="card-text font-italic" >" {{ comment.text }} "</p>
+                    <hr>
+                    <div *ngIf="!comment.marked">
+                    <div class="input-group mb-1">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Feedback</span>
+                        </div>
+                        <textarea class="form-control" rows="1" name="text" required minlength="2" [(ngModel)]="results[i].feedback" #text="ngModel" placeholder="Your feedback for this student"></textarea>
+
+
+                    </div>
+
+                    <div class="input-group mb-1">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Mark</span>
+                        </div>
+                        <input class="form-control" type="text" placeholder="Your mark" required minlength="2" [(ngModel)] = "results[i].mark">
+                    </div>
+                    <div *ngIf="invalid" class="alert alert-danger" role="alert">
+                      Marks must be either 1 or 0. Feedback can be empty.
+                    </div>
+                    <button class="btn btn-outline-danger float-right" (click)="sendResult(results[i], comment.id)"> Submit </button>
+
+
+                        <!--
+                    <button type="button" class="btn btn-outline-danger float-right" data-toggle="modal" data-target="#confirmModal">
+                        Submit
+                    </button>
+
+
+                    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Confirm mark for  {{ comment.username }}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                                <p> Feedback: {{ result.feedback }}  </p>
+                                <p> Mark:  {{ result.mark  }}</p>
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Change</button>
+                            <button type="button" class="btn btn-primary" (click)="sendResult(result, comment.id)" data-dismiss="modal">Submit Result</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                        Button trigger modal -->
+
+
+                </div>
+
+                  <div *ngIf="comment.marked">
+                        <p class="card-text font-italic"> Feedback: {{ comment.result[0].feedback }}</p>
+                        <p class="card-text font-italic"> Mark: {{ comment.result[0].mark }}</p>
+
+                        <button *ngIf="results[i].edit==false" class="btn btn-light shadow-lg btn-sm float-right" (click)="toggleEdit(i); selectEdit(comment.result[0].feedback,comment.result[0].mark, i)">
+                            Edit Marks
+                        </button>
+
+                        <div *ngIf="results[i].edit==true">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Feedback</span>
+                                </div>
+                                <textarea class="form-control" type="text" rows="1" placeholder="Your feedback" required minlength="2" [(ngModel)] = "results[i].feedback"></textarea>
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Mark</span>
+                                </div>
+                                <input class="form-control" type="text" placeholder="Your mark" required minlength="1" [(ngModel)] = "results[i].mark">
+                            </div>
+                            <div *ngIf="invalid" class="alert alert-danger" role="alert">
+                              Error must give feedback and marks can only be either 1 or 0
+                            </div>
+
+                            <button class="btn btn-light shadow-lg btn-sm float-right" (click)="sendResult(results[i], comment.id);"> Submit </button>
+                            <button class="btn btn-light shadow-lg btn-sm mr-2 float-right" (click)="toggleEdit(i)"> Cancel </button>
+                        </div>
+
+                  </div>
+
+                </div>
+            </div>
+
+            <!-- Toggle Replies Button
+    					<span class="float-right">-->
+    					<!-- Shows replies button only if replies exist <span *ngIf="comment.reply.length" class="float-right">
+    						<button type="button" class="btn btn-sm" (click)="toggleReply(comment.id)" > replies </button>
+                        </span>
+            -->
+
+    		<!-- Replies
+    		<div *ngIf="comment.show_replies" >
+    			<div class="container" *ngFor="let reply of comment.reply" >
+    				<div class="alert alert-secondary p-2 m-1" >
+    					<p class="alert-heading font-weight-bold" >{{ reply.username }}</p>
+    					<div class="pl-4" >
+    						{{ reply.text }}
+    					</div>
+    				</div>
+    			</div>
+             </div>
+            -->
+
+  		</div>
+  	</div>
+    <div class="container m-0 p-0" *ngFor="let comment of groups_comments" >
+      <div class="card shadow-sm my-3" *ngIf="comment.is_ta">
+        <div class="card-body">
+          <div class="card-title font-weight-bold text-uppercase"> TA: {{ comment.username }}</div>
+          <p class="card-text font-italic"> {{ comment.text }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- release navigation buttons -->
+	<div class="btn-toolbar mx-auto my-3" style="width: 200px;">
+		<div class="btn-group-sm">
+		<button (click)="previousRelease()" [disabled]="curr_release == 1" class="btn btn-rad btn-dark mr-2" > Previous Clue </button>
+		<button (click)="nextRelease()" [disabled]="curr_release == groups_relases.length" class="btn btn-rad btn-dark" > Next Clue </button>
+		</div>
+	</div>
+
+
+</div>
+</div>

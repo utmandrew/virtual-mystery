@@ -1,0 +1,9 @@
+.btn-rad {
+    border-radius: 15px 15px 15px 15px;
+    background-color:  #24405a;
+    border: none;
+
+}
+.btn-rad:hover {
+    background-color: rgb(13, 168, 189) ;
+}

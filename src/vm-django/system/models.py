@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.db.models.signals import post_save
 
 # Create your models here.
 
@@ -9,8 +8,8 @@ class Practical(models.Model):
     """
     Practical model, Groups refer to a specific practical that they belong to.
     """
-    # to be implemented
-    pass
+    # practical name
+    name = models.TextField()
 
 
 class Group(models.Model):
@@ -19,8 +18,6 @@ class Group(models.Model):
     """
     # group name
     name = models.TextField()
-
-    
 
     # refers to a groups practical
     # remove null=True when in production (used for admin accounts)
@@ -34,5 +31,8 @@ class User(AbstractUser):
     """
     # refers to a users group
     # remove null=True when in production (used for admin accounts)
+
+    is_ta = models.BooleanField(default=False)
+    
     group = models.ForeignKey(Group, null=True, related_name='profile',
                               on_delete=models.CASCADE)
