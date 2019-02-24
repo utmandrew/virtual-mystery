@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  proxy:
+    build:
+      context: .
+      dockerfile: ./docker/proxy/Dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
+
+  db:
+   image: postgres
+   environment:
+     POSTGRES_USER: "vm_db_user"
+     POSTGRES_PASSWORD: "vm_password"
+     POSTGRES_DB: "vm_database"
+
+  django:
+    build: 
+      context: .
+      dockerfile: ./docker/django/Dockerfile
+    command: ./wait-for-it.sh db:5432 -- ./start.sh
+    expose:
+      - "80"
+    depends_on:
+      - "db"
+      - "proxy"
+    links:
+      - "db"
+      - "proxy"
+
+  angular:
+    build:
+      context: .
+      dockerfile: ./docker/angular/Dockerfile
+    expose:
+      - "80"
+    depends_on:
+      - "proxy"
+      - "django"
+    links:
+      - "proxy"
+      - "django" 

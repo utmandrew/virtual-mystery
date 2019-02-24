@@ -1,0 +1,10 @@
+RewriteEngine on
+
+# Checks request made for file (-f) or directory (-d)
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+# Does nothing
+RewriteRule ^ - [L]
+ 
+# Otherwise, redirects to the angular router
+RewriteRule ^ /index.html [L]

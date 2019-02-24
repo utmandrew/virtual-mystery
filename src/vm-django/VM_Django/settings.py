@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '4^7f5krp_bjs(i67^g*(-nxd)djak2yga7*khl8g85p74jluvq'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Custom user model settings
 # refer to https://docs.djangoproject.com/en/2.0/topics/auth/customizing/
@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'mystery.apps.MysteryConfig',
     'system.apps.SystemConfig',
     'authentication.apps.AuthenticationConfig',
+    'mod_wsgi.server',
 ]
 
 MIDDLEWARE = [
@@ -95,7 +96,7 @@ DATABASES = {
         'NAME': 'vm_database',
         'USER': 'vm_db_user',
         'PASSWORD': 'vm_password',
-        'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }
