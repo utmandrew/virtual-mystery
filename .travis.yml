@@ -6,8 +6,14 @@ language: node_js
 node_js:
   - "8"
   
+python:
+  - 2.6
+  - 2.7
+# - 3.3
+  
 services:
   - docker
+  - postgresql
 
 before_script:
   - cd src/vm-django
