@@ -1,0 +1,22 @@
+sudo: required
+addons:
+  chrome: stable
+
+language: node_js
+node_js:
+  - "8"
+
+branches:
+  only:
+    - master
+
+before_script:
+  - npm install -g @angular/cli
+  - cd src/vm-angular
+  - npm install
+  - npm install --save-dev @angular-devkit/build-angular
+
+script:
+  - ng test --watch=false --browsers=ChromeHeadless
+  - ng build --prod --aot
+  
