@@ -20,8 +20,8 @@ before_script:
   - npm install -g @angular/cli
   - npm install
   - npm install --save-dev @angular-devkit/build-angular
-  - mkdir dest
-  - cd dest
+  - mkdir dist
+  - cd dist
   - ng build --prod --aot 
   - cd ../../
   - docker-compose up
