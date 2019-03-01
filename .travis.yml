@@ -16,10 +16,10 @@ services:
   - postgresql
 
 before_script:
-  - cd src/vm-django
+  - cd src
   - docker-compose up
+  - cd vm-angular 
   - npm install -g @angular/cli
-  - cd src/vm-angular
   - npm install
   - npm install --save-dev @angular-devkit/build-angular
 
