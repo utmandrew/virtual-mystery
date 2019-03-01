@@ -24,6 +24,7 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ('created',)
+        unique_together = ('owner', 'instance', 'release')
 
 
 class Reply(models.Model):
@@ -58,5 +59,3 @@ class Result(models.Model):
     # the comment which is being marked
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE,
                                related_name='result')
-
-    

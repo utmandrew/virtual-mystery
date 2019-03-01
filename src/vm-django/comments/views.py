@@ -11,9 +11,8 @@ from mystery.models import Instance
 # from mystery.models import Instance
 from release import get_current_release
 
-
-
 # Create your views here.
+
 
 class CommentList(APIView):
     """
@@ -215,7 +214,6 @@ class ResultCreate(APIView):
                     return Response(status=status.HTTP_201_CREATED)
                 return Response(status=status.HTTP_400_BAD_REQUEST)
 
-
         except AttributeError:
             return Response(status=status.HTTP_403_FORBIDDEN)
         except ObjectDoesNotExist:
@@ -223,8 +221,8 @@ class ResultCreate(APIView):
         except ValueError:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
 
 class UserResult(APIView):
     """
@@ -234,12 +232,12 @@ class UserResult(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (permissions.IsAuthenticated,)
 
-    def get(self,request):
-
+    def get(self, request):
 
         try:
 
-            results = Result.objects.get(comment__owner=request.user, comment__release = get_current_release())
+            results = Result.objects.get(comment__owner=request.user,
+                                        comment__release=get_current_release())
             serializer = ResultSerializer(results)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -249,6 +247,7 @@ class UserResult(APIView):
         except ObjectDoesNotExist:
             # catches if an object (instance) does not exist
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
 
 class UserGradesList(APIView):
     """
@@ -274,7 +273,6 @@ class UserGradesList(APIView):
         except ObjectDoesNotExist:
             # catches if an object (instance) does not exist
             return Response(status=status.HTTP_400_BAD_REQUEST)
-
 
 
 class TaCommentCreate(APIView):
