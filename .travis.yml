@@ -16,13 +16,16 @@ services:
   - postgresql
 
 before_script:
-  - cd src
-  - docker-compose up
-  - cd vm-angular 
+  - cd src/vm-angular 
   - npm install -g @angular/cli
   - npm install
   - npm install --save-dev @angular-devkit/build-angular
-
+  - mkdir dest
+  - cd dest
+  - ng build --prod --aot 
+  - cd ../../
+  - docker-compose up
+  
 script:
   - ng test --watch=false --browsers=ChromeHeadless
-  - ng build --prod --aot
+  
