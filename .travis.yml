@@ -1,0 +1,28 @@
+sudo: required
+addons:
+  chrome: stable
+
+language: node_js
+node_js:
+  - "8"
+  
+python:
+  - 2.6
+  - 2.7
+# - 3.3
+  
+services:
+  - docker
+  - postgresql
+
+before_script:
+  - cd src
+  - docker-compose up
+  - cd vm-angular 
+  - npm install -g @angular/cli
+  - npm install
+  - npm install --save-dev @angular-devkit/build-angular
+
+script:
+  - ng test --watch=false --browsers=ChromeHeadless
+  - ng build --prod --aot
