@@ -11,6 +11,9 @@ services:
 
   db:
    image: postgres
+   # mounts db files to local machine filesystem
+   #volumes:
+   #   - ./data/postgres-data:/var/lib/postgresql/data
    environment:
      POSTGRES_USER: "vm_db_user"
      POSTGRES_PASSWORD: "vm_password"
@@ -20,6 +23,9 @@ services:
     build: 
       context: .
       dockerfile: ./docker/django/Dockerfile
+    # mounts user information files to local machine filesystem
+    #volumes:
+    #  - ./data:/opt/vm-django/system/private
     command: ./wait-for-it.sh db:5432 -- ./start.sh
     expose:
       - "80"

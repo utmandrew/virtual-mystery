@@ -9,6 +9,9 @@ RUN apt-get install -y apache2 apache2-dev
 # copies django application files to /opt
 COPY vm-django /opt/vm-django
 
+# copies virtual mystery data files to /opt/vm-django
+COPY data/vm-data /opt/vm-django/data
+
 # copies in python requirements.txt to /opt
 COPY Requirements.txt /opt
 

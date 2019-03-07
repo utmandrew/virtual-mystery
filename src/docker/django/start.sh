@@ -18,9 +18,6 @@ python manage.py assign data/mysteries.csv
 # collect static files
 python manage.py collectstatic
 
-# enable mod_wsgi
-a2enmod wsgi
-
 # copy and load mod_wsgi into apache
 mod_wsgi-express install-module > /etc/apache2/mods-enabled/wsgi.load
 
