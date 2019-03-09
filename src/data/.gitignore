@@ -1,5 +1,4 @@
 *
-postgres-data/*
-!postgres-data
+!mount
 !vm-data
 !.gitignore
