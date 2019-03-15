@@ -5,6 +5,8 @@ services:
     build:
       context: .
       dockerfile: ./docker/proxy/Dockerfile
+    volumes:
+      - ./data/ssl:/usr/local/apache2/ssl
     ports:
       - "80:80"
       - "443:443"
