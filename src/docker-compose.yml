@@ -38,6 +38,8 @@ services:
     links:
       - "db"
       - "proxy"
+    env_file:
+        - .env
 
   angular:
     build:
