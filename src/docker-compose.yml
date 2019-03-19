@@ -1,7 +1,7 @@
 version: '3'
 
 services: 
-  web:
+  django:
     build: .
     command: python vm-django/manage.py makemigrations
     command: python vm-django/manage.py migrate
@@ -16,10 +16,14 @@ services:
     image: postgres
     volumes:
       - test_db:/var/lib/postgresql/data
-  #make angular container
-  #angular:
-    #build: 
-
+  angular:
+    container_name: angular-service
+    build: ./vm-angular
+    volumes: 
+      - './vm-angular:/usr/src/app'
+    ports:
+      - "4200:4200"
+      
 volumes:
   test_db:
 

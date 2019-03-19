@@ -1,0 +1,98 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "volumes": [
+      {
+        "name": "vm-app",
+        "host": {
+          "sourcePath": "/var/app/current/php-app"
+        }
+      }
+    ],
+    "containerDefinitions": [
+
+      {
+        "name": "vm-angular",
+        "image": "845487146047.dkr.ecr.us-east-1.amazonaws.com/vm-angular-image",
+        "essential": true,
+        "memory": 128,
+        "portMappings": [
+            {
+              "hostPort": 4200,
+              "containerPort": 4200
+            }
+        ],
+        "mountPoints": [
+          {
+            "sourceVolume": "php-app",
+            "containerPath": "/var/www/html",
+            "readOnly": true
+          }
+        ]
+      },
+
+
+      {
+        "name": "vm-django",
+        "image": "845487146047.dkr.ecr.us-east-1.amazonaws.com/vm-django-image",
+        "essential": true,
+        "memory": 128,
+        "portMappings": [
+          {
+            "hostPort": 8000,
+            "containerPort": 8000
+          }
+        ],
+        "links": [
+          "vm-angular",
+          "vm-psql"
+        ],
+        "mountPoints": [
+          {
+            "sourceVolume": "php-app",
+            "containerPath": "/var/www/html",
+            "readOnly": true
+          },
+          {
+            "sourceVolume": "nginx-proxy-conf",
+            "containerPath": "/etc/nginx/conf.d",
+            "readOnly": true
+          },
+          {
+            "sourceVolume": "awseb-logs-nginx-proxy",
+            "containerPath": "/var/log/nginx"
+          }
+        ]
+      },
+      {
+        "name": "vm-psql",
+        "image": "845487146047.dkr.ecr.us-east-1.amazonaws.com/vm-psql",
+        "essential": true,
+        "memory": 128,
+        "portMappings": [
+          {
+            "hostPort": 5432,
+            "containerPort": 5432
+          }
+        ],
+        "links": [
+          "vm-django"
+        ],
+        "mountPoints": [
+          {
+            "sourceVolume": "php-app",
+            "containerPath": "/var/www/html",
+            "readOnly": true
+          },
+          {
+            "sourceVolume": "nginx-proxy-conf",
+            "containerPath": "/etc/nginx/conf.d",
+            "readOnly": true
+          },
+          {
+            "sourceVolume": "awseb-logs-nginx-proxy",
+            "containerPath": "/var/log/nginx"
+          }
+        ]
+      }
+    ]
+  }
