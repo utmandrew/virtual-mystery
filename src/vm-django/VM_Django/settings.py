@@ -184,11 +184,23 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 DATETIME_FORMAT = "%d/%m/%Y %H:%M:%S"
 
-# mystery start datetime (in datetime format)
-START_DATETIME = "24/02/2019 00:00:00"
 
-# time interval in days
-RELEASE_INTERVAL = "7"
+if 'DOCKER' in os.environ and os.environ.get('DOCKER') == 'True':
+    print("!!!!!!!!!!!!!!!!!hello data time stuff !!!!!!!!!!!!!!!!!")
+    # mystery start datetime (in datetime format)
+    START_DATETIME = os.environ.get('START_DATETIME')
 
-# time interval in days (zero for no interval)
-MARK_INTERVAL = "0"
+    # time interval in days
+    RELEASE_INTERVAL = os.environ.get('RELEASE_INTERVAL')
+
+    # time interval in days (zero for no interval)
+    MARK_INTERVAL = os.environ.get('MARK_INTERVAL')
+else:
+    # mystery start datetime (in datetime format)
+    START_DATETIME = "24/02/2019 00:00:00"
+
+    # time interval in days
+    RELEASE_INTERVAL = "7"
+
+    # time interval in days (zero for no interval)
+    MARK_INTERVAL = "0"

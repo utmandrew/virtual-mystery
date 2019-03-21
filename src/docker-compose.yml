@@ -20,7 +20,8 @@ services:
      POSTGRES_USER: "${POSTGRES_USER}"
      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
      POSTGRES_DB: "${POSTGRES_DB}"
-
+     SUPER_USER: "${SUPER_USER}"
+     SUPER_PASS: "${SUPER_PASS}"
   django:
     build:
       context: .
