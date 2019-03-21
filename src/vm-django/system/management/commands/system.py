@@ -1,5 +1,6 @@
 import os
 import csv
+import chardet
 from random import SystemRandom
 from string import ascii_uppercase, digits
 from django.conf import settings
@@ -16,6 +17,17 @@ if not os.path.exists(STATIC_DIR):
 
 # user model
 UserModel = get_user_model()
+
+
+def get_encoding(fname):
+    """
+    Returns encoding of file, fname.
+    :param fname: string
+    :return: string
+    """
+    file = open(fname, 'rb')
+    encoding = chardet.detect(file.read())['encoding']
+    return encoding
 
 
 def user_credentials(uname, password, email):
@@ -140,7 +152,8 @@ class Command(BaseCommand):
             fpath = options['csv_path']
             # checks if file is csv
             if fpath.lower().endswith('csv'):
-                with open(fpath) as file:
+                encoding = get_encoding(fpath)
+                with open(fpath, encoding=encoding) as file:
                     reader = csv.reader(file, delimiter=",")
                     # iterating through each row in csv
                     for row in reader:
