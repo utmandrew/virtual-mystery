@@ -163,7 +163,7 @@ class Command(BaseCommand):
                             # whitespace
                             practical = create_pra(row[2].strip())
                             group = create_group(row[3].strip(), practical)
-                            _ = create_user(row[0].strip(),row[1].strip(),
+                            _ = create_user(row[0].strip(), row[1].strip(),
                                             row[4].strip(), group)
 
                         except IntegrityError:
