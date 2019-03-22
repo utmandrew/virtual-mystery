@@ -1,0 +1,46 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions":[
+        {
+            "name": "frontend",
+            "image": "virtualmystery/vm-angular",
+            "hostname": "frontend",
+            "essential": false,
+            "memory": 128
+        },
+
+        {
+            "name": "backend",
+            "image": "virtualmystery/vm-django",
+            "hostname": "backend",
+            "essential": false,
+            "memory": 128
+            
+        },
+
+        {
+            "name":"database",
+            "image": "virtualmystery/vm-psql",
+            "hostname": "database",
+            "essential": false,
+            "memory": 128
+
+        },
+
+        {
+            "name":"proxy",
+            "image": "virtualmystery/vm-proxy",
+            "hostname": "proxy",
+            "essential": true,
+            "portMappings":[
+                {
+                    "hostPort": 80,
+                    "containerPort": 80
+                }
+            ],
+            "links": ["frontend","backend"],
+            "memory": 128
+        }
+    ]
+
+}
