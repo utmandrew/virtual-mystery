@@ -89,17 +89,29 @@ WSGI_APPLICATION = 'VM_Django.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'vm_database',
-        'USER': 'vm_db_user',
-        'PASSWORD': 'vm_password',
-        'HOST': 'db',
-        'PORT': '5432',
+if 'DOCKER' in os.environ and os.environ.get('DOCKER') == 'True':
+    print("!!!!!!!!!!!!!!!!!hello environment var for docker works !!!!!!!!!!!!!!!!!")
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.environ.get('POSTGRES_DB'),
+            'USER': os.environ.get('POSTGRES_USER'),
+            'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+            'HOST': 'db',
+            'PORT': '5432',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'vm_database',
+            'USER': 'vm_db_user',
+            'PASSWORD': 'vm_password',
+            'HOST': 'db',
+            'PORT': '5432',
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -172,11 +184,23 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 DATETIME_FORMAT = "%d/%m/%Y %H:%M:%S"
 
-# mystery start datetime (in datetime format)
-START_DATETIME = "24/02/2019 00:00:00"
 
-# time interval in days
-RELEASE_INTERVAL = "7"
+if 'DOCKER' in os.environ and os.environ.get('DOCKER') == 'True':
+    print("!!!!!!!!!!!!!!!!!hello data time stuff !!!!!!!!!!!!!!!!!")
+    # mystery start datetime (in datetime format)
+    START_DATETIME = os.environ.get('START_DATETIME')
 
-# time interval in days (zero for no interval)
-MARK_INTERVAL = "0"
+    # time interval in days
+    RELEASE_INTERVAL = os.environ.get('RELEASE_INTERVAL')
+
+    # time interval in days (zero for no interval)
+    MARK_INTERVAL = os.environ.get('MARK_INTERVAL')
+else:
+    # mystery start datetime (in datetime format)
+    START_DATETIME = "24/02/2019 00:00:00"
+
+    # time interval in days
+    RELEASE_INTERVAL = "7"
+
+    # time interval in days (zero for no interval)
+    MARK_INTERVAL = "0"
