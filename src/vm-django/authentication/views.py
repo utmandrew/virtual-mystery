@@ -1,6 +1,8 @@
 from math import floor
 from django.contrib.auth import authenticate
-from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.password_validation import validate_password, \
+    get_password_validators
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -20,9 +22,6 @@ class Login(ObtainAuthToken):
     Custom User Login.
     Returns user token and other required information, otherwise returns
     http_400_bad_request.
-
-    Notes: add support for ta/admin accounts
-
     """
 
     def post(self, request, *args, **kwargs):
@@ -69,3 +68,50 @@ class Logout(APIView):
         except AttributeError:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_200_OK)
+
+
+class ChangePassword(APIView):
+    """
+    User Password Change.
+    Changes authenticated user password, deleting the user token (server side)
+    if successful, forcing a logout.
+    """
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        try:
+            user = request.user
+            new_password = request.data['new_password']
+            confirm_password = request.data['confirm_password']
+            # required password validator configuration
+            validator_config = [
+                {
+                    'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+                    'OPTIONS': {'min_length': 8}
+                }
+            ]
+
+            # check to see if password conformation matches with new pasword
+            if new_password == confirm_password:
+                # gets password validators
+                validators = get_password_validators(validator_config)
+                # validates password (raises ValidationError if invalid)
+                validate_password(new_password,
+                                  user=user,
+                                  password_validators=validators)
+                # sets and saves new password for user
+                user.set_password(new_password)
+                user.save()
+                return Response(status=status.HTTP_200_OK)
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        except AttributeError:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        except KeyError:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        except ValueError:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        except ValidationError:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
