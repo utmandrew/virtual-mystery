@@ -1,47 +1,53 @@
 version: '3'
 
 services:
-  proxy:
 
-    build:
-      context: .
-      dockerfile: ./docker/proxy/Dockerfile
-    image: virtualmystery/vm-proxy:test
-    volumes:
-      #- ./data/ssl:/usr/local/apache2/ssl
+  nginx:
+    image: nginx:latest
+    container_name: vm-nginx
     ports:
-      - "80:80"
-      - "443:443"
+      - "8000:8000"
+    volumes:
+      - ./vm-django/config/nginx:/etc/nginx/conf.d
+    depends_on:
+      - django
+  # proxy:
 
-  db:
-   image: postgres
-   # mounts db files to local machine filesystem
-   volumes:
-      #- ./data/mount/postgres-data:/var/lib/postgresql/data
-   environment:
-     POSTGRES_USER: "${POSTGRES_USER}"
-     POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
-     POSTGRES_DB: "${POSTGRES_DB}"
+  #   build:
+  #     context: .
+  #     dockerfile: ./docker/proxy/Dockerfile
+  #   image: virtualmystery/vm-proxy:test
+  #   volumes:
+  #     #- ./data/ssl:/usr/local/apache2/ssl
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+
+
   django:
     build:
       context: .
-      dockerfile: ./docker/django/Dockerfile
+      dockerfile: ./vm-django/Dockerfile
     # mounts user information files to local machine filesystem
     image: virtualmystery/vm-django:test
-    volumes:
-      #- ./data/mount/private:/opt/vm-django/system/private
-      #- ./data/mount/vm-static:/opt/vm-django/static
-    #command: ./wait-for-it.sh db:5432 -- ./start.sh
+    command: bash -c "python manage.py makemigrations && python manage.py migrate && gunicorn mydjango.wsgi -b 0.0.0.0:8000"
+    # volumes:
+    #   - ./data/mount/private:/opt/vm-django/system/private
+    #   - ./data/mount/vm-static:/opt/vm-django/static
+    # command: ./wait-for-it.sh db:5432 -- ./start.sh
     expose:
-      - "80"
+      - "8000"
     depends_on:
       - "db"
-      - "proxy"
-    links:
-      - "db"
-      - "proxy"
-    env_file:
-        - .env
+  db:
+    image: postgres
+    # mounts db files to local machine filesystem
+    #volumes:
+        #- ./data/mount/postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: "${POSTGRES_DB}"
 
   angular:
     build:
@@ -49,10 +55,7 @@ services:
       dockerfile: ./docker/angular/Dockerfile
     image: virtualmystery/vm-angular:test
     expose:
-      - "80"
+      - "8000"
     depends_on:
-      - "proxy"
-      - "django"
-    links:
-      - "proxy"
+      - "nginx"
       - "django"

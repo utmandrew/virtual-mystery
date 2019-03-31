@@ -3,3 +3,4 @@ django-cors-headers==2.3.0
 djangorestframework==3.8.2
 psycopg2==2.7.5
 chardet==3.0.4
+gunicorn==19.6.0

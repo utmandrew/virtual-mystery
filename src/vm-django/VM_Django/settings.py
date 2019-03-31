@@ -105,9 +105,9 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'vm_database',
-            'USER': 'vm_db_user',
-            'PASSWORD': 'vm_password',
+            'NAME': 'postgres',
+            'USER': 'postgres',
+            'PASSWORD': 'postgres',
             'HOST': 'db',
             'PORT': '5432',
         }

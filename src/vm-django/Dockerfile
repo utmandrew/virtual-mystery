@@ -1,7 +1,8 @@
-FROM python 3.6
+FROM python:3.6
 ENV PYTHONUNBUFFERED 1
-RUN mkdir /config
-ADD /config/requirements.pip /config/
-RUN pip install -r /config/requirements.pip
-RUN mkdir /src;
-WORKDIR /src
+RUN mkdir /vm-django
+WORKDIR /vm-django
+COPY . .
+RUN pip install -r Requirements.txt
+
+
