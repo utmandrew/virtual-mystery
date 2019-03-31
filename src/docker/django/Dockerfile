@@ -30,13 +30,13 @@ RUN pip3.6 install -r Requirements.txt && pip3.6 install mod_wsgi
 WORKDIR /opt/vm-django
 
 # Copy django startup script
-COPY /docker/django/start.sh .
+#COPY /docker/django/start.sh .
 
 # Copy wait-for-it script
-COPY /docker/django/wait-for-it.sh .
+#COPY /docker/django/wait-for-it.sh .
 
 # give permission to execute start.sh and django files
-RUN chmod +x start.sh && chmod o+x /opt
+#RUN chmod +x start.sh && chmod o+x /opt
 
 # copies apache .conf files
 COPY docker/django/000-default.conf /etc/apache2/sites-enabled/000-default.conf

@@ -1,0 +1,93 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "volumes": [
+        {
+          "name": "ssl",
+          "host": {
+            "sourcePath": "/data/ssl"
+          }
+        },
+        {
+          "name": "postgres-data",
+          "host": {
+            "sourcePath": "/data/mount/postgres-data"
+          }
+        },
+        {
+            "name":"django",
+            "host":{
+                "sourcePath":"/data/mount/private"
+            }
+        },
+        {
+            "name":"django-static",
+            "host":{
+                "sourcePath":"/data/mount/vm-static"
+            }
+        }
+      ],
+    "containerDefinitions":[
+        {
+            "name":"proxy",
+            "image": "virtualmystery/vm-proxy:test",
+            "hostname": "proxy",
+            "essential": true,
+            "portMappings":[
+                {
+                    "hostPort": 80,
+                    "containerPort": 80
+                }
+            ],
+            "links": ["frontend","backend"],
+            "memory": 128,
+            "mountPoints": [
+                {
+                    "sourceVolume":"ssl",
+                    "containerPath":"/usr/local/apache2/ssl"
+                }
+            ]
+        },
+        {
+            "name": "frontend",
+            "image": "virtualmystery/vm-angular:test",
+            "hostname": "frontend",
+            "essential": false,
+            "memory": 128
+        },
+        {
+            "name": "backend",
+            "image": "virtualmystery/vm-django:test",
+            "hostname": "backend",
+            "essential": false,
+            "memory": 128,
+            "mountPoints": [
+                {
+                    "sourceVolume":"django",
+                    "containerPath":"/opt/vm-django/system/private"
+                },
+                {
+                    "sourceVolume":"django-static",
+                    "containerPath":"/opt/vm-django/static"
+                }
+            ]
+            
+        },
+        {
+            "name":"database",
+            "image": "virtualmystery/vm-psql:test",
+            "hostname": "database",
+            "essential": false,
+            "memory": 128,
+            "mountPoints": [
+                {
+                    "sourceVolume":"postgres-data",
+                    "containerPath":"/var/lib/postgresql/data"
+                }
+            ]
+
+
+        }
+        
+    ]
+
+}

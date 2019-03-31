@@ -8,7 +8,7 @@ services:
       dockerfile: ./docker/proxy/Dockerfile
     image: virtualmystery/vm-proxy:test
     volumes:
-      - ./data/ssl:/usr/local/apache2/ssl
+      #- ./data/ssl:/usr/local/apache2/ssl
     ports:
       - "80:80"
       - "443:443"
@@ -17,7 +17,7 @@ services:
    image: postgres
    # mounts db files to local machine filesystem
    volumes:
-      - ./data/mount/postgres-data:/var/lib/postgresql/data
+      #- ./data/mount/postgres-data:/var/lib/postgresql/data
    environment:
      POSTGRES_USER: "${POSTGRES_USER}"
      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
@@ -29,9 +29,9 @@ services:
     # mounts user information files to local machine filesystem
     image: virtualmystery/vm-django:test
     volumes:
-      - ./data/mount/private:/opt/vm-django/system/private
-      - ./data/mount/vm-static:/opt/vm-django/static
-    command: ./wait-for-it.sh db:5432 -- ./start.sh
+      #- ./data/mount/private:/opt/vm-django/system/private
+      #- ./data/mount/vm-static:/opt/vm-django/static
+    #command: ./wait-for-it.sh db:5432 -- ./start.sh
     expose:
       - "80"
     depends_on:
