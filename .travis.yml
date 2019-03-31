@@ -32,5 +32,7 @@ script:
   - docker push virtualmystery/vm-angular:test
   - docker push virtualmystery/vm-django:test
   - docker push virtualmystery/vm-proxy:test
-  - ng test --watch=false --browsers=ChromeHeadless
+  #- ng test --watch=false --browsers=ChromeHeadless
+  - docker-compose up
+  
   
