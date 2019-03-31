@@ -24,8 +24,13 @@ before_script:
   - cd dist
   - ng build --prod --aot 
   - cd ../../
-  - docker-compose up
+  - echo "$DOCKERPASSWORD" | docker login -u "$DOCKERUSERNAME" --password-stdin
+  - docker-compose build
+  #- docker-compose up
   
 script:
-  - ng test --watch=false --browsers=ChromeHeadless
+  #- ng test --watch=false --browsers=ChromeHeadless
+  - docker push virtualmystery/vm-angular:test
+  - docker push virtualmystery/vm-django:test
+  - docker push virtualmystery/vm-proxy:test
   
