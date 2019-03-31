@@ -90,7 +90,6 @@ WSGI_APPLICATION = 'VM_Django.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 if 'DOCKER' in os.environ and os.environ.get('DOCKER') == 'True':
-    print("!!!!!!!!!!!!!!!!!hello environment var for docker works !!!!!!!!!!!!!!!!!")
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -186,7 +185,6 @@ DATETIME_FORMAT = "%d/%m/%Y %H:%M:%S"
 
 
 if 'DOCKER' in os.environ and os.environ.get('DOCKER') == 'True':
-    print("!!!!!!!!!!!!!!!!!hello data time stuff !!!!!!!!!!!!!!!!!")
     # mystery start datetime (in datetime format)
     START_DATETIME = os.environ.get('START_DATETIME')
 
