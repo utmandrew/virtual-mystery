@@ -2,9 +2,11 @@ version: '3'
 
 services:
   proxy:
+
     build:
       context: .
       dockerfile: ./docker/proxy/Dockerfile
+    image: virtualmystery/vm-proxy:test
     volumes:
       - ./data/ssl:/usr/local/apache2/ssl
     ports:
@@ -25,6 +27,7 @@ services:
       context: .
       dockerfile: ./docker/django/Dockerfile
     # mounts user information files to local machine filesystem
+    image: virtualmystery/vm-django:test
     volumes:
       - ./data/mount/private:/opt/vm-django/system/private
       - ./data/mount/vm-static:/opt/vm-django/static
@@ -44,6 +47,7 @@ services:
     build:
       context: .
       dockerfile: ./docker/angular/Dockerfile
+    image: virtualmystery/vm-angular:test
     expose:
       - "80"
     depends_on:
