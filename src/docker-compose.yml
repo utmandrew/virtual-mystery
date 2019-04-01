@@ -25,8 +25,8 @@ services:
   db:
     image: postgres
    # mounts db files to local machine filesystem
-   #volumes:
-      #- ./data/mount/postgres-data:/var/lib/postgresql/data
+    #volumes:
+    #  - ./data/mount/postgres-data:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: "${POSTGRES_USER}"
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
@@ -52,17 +52,17 @@ services:
     env_file:
       - .env
 
-  # angular:
-  #   build:
-  #     context: .
-  #     dockerfile: ./docker/angular/Dockerfile
-  #   image: virtualmystery/vm-angular:test
-  #   expose:
-  #     - "80"
-  #   depends_on:
-  #     - "proxy"
-  #     - "django"
-  #   links:
-  #     - "proxy"
-  #     - "django"
+  angular:
+    build:
+      context: .
+      dockerfile: ./docker/angular/Dockerfile
+    image: virtualmystery/vm-angular:test
+    expose:
+      - "8100"
+    depends_on:
+      - "nginx"
+      - "django"
+    links:
+      - "nginx"
+      - "django"
 
