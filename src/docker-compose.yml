@@ -23,7 +23,7 @@ services:
       - django
 
   db:
-   image: postgres
+    image: postgres
    # mounts db files to local machine filesystem
    #volumes:
       #- ./data/mount/postgres-data:/var/lib/postgresql/data
@@ -38,7 +38,7 @@ services:
       dockerfile: ./vm-django/Dockerfile
     # mounts user information files to local machine filesystem
     image: virtualmystery/vm-django:test
-    command: bash -c "python vm-django/manage.py makemigrations && python vm-django/manage.py migrate && gunicorn VM_Django.wsgi -b 0.0.0.0:8000"
+    command: bash -c "python vm-django/manage.py makemigrations && python vm-django/manage.py migrate && cd vm-django && gunicorn VM_Django.wsgi -b 0.0.0.0:8000"
     #volumes:
       #- ./data/mount/private:/opt/vm-django/system/private
       #- ./data/mount/vm-static:/opt/vm-django/static
@@ -49,6 +49,8 @@ services:
       - "db"
     expose:
       - "8000"
+    env_file:
+      - .env
 
   # angular:
   #   build:
