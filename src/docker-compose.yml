@@ -1,6 +1,21 @@
 version: '3'
 
 services:
+  django:
+    build:
+      context: .
+      dockerfile: ./vm-django/Dockerfile
+    # mounts user information files to local machine filesystem
+    image: virtualmystery/vm-django:test
+    #command: bash -c "python manage.py makemigrations && python manage.py migrate && gunicorn mydjango.wsgi -b 0.0.0.0:8000"
+    # volumes:
+    #   - ./data/mount/private:/opt/vm-django/system/private
+    #   - ./data/mount/vm-static:/opt/vm-django/static
+    # command: ./wait-for-it.sh db:5432 -- ./start.sh
+    expose:
+      - "8000"
+    depends_on:
+      - "db"
 
   nginx:
     image: nginx:latest
@@ -24,21 +39,7 @@ services:
   #     - "443:443"
 
 
-  django:
-    build:
-      context: .
-      dockerfile: ./vm-django/Dockerfile
-    # mounts user information files to local machine filesystem
-    image: virtualmystery/vm-django:test
-    #command: bash -c "python manage.py makemigrations && python manage.py migrate && gunicorn mydjango.wsgi -b 0.0.0.0:8000"
-    # volumes:
-    #   - ./data/mount/private:/opt/vm-django/system/private
-    #   - ./data/mount/vm-static:/opt/vm-django/static
-    # command: ./wait-for-it.sh db:5432 -- ./start.sh
-    expose:
-      - "8000"
-    depends_on:
-      - "db"
+  
 
   db:
     image: postgres
