@@ -10,7 +10,7 @@ services:
     volumes:
       - ./vm-django/config/nginx:/etc/nginx/conf.d
     depends_on:
-      - django
+      - "django"
   # proxy:
 
   #   build:
@@ -30,7 +30,7 @@ services:
       dockerfile: ./vm-django/Dockerfile
     # mounts user information files to local machine filesystem
     image: virtualmystery/vm-django:test
-    command: bash -c "python manage.py makemigrations && python manage.py migrate && gunicorn mydjango.wsgi -b 0.0.0.0:8000"
+    #command: bash -c "python manage.py makemigrations && python manage.py migrate && gunicorn mydjango.wsgi -b 0.0.0.0:8000"
     # volumes:
     #   - ./data/mount/private:/opt/vm-django/system/private
     #   - ./data/mount/vm-static:/opt/vm-django/static
@@ -39,6 +39,7 @@ services:
       - "8000"
     depends_on:
       - "db"
+
   db:
     image: postgres
     # mounts db files to local machine filesystem
