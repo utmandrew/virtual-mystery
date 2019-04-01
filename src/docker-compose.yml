@@ -1,63 +1,66 @@
 version: '3'
 
 services:
+  # proxy:
+  #   build:
+  #     context: .
+  #     dockerfile: ./docker/proxy/Dockerfile
+  #   image: virtualmystery/vm-proxy:test
+  #   #volumes:
+  #     #- ./data/ssl:/usr/local/apache2/ssl
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  nginx:
+    image: nginx:latest
+    container_name: ng01
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src:/src
+      - ./vm-django/config/nginx:/etc/nginx/conf.d
+    depends_on:
+      - django
+
+  db:
+   image: postgres
+   # mounts db files to local machine filesystem
+   #volumes:
+      #- ./data/mount/postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: "${POSTGRES_DB}"
+      
   django:
     build:
       context: .
       dockerfile: ./vm-django/Dockerfile
     # mounts user information files to local machine filesystem
     image: virtualmystery/vm-django:test
-    #command: bash -c "python manage.py makemigrations && python manage.py migrate && gunicorn mydjango.wsgi -b 0.0.0.0:8000"
-    # volumes:
-    #   - ./data/mount/private:/opt/vm-django/system/private
-    #   - ./data/mount/vm-static:/opt/vm-django/static
-    # command: ./wait-for-it.sh db:5432 -- ./start.sh
-    expose:
-      - "8000"
+    command: bash -c "python vm-django/manage.py makemigrations && python vm-django/manage.py migrate && gunicorn VM_Django.wsgi -b 0.0.0.0:8000"
+    #volumes:
+      #- ./data/mount/private:/opt/vm-django/system/private
+      #- ./data/mount/vm-static:/opt/vm-django/static
+    #command: ./wait-for-it.sh db:5432 -- ./start.sh
     depends_on:
       - "db"
-
-  nginx:
-    image: nginx:latest
-    container_name: vm-nginx
-    ports:
-      - "8000:8000"
-    volumes:
-      - ./vm-django/config/nginx:/etc/nginx/conf.d
-    depends_on:
-      - "django"
-  # proxy:
-
-  #   build:
-  #     context: .
-  #     dockerfile: ./docker/proxy/Dockerfile
-  #   image: virtualmystery/vm-proxy:test
-  #   volumes:
-  #     #- ./data/ssl:/usr/local/apache2/ssl
-  #   ports:
-  #     - "80:80"
-  #     - "443:443"
-
-
-  
-
-  db:
-    image: postgres
-    # mounts db files to local machine filesystem
-    #volumes:
-        #- ./data/mount/postgres-data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_USER: "${POSTGRES_USER}"
-      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
-      POSTGRES_DB: "${POSTGRES_DB}"
-
-  angular:
-    build:
-      context: .
-      dockerfile: ./docker/angular/Dockerfile
-    image: virtualmystery/vm-angular:test
+    links:
+      - "db"
     expose:
       - "8000"
-    depends_on:
-      - "nginx"
-      - "django"
+
+  # angular:
+  #   build:
+  #     context: .
+  #     dockerfile: ./docker/angular/Dockerfile
+  #   image: virtualmystery/vm-angular:test
+  #   expose:
+  #     - "80"
+  #   depends_on:
+  #     - "proxy"
+  #     - "django"
+  #   links:
+  #     - "proxy"
+  #     - "django"
+
