@@ -28,9 +28,9 @@ before_script:
   - docker-compose build
   #- docker-compose up
   
-script:
+script:  
+  - docker push virtualmystery/vm-angular:test_to
+  - docker push virtualmystery/vm-django:test_to
+  - docker push virtualmystery/vm-proxy:test_to
   #- ng test --watch=false --browsers=ChromeHeadless
-  - docker push virtualmystery/vm-angular:test
-  - docker push virtualmystery/vm-django:test
-  - docker push virtualmystery/vm-proxy:test
-  
+  - docker-compose up
