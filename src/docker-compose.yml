@@ -58,7 +58,7 @@ services:
       dockerfile: ./docker/angular/Dockerfile
     image: virtualmystery/vm-angular:test
     expose:
-      - "8100"
+      - "80"
     depends_on:
       - "nginx"
       - "django"

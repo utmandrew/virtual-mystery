@@ -32,7 +32,7 @@
         },
         {
             "name":"database",
-            "image": "virtualmystery/vm-psql:test",
+            "image": "virtualmystery/vm-psql",
             "hostname": "database",
             "essential": false,
             "memory": 128

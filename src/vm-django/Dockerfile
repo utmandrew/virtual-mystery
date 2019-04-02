@@ -7,11 +7,8 @@ RUN mkdir /vm-django
 RUN pip3.6 install virtualenv && virtualenv --python=/usr/local/bin/python3.6 djangoenv
 WORKDIR djangoenv/bin
 RUN /bin/bash -c "source activate"
-
 WORKDIR /code
-
 COPY Requirements.txt /code/vm-django
-
 WORKDIR /vm-django/
 COPY . .
 RUN pip install -r Requirements.txt && pip3.6 install mod_wsgi
