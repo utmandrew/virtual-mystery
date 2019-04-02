@@ -52,7 +52,13 @@
             "image": "virtualmystery/vm-angular:test",
             "hostname": "frontend",
             "essential": false,
-            "memory": 128
+            "memory": 128,
+            "portMappings":[
+                {
+                    "hostPort": 80,
+                    "containerPort": 80
+                }
+            ]
         },
         {
             "name": "backend",
@@ -68,6 +74,12 @@
                 {
                     "sourceVolume":"django-static",
                     "containerPath":"/opt/vm-django/static"
+                }
+            ],
+            "portMappings":[
+                {
+                    "hostPort": 80,
+                    "containerPort": 80
                 }
             ]
             

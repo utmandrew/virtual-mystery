@@ -28,11 +28,10 @@
             "hostname": "backend",
             "essential": false,
             "memory": 128
-            
         },
         {
             "name":"database",
-            "image": "virtualmystery/vm-psql",
+            "image": "postgres",
             "hostname": "database",
             "essential": false,
             "memory": 128
