@@ -33,4 +33,6 @@ script:
   - docker push virtualmystery/vm-angular:test
   - docker push virtualmystery/vm-django:test
   - docker push virtualmystery/vm-proxy:test
+
+  
   
