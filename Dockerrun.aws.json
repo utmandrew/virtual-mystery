@@ -36,10 +36,6 @@
                 {
                     "hostPort": 80,
                     "containerPort": 80
-                },
-                {
-                    "hostPort": 443,
-                    "containerPort": 443
                 }
             ],
             "links": ["frontend","backend"],
@@ -56,13 +52,7 @@
             "image": "virtualmystery/vm-angular:test",
             "hostname": "frontend",
             "essential": false,
-            "memory": 128,
-            "portMappings":[
-                {
-                    "hostPort": 80,
-                    "containerPort": 80
-                }
-            ]
+            "memory": 128
         },
         {
             "name": "backend",
@@ -79,12 +69,6 @@
                     "sourceVolume":"django-static",
                     "containerPath":"/opt/vm-django/static"
                 }
-            ],
-            "portMappings":[
-                {
-                    "hostPort": 80,
-                    "containerPort": 80
-                }
             ]
             
         },
@@ -92,11 +76,9 @@
             "name":"database",
             "image": "postgres",
             "environment": [
-                {
-                    "POSTGRES_USER": "${POSTGRES_USER}",
-                    "POSTGRES_PASSWORD": "${POSTGRES_PASSWORD}",
-                    "POSTGRES_DB": "${POSTGRES_DB}"
-                }
+                {"name":"POSTGRES_USER","value": "${POSTGRES_USER}"},
+                {"name":"POSTGRES_PASSWORD","value": "${POSTGRES_PASSWORD}"},
+                {"name":"POSTGRES_DB","value": "${POSTGRES_DB}"}
             ],
             "hostname": "database",
             "essential": false,

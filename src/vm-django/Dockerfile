@@ -12,3 +12,4 @@ COPY Requirements.txt /code/vm-django
 WORKDIR /vm-django/
 COPY . .
 RUN pip install -r Requirements.txt && pip3.6 install mod_wsgi
+#RUN python manage.py collectstatic
