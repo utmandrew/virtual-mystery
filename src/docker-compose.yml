@@ -38,10 +38,10 @@ services:
       dockerfile: ./vm-django/Dockerfile
     # mounts user information files to local machine filesystem
     image: virtualmystery/vm-django:test
-    command: bash -c "python vm-django/manage.py makemigrations && python vm-django/manage.py migrate && cd vm-django && gunicorn VM_Django.wsgi -b 0.0.0.0:8000"
-    #volumes:
-      #- ./data/mount/private:/opt/vm-django/system/private
-      #- ./data/mount/vm-static:/opt/vm-django/static
+    command: bash -c " && python vm-django/manage.py collectstatic --no-input && python vm-django/manage.py makemigrations && python vm-django/manage.py migrate && cd vm-django && gunicorn VM_Django.wsgi -b 0.0.0.0:8000"
+    volumes:
+      #- .:/code
+      - ./vm-django:/code/
     #command: ./wait-for-it.sh db:5432 -- ./start.sh
     depends_on:
       - "db"
@@ -52,17 +52,17 @@ services:
     env_file:
       - .env
 
-  angular:
-    build:
-      context: .
-      dockerfile: ./docker/angular/Dockerfile
-    image: virtualmystery/vm-angular:test
-    expose:
-      - "80"
-    depends_on:
-      - "nginx"
-      - "django"
-    links:
-      - "nginx"
-      - "django"
+  # angular:
+  #   build:
+  #     context: .
+  #     dockerfile: ./docker/angular/Dockerfile
+  #   image: virtualmystery/vm-angular:test
+  #   expose:
+  #     - "80"
+  #   depends_on:
+  #     - "nginx"
+  #     - "django"
+  #   links:
+  #     - "nginx"
+  #     - "django"
 

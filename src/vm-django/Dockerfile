@@ -12,4 +12,6 @@ COPY Requirements.txt /code/vm-django
 WORKDIR /vm-django/
 COPY . .
 RUN pip install -r Requirements.txt && pip3.6 install mod_wsgi
-#RUN python manage.py collectstatic
+#RUN chmod +x entrypoint.sh
+#ENTRYPOINT ["/code/vm-django/entrypoint.sh"]
+#RUN python manage.py collectstatic#
