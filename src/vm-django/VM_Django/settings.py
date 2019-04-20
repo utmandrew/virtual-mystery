@@ -183,7 +183,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 DATETIME_FORMAT = "%d/%m/%Y %H:%M:%S"
 
-
 if 'DOCKER' in os.environ and os.environ.get('DOCKER') == 'True':
     # mystery start datetime (in datetime format)
     START_DATETIME = os.environ.get('START_DATETIME')

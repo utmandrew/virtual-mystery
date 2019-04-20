@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from '../auth/login/login.component';
+import { ChangePasswordComponent } from '../auth/change-password/change-password.component'
 import { MysteryComponent } from '../mystery/mystery.component';
 import { ReleaseViewComponent } from '../mystery/release-view/release-view.component';
 import { ReleaseListComponent } from '../mystery/release-list/release-list.component';
@@ -13,6 +14,7 @@ import { TaInstructionsComponent } from '../ta-instructions/ta-instructions.comp
 const routes: Routes = [
 	{ path: '', redirectTo: 'auth', pathMatch: 'full' },
 	{ path: 'auth', component: LoginComponent },
+	{ path: 'changepassword', component: ChangePasswordComponent },
 	{
 		path: 'mystery',
 		children: [

@@ -136,8 +136,8 @@ export class TAComponent implements OnInit {
 
 	  this.groups_relases = data;
       this.curr_release = JSON.parse(sessionStorage.getItem('currentUser'))['release'];
-	  this.show_image = true;
-
+    this.show_image = true;
+ 
 
     this.getGroupsComments(groupId, this.curr_release);
     },
