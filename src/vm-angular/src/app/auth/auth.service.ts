@@ -20,6 +20,11 @@ export class AuthService {
 	  // log user out
 	  return this.httpClient.get(`${this.API_URL}/auth/logout`);
   }
+  
+  // sends new password credentials and recieves confirmation
+  changePassword(data) {
+	  return this.httpClient.post(`${this.API_URL}/auth/changepassword`,data);
+  }
 
   // returns true iff user is logged in, otherwise returns false
   getUser() {
