@@ -7,7 +7,6 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import IntegrityError
 from django.core.management.base import BaseCommand, CommandError
-from system.models import Practical, Group
 
 # private directory relative path
 STATIC_DIR = os.path.join("system", "private")
@@ -38,7 +37,7 @@ def user_credentials(uname, password, email):
     :param password: password (string)
     :param email: email (string)
     """
-    fpath = os.path.join(settings.BASE_DIR, STATIC_DIR, "users.csv")
+    fpath = os.path.join(settings.BASE_DIR, STATIC_DIR, "tas.csv")
 
     if os.path.exists(fpath):
         # file exists
@@ -61,47 +60,14 @@ def generate_password():
                    for _ in range(8))
 
 
-def create_pra(name):
+def create_ta(uname, fname, email):
     """
-    Returns practical object. Creating and saving the object if it does not
-    exist, otherwise it gets the existing object.
+    Returns the newly created and saved user object with ta credentials.
 
-    :param name: practical name
-    :return: practical object
-    """
-    practical, created = Practical.objects.get_or_create(
-        name=name,
-    )
-
-    return practical
-
-
-def create_group(name, practical):
-    """
-    Returns group object. Creating and saving the object if it does not exist,
-    otherwise it gets the existing object.
-
-    :param name: group name
-    :param practical: practical object
-    :return: group object
-    """
-    group, created = Group.objects.get_or_create(
-        name=name,
-        practical=practical
-    )
-
-    return group
-
-
-def create_user(uname, fname, email, group):
-    """
-    Returns the newly created and saved user object.
-
-    :param group: group object
     :param uname: username
     :param fname: user first name
     :param email: user email
-    :return: password string
+    :return: user object
     """
     password = generate_password()
 
@@ -111,7 +77,7 @@ def create_user(uname, fname, email, group):
         first_name=fname,
         email=email,
         password=password,
-        group=group
+        is_ta=True
     )
 
     # saves user
@@ -125,16 +91,16 @@ def create_user(uname, fname, email, group):
 
 class Command(BaseCommand):
     """
-    System command - used to create system app objects and connections from
+    Ta command - used to create ta users objects and connections from
     file.
 
     File Type: csv
 
-    Format: User,FirstName,PRA,Group,Email
+    Format: User,FirstName,Email
     """
 
-    help = 'Used to create system app objects and connections from csv file ' \
-           '(Format: User,FirstName,PRA,Group,Email)'
+    help = 'Used to create ta user objects and connections from csv file ' \
+           '(Format: User,FirstName,Email)'
 
     def add_arguments(self, parser):
         """
@@ -161,10 +127,8 @@ class Command(BaseCommand):
                         try:
                             # csv entries are stripped of leading and trailing
                             # whitespace
-                            practical = create_pra(row[2].strip())
-                            group = create_group(row[3].strip(), practical)
-                            _ = create_user(row[0].strip(), row[1].strip(),
-                                            row[4].strip(), group)
+                            _ = create_ta(row[0].strip(), row[1].strip(),
+                                            row[2].strip())
 
                         except IntegrityError:
                             # duplicate information
@@ -180,9 +144,9 @@ class Command(BaseCommand):
                             self.stderr.write(self.style.WARNING(
                                 "(Warning) Missing Value: {}".format(row)))
 
-                # prints users.txt file path
-                self.stdout.write("User File Location: {}".format(
-                    os.path.join(settings.BASE_DIR, STATIC_DIR, "users.csv")
+                # prints tas.txt file path
+                self.stdout.write("TA File Location: {}".format(
+                    os.path.join(settings.BASE_DIR, STATIC_DIR, "tas.csv")
                 ))
 
             else:
@@ -196,5 +160,3 @@ class Command(BaseCommand):
         except IOError:
             # error reading file
             self.stderr.write(self.style.ERROR("(Error) Error reading file."))
-
-
