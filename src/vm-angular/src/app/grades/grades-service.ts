@@ -6,7 +6,7 @@ import { HttpService } from '../http.service';
   providedIn: 'root'
 })
 export class GradesService {
-  API_URL = 'http://localhost:8000';
+  API_URL = 'http://django:80';
 
   constructor(private httpClient: HttpService) { }
   
