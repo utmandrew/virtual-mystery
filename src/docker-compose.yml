@@ -6,8 +6,8 @@ services:
       context: .
       dockerfile: ./docker/proxy/Dockerfile
     image: virtualmystery/vm-proxy:test
-    volumes:
-      - ./data/ssl:/usr/local/apache2/ssl
+    #volumes:
+    #  - ./data/ssl:/usr/local/apache2/ssl
     ports:
       - "80:80"
       - "443:443"
