@@ -12,6 +12,8 @@ export class HttpService {
 
   constructor(private http: HttpClient) { }
   
+  API_URL = 'http://django:80';
+  
   // returns an HttpHeaders object with the current user's auth token
   addAuthToken(header: HttpHeaders){
 	  // Checks to see if current user is logged in
@@ -25,14 +27,14 @@ export class HttpService {
   get(url) {
 	  let header = new HttpHeaders();
 	  header = this.addAuthToken(header);
-	  return this.http.get(url, {headers: header});
+	  return this.http.get(`${this.API_URL}/${url}`, {headers: header});
   }
   
   // performs a post request after calling the addAuthToken function
   post(url, data) {
 	  let header = new HttpHeaders();
 	  header = this.addAuthToken(header);
-	  return this.http.post(url, data, {headers: header});
+	  return this.http.post(`${this.API_URL}/${url}`, data, {headers: header});
   }
   
 }
