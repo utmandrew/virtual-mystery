@@ -1,10 +1,22 @@
 import csv
+import chardet
 from django.db import IntegrityError
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.base import BaseCommand, CommandError
 from mystery.models import Instance, Mystery
 # dependant on system group model
 from system.models import Group
+
+
+def get_encoding(fname):
+    """
+    Returns encoding of file, fname.
+    :param fname: string
+    :return: string
+    """
+    file = open(fname, 'rb')
+    encoding = chardet.detect(file.read())['encoding']
+    return encoding
 
 
 def create_instance(practical, group, mystery):
@@ -60,7 +72,8 @@ class Command(BaseCommand):
             fpath = options['csv_path']
             # checks if file is csv
             if fpath.lower().endswith('csv'):
-                with open(fpath) as file:
+                encoding = get_encoding(fpath)
+                with open(fpath, encoding=encoding) as file:
                     reader = csv.reader(file, delimiter=",")
                     # iterating through each row in csv
                     for row in reader:

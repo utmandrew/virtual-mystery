@@ -1,0 +1,16 @@
+## Stage 1: Angular Build ##
+FROM node:10
+# Uncomment when using multi stage build with Dockerfile
+# FROM node:10 as builder
+
+WORKDIR /opt
+
+# Copy angular package files to /opt 
+COPY vm-angular .
+
+# Install angular packages
+RUN npm i
+
+# Build the angular app
+RUN $(npm bin)/ng build --prod --ouput-path=dist
+

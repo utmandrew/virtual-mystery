@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '4^7f5krp_bjs(i67^g*(-nxd)djak2yga7*khl8g85p74jluvq'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Custom user model settings
 # refer to https://docs.djangoproject.com/en/2.0/topics/auth/customizing/
@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'mystery.apps.MysteryConfig',
     'system.apps.SystemConfig',
     'authentication.apps.AuthenticationConfig',
+    'mod_wsgi.server',
 ]
 
 MIDDLEWARE = [
@@ -88,17 +89,28 @@ WSGI_APPLICATION = 'VM_Django.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'vm_database',
-        'USER': 'vm_db_user',
-        'PASSWORD': 'vm_password',
-        'HOST': 'localhost',
-        'PORT': '5432',
+if 'DOCKER' in os.environ and os.environ.get('DOCKER') == 'True':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.environ.get('POSTGRES_DB'),
+            'USER': os.environ.get('POSTGRES_USER'),
+            'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+            'HOST': 'db',
+            'PORT': '5432',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'vm_database',
+            'USER': 'vm_db_user',
+            'PASSWORD': 'vm_password',
+            'HOST': 'db',
+            'PORT': '5432',
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -171,11 +183,21 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 DATETIME_FORMAT = "%d/%m/%Y %H:%M:%S"
 
-# mystery start datetime (in datetime format)
-START_DATETIME = "16/12/2018 00:00:00"
+if 'DOCKER' in os.environ and os.environ.get('DOCKER') == 'True':
+    # mystery start datetime (in datetime format)
+    START_DATETIME = os.environ.get('START_DATETIME')
 
-# time interval in days
-RELEASE_INTERVAL = "7"
+    # time interval in days
+    RELEASE_INTERVAL = os.environ.get('RELEASE_INTERVAL')
 
-# time interval in days (zero for no interval)
-MARK_INTERVAL = "0"
+    # time interval in days (zero for no interval)
+    MARK_INTERVAL = os.environ.get('MARK_INTERVAL')
+else:
+    # mystery start datetime (in datetime format)
+    START_DATETIME = "24/02/2019 00:00:00"
+
+    # time interval in days
+    RELEASE_INTERVAL = "7"
+
+    # time interval in days (zero for no interval)
+    MARK_INTERVAL = "0"

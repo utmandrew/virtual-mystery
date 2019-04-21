@@ -1,8 +1,59 @@
 version: '3'
 
-services: 
-  web:
-    build: .
-    command: python src/vm-django/manage.py runserver 0.0.0.0:8000
-    volumes: 
-      - .:/virtual-mystery
+services:
+  proxy:
+    build:
+      context: .
+      dockerfile: ./docker/proxy/Dockerfile
+    image: virtualmystery/vm-proxy:test
+    volumes:
+      - ./data/ssl:/usr/local/apache2/ssl
+    ports:
+      - "80:80"
+      - "443:443"
+
+  db:
+   image: postgres
+   # mounts db files to local machine filesystem
+   volumes:
+      - ./data/postgres-data:/var/lib/postgresql/data
+   environment:
+     POSTGRES_USER: "${POSTGRES_USER}"
+     POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+     POSTGRES_DB: "${POSTGRES_DB}"
+
+  django:
+    build:
+      context: .
+      dockerfile: ./docker/django/Dockerfile
+    # mounts user information files to local machine filesystem
+    image: virtualmystery/vm-django:test
+    volumes:
+      - ./data/private:/opt/vm-django/system/private
+      - ./data/vm-static:/opt/vm-django/static
+      - ./data/vm-data:/opt/vm-django/data
+    command: ./wait-for-it.sh db:5432 -- ./start.sh
+    expose:
+      - "80"
+    depends_on:
+      - "db"
+      - "proxy"
+    links:
+      - "db"
+      - "proxy"
+    env_file:
+        - .env
+
+  angular:
+    build:
+      context: .
+      dockerfile: ./docker/angular/Dockerfile
+    image: virtualmystery/vm-angular:test
+    expose:
+      - "80"
+    depends_on:
+      - "proxy"
+      - "django"
+    links:
+      - "proxy"
+      - "django"

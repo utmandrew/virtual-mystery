@@ -16,14 +16,23 @@ services:
   - postgresql
 
 before_script:
-  - cd src
-  - docker-compose up
-  - cd vm-angular 
+  - cd src/vm-angular 
   - npm install -g @angular/cli
   - npm install
   - npm install --save-dev @angular-devkit/build-angular
-
+  - mkdir dist
+  - cd dist
+  - ng build --prod --aot 
+  - cd ../../
+  - echo "$DOCKERPASSWORD" | docker login -u "$DOCKERUSERNAME" --password-stdin
+  - docker-compose build
+  #- docker-compose up
+  
 script:
-  - ng test --watch=false --browsers=ChromeHeadless
-  - ng build --prod --aot
+  #- ng test --watch=false --browsers=ChromeHeadless
+  - docker push virtualmystery/vm-angular:test
+  - docker push virtualmystery/vm-django:test
+  - docker push virtualmystery/vm-proxy:test
+
+  
   
