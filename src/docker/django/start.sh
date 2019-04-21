@@ -26,7 +26,7 @@ if [[ $output == *"$error"* ]]; then
     python manage.py assign data/mysteries.csv
 
     # create VM ta users
-    python manage.py tas data/tas.csv
+    python manage.py ta data/tas.csv
 
     # create django superuser account
     echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser(username='$SUPER_USER', email=None, password='$SUPER_PASS'); exit()" | python manage.py shell 
