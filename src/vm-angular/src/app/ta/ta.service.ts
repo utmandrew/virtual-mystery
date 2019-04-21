@@ -16,38 +16,38 @@ export class TAService {
 
   getPracticals() {
     // Call to get all the PRacticals
-    return this.httpClient.get(`${this.API_URL}/system/practicals/`)
+    return this.httpClient.get(`system/practicals/`)
   }
 
   getGroups(name: string){
     // Call to get all the groups
-    return this.httpClient.get(`${this.API_URL}/system/groups/${name}`)
+    return this.httpClient.get(`system/groups/${name}`)
   }
 
   getUsers(groupId: number){
     // Call to retrieve all users in groupName
-    return this.httpClient.get(`${this.API_URL}/system/users/${groupId}`)
+    return this.httpClient.get(`system/users/${groupId}`)
   }
 
   getComment(userName: string){
     // Get the top level comments made by a user for this week
-    return this.httpClient.get(`${this.API_URL}/system/userComment/${userName}`)
+    return this.httpClient.get(`system/userComment/${userName}`)
   }
 
   getGroupsRelases(groupId: number){
-    return this.httpClient.get(`${this.API_URL}/mystery/release/group/${groupId}`)
+    return this.httpClient.get(`mystery/release/group/${groupId}`)
   }
 
   getGroupsComments(groupId, release){
-    return this.httpClient.get(`${this.API_URL}/comment/${release}/${groupId}`)
+    return this.httpClient.get(`comment/${release}/${groupId}`)
   }
 
   sendResult(data){
-    return this.httpClient.post(`${this.API_URL}/comment/resultCreate`,data);
+    return this.httpClient.post(`comment/resultCreate`,data);
   }
 
   createTaComment(data){
-    return this.httpClient.post(`${this.API_URL}/comment/taCreate`,data);
+    return this.httpClient.post(`comment/taCreate`,data);
   }
 
 

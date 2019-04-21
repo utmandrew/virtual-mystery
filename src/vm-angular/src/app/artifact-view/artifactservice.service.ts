@@ -15,7 +15,7 @@ export class ArtifactserviceService {
 
   getData(release: number) {
     // sends a request for a specific release and recieves release info
-    return this.httpClient.get(`${this.API_URL}/mystery/release/${release}`)
+    return this.httpClient.get(`mystery/release/${release}`)
   }
 
 }
