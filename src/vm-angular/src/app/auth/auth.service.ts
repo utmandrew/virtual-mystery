@@ -7,7 +7,7 @@ import { HttpService } from '../http.service';
 
 /* Service that allows access to all of the auth component functions */
 export class AuthService {
-  API_URL = 'http://localhost:8000';
+  API_URL = 'http://django:80';
 
   constructor(private httpClient: HttpService) { }
 
