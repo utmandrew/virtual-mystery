@@ -14,7 +14,7 @@ import { TaInstructionsComponent } from '../ta-instructions/ta-instructions.comp
 const routes: Routes = [
 	{ path: '', redirectTo: 'auth', pathMatch: 'full' },
 	{ path: 'auth', component: LoginComponent },
-	{ path: 'changepassword', component: ChangePasswordComponent },
+	{ path: 'changepassword', component: ChangePasswordComponent, canActivate: [AuthGuardService], runGuardsAndResolvers: 'always'},
 	{
 		path: 'mystery',
 		children: [

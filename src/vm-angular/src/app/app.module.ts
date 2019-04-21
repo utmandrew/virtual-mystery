@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
 
 // custom services/interceptors
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { MustMatchDirective } from './auth/must-match.directive';
 
 // custom components
 import { AppComponent } from './app.component';
@@ -30,7 +31,7 @@ import { ResultViewComponent } from './mystery/release-view/result-view/result-v
 import { GradesComponent } from './grades/grades.component';
 import { TaInstructionsComponent } from './ta-instructions/ta-instructions.component';
 import { ChangePasswordComponent } from './auth/change-password/change-password.component';
-import { MustMatchDirective } from './auth/must-match.directive';
+
 
 @NgModule({
   declarations: [
