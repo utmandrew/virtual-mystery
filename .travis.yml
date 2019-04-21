@@ -30,9 +30,9 @@ before_script:
   
 script:
   #- ng test --watch=false --browsers=ChromeHeadless
-  - docker push virtualmystery/vm-angular:test
-  - docker push virtualmystery/vm-django:test
-  - docker push virtualmystery/vm-proxy:test
+  - docker push virtualmystery/vm-angular:latest
+  - docker push virtualmystery/vm-django:latest
+  - docker push virtualmystery/vm-proxy:latest
 
   
   
