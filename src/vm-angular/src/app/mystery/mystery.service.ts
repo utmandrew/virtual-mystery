@@ -6,7 +6,7 @@ import {HttpClientModule} from '@angular/common/http';
   providedIn: 'root'
 })
 export class MysteryService {
-  API_URL = 'http://localhost:8000';
+  API_URL = 'http://django:80';
 
   constructor(private httpClient: HttpService) { }
   
