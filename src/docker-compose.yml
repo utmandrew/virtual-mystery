@@ -35,11 +35,11 @@ services:
     command: ./wait-for-it.sh vm-aws-db:5432 -- ./start.sh
     expose:
       - "80"
-    depends_on:
-      - "db"
+    #depends_on:
+    #  - "db"
       - "proxy"
-    links:
-      - "db"
+    #links:
+    #  - "db"
       - "proxy"
     env_file:
         - .env
