@@ -12,7 +12,7 @@ export class HttpService {
 
   constructor(private http: HttpClient) { }
 
-  API_URL = 'http://54.88.171.179:80';
+  API_URL = '/api';
 
   // returns an HttpHeaders object with the current user's auth token
   addAuthToken(header: HttpHeaders){
