@@ -32,7 +32,7 @@ services:
       - ./data/private:/opt/vm-django/system/private
       - ./data/vm-static:/opt/vm-django/static
       - ./data/vm-data:/opt/vm-django/data
-    command: ./wait-for-it.sh vm-aws-db:5432 -- ./start.sh
+    command: ./wait-for-it.sh vm_database:5432 -- ./start.sh
     expose:
       - "80"
     #depends_on:
