@@ -21,7 +21,7 @@ RUN /bin/bash -c "source activate"
 
 # install python packages
 WORKDIR /opt
-RUN pip3.6 install -r Requirements.txt && pip3.6 install mod_wsgi
+RUN pip3.6 install -r Requirements.txt && pip3.6 install mod_wsgi && pip3.6 install django-storages && pip3.6 install boto3
 
 # Change into django project directory
 WORKDIR /opt/vm-django
