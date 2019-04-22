@@ -37,10 +37,10 @@ services:
       - "80"
     #depends_on:
     #  - "db"
-      - "proxy"
+      #- "proxy"
     #links:
     #  - "db"
-      - "proxy"
+      #- "proxy"
     env_file:
         - .env
 
