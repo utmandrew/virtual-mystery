@@ -55,6 +55,8 @@ class Release(models.Model):
     clue = models.TextField()
     # ans.txt
     answer = models.TextField()
+    # number of images
+    nimages = models.PositiveIntegerField()
 
     class Meta:
         ordering = ('number',)

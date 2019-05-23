@@ -63,7 +63,7 @@ def create_mystery_folder(mhash):
         os.mkdir(abs_path)
 
 
-def create_release(number, ans, clue, mname):
+def create_release(number, ans, clue, mname, nimages):
     """
     Creates release object based on release folder info.
 
@@ -71,6 +71,7 @@ def create_release(number, ans, clue, mname):
     :param ans: answer text (string)
     :param clue: clue test (string)
     :param mname: mystery name (string)
+    :param nimages: number of release images (number)
     :return: (mystery hash (string), release hash (string))
     """
 
@@ -83,6 +84,7 @@ def create_release(number, ans, clue, mname):
         number=number,
         clue=clue,
         answer=ans,
+        nimages=nimages
     )
 
     return mystery.hash, release.hash
@@ -206,7 +208,7 @@ class Command(BaseCommand):
                             mname = os.path.basename(os.path.dirname(root))
                             # create release
                             mhash, rhash = create_release(rnumber, ans, clue,
-                                                          mname)
+                                                          mname, nimages)
                             # creates release static folder
                             create_release_folder(mhash, rhash)
                             # moves images to release static folder

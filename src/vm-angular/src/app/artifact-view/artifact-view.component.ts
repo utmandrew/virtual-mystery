@@ -17,6 +17,9 @@ export class ArtifactViewComponent implements OnInit, OnChanges {
   public release_data: Release;
   // show clue image flag
   public show_image: boolean  = true;
+  
+  // carousel image index to display
+  public display: number = 0;
 
   constructor(private artifactService: ArtifactserviceService) { }
 
@@ -27,6 +30,7 @@ export class ArtifactViewComponent implements OnInit, OnChanges {
   /* Runs when release variable changes */
   ngOnChanges(release) {
 	  this.getData(this.release);
+	  this.display = 0;
   }
   
   /* Calls artifact service function getData with the inputted release and assigns the return value to data variable */
@@ -34,7 +38,7 @@ export class ArtifactViewComponent implements OnInit, OnChanges {
     
     this.artifactService.getData(release).subscribe((data: Release) => {
         this.error = false;
-		this.release_data  =  data;
+		this.release_data = data;
 		this.show_image = true;
     },
 	  error => {
@@ -44,9 +48,39 @@ export class ArtifactViewComponent implements OnInit, OnChanges {
 
   }
   
+  getReleaseData() {
+	  return this.release_data;
+  }
+  
   setShowImage(bool: boolean) {
 	  // sets show_image variable to bool
 	  this.show_image = bool;
+  }
+  
+  // returns an array with i elements
+  counter(i: number) {
+	  return new Array(i);
+  }
+  
+  // selects next carousel image
+  nextImage() {
+	  if (this.display < this.release_data.nimages - 1) {
+		  this.display += 1;
+	  }
+  }
+  
+  // selects previous carousel image
+  previousImage() {
+	  if (this.display > 0) {
+		  this.display -= 1;
+	  }
+  }
+  
+  // displays image at specified carousel index
+  displayImage(index: number) {
+	  if (index >= 0 && index < this.release_data.nimages) {
+		  this.display = index;
+	  }
   }
 
 }
