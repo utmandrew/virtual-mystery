@@ -37,6 +37,9 @@ export class TAComponent implements OnInit {
 
   // the results for a student given by the t.a
   results: Array<Result> = [];
+  
+  // carousel image index to display
+  public display: number = 0; 
 
 
 
@@ -167,12 +170,14 @@ export class TAComponent implements OnInit {
       this.curr_release = this.curr_release - 1;
       this.getGroupsComments(this.chosen_group, this.curr_release);
 	  this.show_image = true;
+	  this.display = 0;
   }
 
   public nextRelease(){
       this.curr_release = this.curr_release + 1;
       this.getGroupsComments(this.chosen_group, this.curr_release);
 	  this.show_image = true;
+	  this.display = 0;
   }
 
   /* toggles show_replies flag for CommentInterface object */
@@ -269,6 +274,25 @@ export class TAComponent implements OnInit {
   setShowImage(bool: boolean) {
 	  // sets show_image variable to bool
 	  this.show_image = bool;
+  }
+  
+  // returns an array with i elements
+  counter(i: number) {
+	  return new Array(i);
+  }
+  
+  // selects next carousel image
+  nextImage(maxIndex: number) {
+	  if (this.display < maxIndex) {
+		  this.display += 1;
+	  }
+  }
+  
+  // selects previous carousel image
+  previousImage() {
+	  if (this.display > 0) {
+		  this.display -= 1;
+	  }
   }
 
 }
