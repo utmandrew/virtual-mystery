@@ -189,7 +189,7 @@ export class TAComponent implements OnInit {
 
   public sendResult(result, id){
     result.id = id;
-    if (result.mark == '' || result.mark == undefined || !(result.mark == '0' || result.mark == '1')) {
+    if (result.mark == '' || result.mark == undefined || !(result.mark == '0' || result.mark == '1' || result.mark == '2')) {
       this.invalid = true;
       return
     }
