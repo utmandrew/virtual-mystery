@@ -11,8 +11,13 @@
 			<!-- displays images -->
 			<div class="carousel-inner" *ngFor="let count of counter(getReleaseData().nimages); let i = index" >
 				<div class="carousel-item" [ngClass]="{'active': i == display}">
-					<img class="card-img-top img-responsive rounded mx-auto d-block mb-3 w-75" src="{{artifactService.ASSETS_URL}}/{{release_data.mystery_hash}}/{{release_data.hash}}/image{{i + 1}}.jpg">
+					<img class="card-img-top img-responsive rounded mx-auto d-block mb-3 w-75" src="{{artifactService.ASSETS_URL}}/{{release_data.mystery_hash}}/{{release_data.hash}}/image{{i + 1}}.jpg">					
 				</div>
+			</div>
+			
+			<!-- image number indicator -->
+			<div class="caption text-center">
+				<strong>{{ display + 1}} / {{ release_data.nimages }}</strong>
 			</div>
 			
 			<!-- previous image button -->
