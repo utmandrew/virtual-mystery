@@ -29,7 +29,11 @@ export class LoginComponent implements OnInit {
 		  this.error = false;
 
 		  // sets current user token value into browsers session storage
-		  sessionStorage.setItem('currentUser', JSON.stringify({ token: response['token'], release: response['release'], is_ta: response['is_ta']}));
+		  sessionStorage.setItem('currentUser', JSON.stringify({ token: response['token'], 
+																 release: response['release'], 
+																 mark: response['mark'],
+																 mystery_end: response['mystery_end'],
+																 is_ta: response['is_ta']}));
 
 		  // redirect to current release view
 

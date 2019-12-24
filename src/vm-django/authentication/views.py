@@ -1,4 +1,3 @@
-from math import floor
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password, \
     get_password_validators
@@ -34,23 +33,30 @@ class Login(ObtainAuthToken):
             if user is not None:
                 # successfully authenticated
                 token, created = Token.objects.get_or_create(user=user)
-                release = floor(get_current_release())
-                # mystery = Instance.objects.get(group=user.group).mystery.hash
+
+                # get current release info
+                release_info = get_current_release()
+
                 return Response({
                     'token': token.key,
-                    'release': release,
+                    'release': release_info[0],
+                    'mark': release_info[1],
+                    'mystery_end': release_info[2],
                     'is_ta': user.is_ta
-                    # 'mystery': mystery
                 }, status=status.HTTP_200_OK)
 
             else:
                 # authentication failed
+                print("Failed Login")
                 return Response(status=status.HTTP_400_BAD_REQUEST)
         except AttributeError:
+            print("Attribute Error")
             return Response(status=status.HTTP_400_BAD_REQUEST)
         except KeyError:
+            print("KeyError")
             return Response(status=status.HTTP_400_BAD_REQUEST)
         except ObjectDoesNotExist:
+            print("ODNE")
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
