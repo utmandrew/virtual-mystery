@@ -47,16 +47,12 @@ class Login(ObtainAuthToken):
 
             else:
                 # authentication failed
-                print("Failed Login")
                 return Response(status=status.HTTP_400_BAD_REQUEST)
         except AttributeError:
-            print("Attribute Error")
             return Response(status=status.HTTP_400_BAD_REQUEST)
         except KeyError:
-            print("KeyError")
             return Response(status=status.HTTP_400_BAD_REQUEST)
         except ObjectDoesNotExist:
-            print("ODNE")
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
