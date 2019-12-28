@@ -192,12 +192,19 @@ if 'DOCKER' in os.environ and os.environ.get('DOCKER') == 'True':
 
     # time interval in days (zero for no interval)
     MARK_INTERVAL = os.environ.get('MARK_INTERVAL')
+
+    # mystery end datetime (in datetime format)
+    END_DATETIME = os.environ.get('END_DATETIME')
+
 else:
     # mystery start datetime (in datetime format)
-    START_DATETIME = "24/02/2019 00:00:00"
+    START_DATETIME = "08/12/2019 00:00:00"
 
     # time interval in days
     RELEASE_INTERVAL = "7"
 
     # time interval in days (zero for no interval)
     MARK_INTERVAL = "0"
+
+    # mystery end datetime (in datetime format)
+    END_DATETIME = "29/12/2019 00:00:00"
