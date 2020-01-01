@@ -1,16 +1,19 @@
 #!/bin/bash 
 
-# db does not exist error string
-error="\"django_migrations\" does not exist"
+# db does not exist error message
+db_error="\"django_migrations\" does not exist"
+
+# makemigrations error message
+migrate_error="No changes detected"
 
 # create DB migrations
-python manage.py makemigrations
+migrations=$(python manage.py makemigrations)
 
 # check if migrations table exists in db
 output=$(python manage.py inspectdb django_migrations)
 
 # check if error string is in inspectdb output
-if [[ $output == *"$error"* ]]; then
+if [[ $output == *"$db_error"* ]]; then
     # database does not exist
 
     # apply DB migrations
@@ -34,11 +37,18 @@ if [[ $output == *"$error"* ]]; then
     # collect static files
     python manage.py collectstatic
 
-else
-    # database already exists
+elif [[ $migrations != *"$migrate_error"* ]]; then
+    # database exists and new migrations detected
 
-    # fake DB migrations
-    python manage.py migrate --fake
+    # apply new migration
+    python manage.py migrate
+
+else
+    # database exists and no new migrations detected
+
+    # no need to do anything in this state
+    true
+
 fi
 
 # copy and load mod_wsgi into apache
