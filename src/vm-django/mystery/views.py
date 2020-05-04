@@ -21,7 +21,7 @@ class ReleaseList(APIView):
 
     def get(self, request):
         try:
-            current_release = get_current_release()
+            current_release = get_current_release()[0]
             # checks if mystery has reached start date
             if current_release > 0:
                 mystery = Instance.objects.get(group=request.user.group)\
@@ -31,6 +31,7 @@ class ReleaseList(APIView):
                                                   number__lte=current_release)
                 serializer = ReleaseSerializer(releases, many=True,
                                                 context={'request': request})
+                # add updated response here
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -52,7 +53,7 @@ class Artifact(APIView):
         :param release: a release id, passed in the url.
         """
         try:
-            current_release = get_current_release()
+            current_release = get_current_release()[0]
             # checks if requested release has been reached
             if int(release) <= current_release:
                 mystery = Instance.objects.get(group=request.user.group) \
@@ -78,7 +79,7 @@ class GroupsRelaseList(APIView):
 
     def get(self, request, groupId):
         try:
-            current_release = get_current_release()
+            current_release = get_current_release()[0]
             # checks if mystery has reached start date
             if current_release > 0 and request.user.is_ta :
                 mystery = Instance.objects.get(group__id=groupId).mystery
