@@ -26,12 +26,17 @@ services:
     build:
       context: .
       dockerfile: ./docker/django/Dockerfile
-    # mounts user information files to local machine filesystem
     image: virtualmystery/vm-django:latest
+    # mounts important files to local machine filesystem
     volumes:
       - ./data/private:/opt/vm-django/system/private
       - ./data/vm-static:/opt/vm-django/static
       - ./data/vm-data:/opt/vm-django/data
+      # mounts migrations files to aid in database persistence 
+      - ./data/migrations/authentication/migrations:/opt/vm-django/authentication/migrations
+      - ./data/migrations/comments/migrations:/opt/vm-django/comments/migrations
+      - ./data/migrations/mystery/migrations:/opt/vm-django/mystery/migrations
+      - ./data/migrations/system/migrations:/opt/vm-django/system/migrations
     command: ./wait-for-it.sh db:5432 -- ./start.sh
     expose:
       - "80"
