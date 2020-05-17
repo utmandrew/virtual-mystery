@@ -33,18 +33,18 @@ class CommentList(APIView):
             commented = Comment.objects.filter(instance=instance,
                                                release=release,
                                                owner=request.user.id).exists()
-            current_release = get_current_release()
+            release_info = get_current_release()
 
             # checks if user has commented on the current release
-            if commented or int(release) < current_release:
+            if commented or int(release) < release_info[0] or release_info[1] \
+                    or release_info[2]:
                 comments = Comment.objects.filter(instance=instance,
                                                   release=release)
                 serializer = CommentSerializer(comments, many=True)
+                # add updated response here
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
-                # if requested release has not yet been reached
-                # if int(release) > current_release:
-                #     return Response(status=status.HTTP_400_BAD_REQUEST)
+                # add updated response here
                 return Response(status=status.HTTP_403_FORBIDDEN)
 
         except AttributeError:
@@ -68,20 +68,21 @@ class CommentCreate(APIView):
         """
         try:
             instance = request.user.group.instance.all()[0].id
-            release = get_current_release()
+            release_info = get_current_release()
             commented = Comment.objects.filter(instance=instance,
-                                          release=release,
+                                          release=release_info[0],
                                           owner=request.user.id).exists()
 
             # checks if mystery start date has been reached
-            if release > 0:
+            if release_info[0] > 0:
                 # checks if user has already commented
-                if not commented:
+                if not commented and \
+                        (not release_info[1] or not release_info[2]):
                     # (.copy returns a mutable QueryDict object)
                     data = request.data.copy()
                     data['owner'] = request.user.id
                     data['instance'] = instance
-                    data['release'] = release
+                    data['release'] = release_info[0]
 
                     serializer = CommentSerializer(data=data)
 
@@ -91,6 +92,7 @@ class CommentCreate(APIView):
                         return Response(status=status.HTTP_201_CREATED)
                     return Response(status=status.HTTP_400_BAD_REQUEST)
                 else:
+                    # add updated response here
                     return Response(status=status.HTTP_403_FORBIDDEN)
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -157,7 +159,7 @@ class TaCommentList(APIView):
 
         try:
             instance = Instance.objects.filter(group__id=groupId).first()
-            current_release = get_current_release()
+            current_release = get_current_release()[0]
 
             # check if user is a ta to get the release
             if request.user.is_ta or int(release) < current_release:
@@ -237,7 +239,7 @@ class UserResult(APIView):
         try:
 
             results = Result.objects.get(comment__owner=request.user,
-                                        comment__release=get_current_release())
+                                    comment__release=get_current_release()[0])
             serializer = ResultSerializer(results)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
