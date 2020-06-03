@@ -1,0 +1,9 @@
+# /etc/apache2/htdocs
+
+RewriteEngine On
+
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -f [OR]
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -d
+RewriteRule ^ - [L]
+# redirects unmatched url patterns to angular router
+RewriteRule ^ /index.html
