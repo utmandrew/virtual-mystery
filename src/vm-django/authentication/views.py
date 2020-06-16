@@ -1,3 +1,5 @@
+import logging
+
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password, \
     get_password_validators
@@ -12,6 +14,8 @@ from rest_framework.authentication import TokenAuthentication
 
 from mystery.models import Instance
 from release import get_current_release
+
+logger = logging.getLogger('activity')
 
 # Create your views here.
 
@@ -36,6 +40,9 @@ class Login(ObtainAuthToken):
 
                 # get current release info
                 release_info = get_current_release()
+
+                # log successful login
+                logger.info(f'User "{username}" logged in.')
 
                 return Response({
                     'token': token.key,
