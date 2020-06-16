@@ -82,7 +82,7 @@ class Logout(APIView):
         try:
             username = request.user.get_username()
             request.user.auth_token.delete()
-            activityLogger.info(f'User "{username}" has logged out.')
+            activityLogger.info(f'User "{username}" logged out.')
         except AttributeError:
             debugLogger.exception(f'User "{username}" failed to log out.', exc_info=True)
             return Response(status=status.HTTP_400_BAD_REQUEST)
