@@ -15,7 +15,8 @@ from rest_framework.authentication import TokenAuthentication
 from mystery.models import Instance
 from release import get_current_release
 
-logger = logging.getLogger('activity')
+activityLogger = logging.getLogger('activity')
+debugLogger = logging.getLogger('debug')
 
 # Create your views here.
 
@@ -42,7 +43,7 @@ class Login(ObtainAuthToken):
                 release_info = get_current_release()
 
                 # log successful login
-                logger.info(f'User "{username}" logged in.')
+                activityLogger.info(f'User "{username}" logged in.')
 
                 return Response({
                     'token': token.key,
