@@ -57,10 +57,13 @@ class Login(ObtainAuthToken):
                 # authentication failed
                 return Response(status=status.HTTP_400_BAD_REQUEST)
         except AttributeError:
+            debugLogger.exception(f'User "{username}" login failed.', exc_info=True)
             return Response(status=status.HTTP_400_BAD_REQUEST)
         except KeyError:
+            debugLogger.exception(f'User "{username}" login failed.', exc_info=True)
             return Response(status=status.HTTP_400_BAD_REQUEST)
         except ObjectDoesNotExist:
+            debugLogger.exception(f'User "{username}" login failed.', exc_info=True)
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
