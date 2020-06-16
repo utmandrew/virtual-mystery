@@ -32,7 +32,7 @@ ALLOWED_HOSTS = ['*']
 AUTH_USER_MODEL = 'system.User'
 
 
-# for logging, see views.py for usage
+# for logging, see src/vm-django/logs/logs.txt for usage
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
