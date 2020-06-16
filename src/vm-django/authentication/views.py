@@ -18,6 +18,7 @@ from release import get_current_release
 activityLogger = logging.getLogger('activity')
 debugLogger = logging.getLogger('debug')
 
+
 # Create your views here.
 
 
@@ -76,8 +77,8 @@ class Logout(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
+        username = request.user.get_username()
         try:
-            username = request.user.get_username()
             request.user.auth_token.delete()
             activityLogger.info(f'User "{username}" has logged out.')
         except AttributeError:
