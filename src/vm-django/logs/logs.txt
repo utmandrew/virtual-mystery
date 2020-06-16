@@ -1,3 +1,15 @@
 activity.log holds details about user activity
 
 debug.log holds details about errors and exceptions, etc
+
+
+To use logging in your app:
+"""
+import logging
+
+activityLogger = logging.getLogger('activity')
+debugLogger = logging.getLogger('debug')
+
+activityLogger.info('log message')
+debugLogger.debug('log message')
+"""
