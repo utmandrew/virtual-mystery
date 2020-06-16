@@ -30,6 +30,7 @@ class Login(ObtainAuthToken):
     """
 
     def post(self, request, *args, **kwargs):
+        username = ''
         try:
             # checks if user credentials are correct
             username = request.data['username']
@@ -77,8 +78,9 @@ class Logout(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
-        username = request.user.get_username()
+        username = ''
         try:
+            username = request.user.get_username()
             request.user.auth_token.delete()
             activityLogger.info(f'User "{username}" has logged out.')
         except AttributeError:
