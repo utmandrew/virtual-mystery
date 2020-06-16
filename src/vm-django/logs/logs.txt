@@ -1,0 +1,3 @@
+activity.log holds details about user activity
+
+debug.log holds details about errors and exceptions, etc
