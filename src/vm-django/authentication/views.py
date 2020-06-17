@@ -99,8 +99,10 @@ class ChangePassword(APIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request, *args, **kwargs):
+        username = ''
         try:
             user = request.user
+            username = request.user.get_username()
             new_password = request.data['new_password']
             confirm_password = request.data['confirm_password']
             # required password validator configuration
@@ -111,7 +113,7 @@ class ChangePassword(APIView):
                 }
             ]
 
-            # check to see if password conformation matches with new pasword
+            # check to see if password confirmation matches with new password
             if new_password == confirm_password:
                 # gets password validators
                 validators = get_password_validators(validator_config)
@@ -122,15 +124,22 @@ class ChangePassword(APIView):
                 # sets and saves new password for user
                 user.set_password(new_password)
                 user.save()
+
+                # log password change
+                activityLogger.info(f'User "{username}" changed password.')
                 return Response(status=status.HTTP_200_OK)
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
 
         except AttributeError:
+            debugLogger.exception(f'User "{username}" password change failed.', exc_info=True)
             return Response(status=status.HTTP_400_BAD_REQUEST)
         except KeyError:
+            debugLogger.exception(f'User "{username}" password change failed.', exc_info=True)
             return Response(status=status.HTTP_400_BAD_REQUEST)
         except ValueError:
+            debugLogger.exception(f'User "{username}" password change failed.', exc_info=True)
             return Response(status=status.HTTP_400_BAD_REQUEST)
         except ValidationError:
+            debugLogger.exception(f'User "{username}" password change failed.', exc_info=True)
             return Response(status=status.HTTP_400_BAD_REQUEST)
