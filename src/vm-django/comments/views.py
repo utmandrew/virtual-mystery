@@ -11,6 +11,7 @@ from mystery.models import Instance
 # from mystery.models import Instance
 from release import get_current_release
 
+
 # Create your views here.
 
 
@@ -70,8 +71,8 @@ class CommentCreate(APIView):
             instance = request.user.group.instance.all()[0].id
             release_info = get_current_release()
             commented = Comment.objects.filter(instance=instance,
-                                          release=release_info[0],
-                                          owner=request.user.id).exists()
+                                               release=release_info[0],
+                                               owner=request.user.id).exists()
 
             # checks if mystery start date has been reached
             if release_info[0] > 0:
@@ -188,7 +189,7 @@ class ResultCreate(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (permissions.IsAuthenticated,)
 
-    def post(self,request):
+    def post(self, request):
         """
         Creates a Result for a certain comment
         """
@@ -200,12 +201,12 @@ class ResultCreate(APIView):
             comment = Comment.objects.get(id=request.data.get('id'))
 
             # #Update the result
-            if comment.marked==True:
-                Result.objects.filter(comment=comment).update(mark=data['mark'],feedback=data['feedback'])
+            if comment.marked == True:
+                Result.objects.filter(comment=comment).update(mark=data['mark'], feedback=data['feedback'])
                 return Response(status=status.HTTP_201_CREATED)
 
-            #Create a result
-            if request.user.is_ta and (comment.marked==False):
+            # Create a result
+            if request.user.is_ta and (comment.marked == False):
                 data['owner'] = request.user.username
                 data['comment'] = comment.id
 
@@ -239,7 +240,7 @@ class UserResult(APIView):
         try:
 
             results = Result.objects.get(comment__owner=request.user,
-                                    comment__release=get_current_release()[0])
+                                         comment__release=get_current_release()[0])
             serializer = ResultSerializer(results)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -259,14 +260,14 @@ class UserGradesList(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (permissions.IsAuthenticated,)
 
-    def get(self,request):
+    def get(self, request):
 
         try:
 
-            #results = Result.objects.get(comment__owner=request.user, comment__release = get_current_release())
-            comments = Comment.objects.filter(owner= request.user)
+            # results = Result.objects.get(comment__owner=request.user, comment__release = get_current_release())
+            comments = Comment.objects.filter(owner=request.user)
 
-            serializer = TACommentSerializer(comments, many = True)
+            serializer = TACommentSerializer(comments, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         except AttributeError:
