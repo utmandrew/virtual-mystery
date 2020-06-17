@@ -201,12 +201,12 @@ class ResultCreate(APIView):
             comment = Comment.objects.get(id=request.data.get('id'))
 
             # #Update the result
-            if comment.marked == True:
+            if comment.marked:
                 Result.objects.filter(comment=comment).update(mark=data['mark'], feedback=data['feedback'])
                 return Response(status=status.HTTP_201_CREATED)
 
             # Create a result
-            if request.user.is_ta and (comment.marked == False):
+            if request.user.is_ta and not comment.marked:
                 data['owner'] = request.user.username
                 data['comment'] = comment.id
 
