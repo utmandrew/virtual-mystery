@@ -1,3 +1,5 @@
+import logging
+
 from django.core.exceptions import ObjectDoesNotExist
 
 from rest_framework import status, permissions
@@ -10,6 +12,9 @@ from .models import Comment, Result
 from mystery.models import Instance
 # from mystery.models import Instance
 from release import get_current_release
+
+activityLogger = logging.getLogger('activity')
+debugLogger = logging.getLogger('debug')
 
 
 # Create your views here.
