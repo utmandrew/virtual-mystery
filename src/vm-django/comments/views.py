@@ -198,37 +198,51 @@ class ResultCreate(APIView):
         """
         Creates a Result for a certain comment
         """
-
+        username = ''
+        data = {}
         try:
 
             # check if user is ta
             data = request.data.copy()
             comment = Comment.objects.get(id=request.data.get('id'))
+            username = request.user.get_username()
 
             # #Update the result
             if comment.marked:
                 Result.objects.filter(comment=comment).update(mark=data['mark'], feedback=data['feedback'])
+
+                # log the result update
+                activityLogger.info(f'Result updated ({username}): {data}')
                 return Response(status=status.HTTP_201_CREATED)
 
             # Create a result
             if request.user.is_ta and not comment.marked:
-                data['owner'] = request.user.username
+                data['owner'] = username
                 data['comment'] = comment.id
 
                 serializer = ResultSerializer(data=data)
                 if serializer.is_valid():
                     Comment.objects.filter(id=comment.id).update(marked=True)
                     serializer.save()
+
+                    # log the result creation
+                    activityLogger.info(f'Result created ({username}): {data}')
                     return Response(status=status.HTTP_201_CREATED)
+                # otherwise, log unsuccessful result creation
+                debugLogger.debug(f'Unsuccessful result create ({username}): {data}')
                 return Response(status=status.HTTP_400_BAD_REQUEST)
 
         except AttributeError:
+            debugLogger.exception(f'User "{username}" result create failed: {data}', exc_info=True)
             return Response(status=status.HTTP_403_FORBIDDEN)
         except ObjectDoesNotExist:
+            debugLogger.exception(f'User "{username}" result create failed: {data}', exc_info=True)
             return Response(status=status.HTTP_400_BAD_REQUEST)
         except ValueError:
+            debugLogger.exception(f'User "{username}" result create failed: {data}', exc_info=True)
             return Response(status=status.HTTP_400_BAD_REQUEST)
-
+        # should never reach here
+        debugLogger.debug(f'Student "{username}" tried to assign a mark.')
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
