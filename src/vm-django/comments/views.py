@@ -72,12 +72,15 @@ class CommentCreate(APIView):
         """
         Creates a comment through info submitted in a post request.
         """
+        username = ''
+        data = {}
         try:
             instance = request.user.group.instance.all()[0].id
             release_info = get_current_release()
             commented = Comment.objects.filter(instance=instance,
                                                release=release_info[0],
                                                owner=request.user.id).exists()
+            username = request.user.get_username()
 
             # checks if mystery start date has been reached
             if release_info[0] > 0:
@@ -95,18 +98,29 @@ class CommentCreate(APIView):
                     if serializer.is_valid():
                         # creates comment
                         serializer.save()
+
+                        # log successful comment
+                        activityLogger.info(f'User comment ({username}): {data}')
                         return Response(status=status.HTTP_201_CREATED)
+                    # otherwise, log the unsuccessful comment
+                    debugLogger.debug(f'Unsuccessful user comment ({username}): {data}')
                     return Response(status=status.HTTP_400_BAD_REQUEST)
                 else:
                     # add updated response here
+                    debugLogger.info(f'User "{username}" tried to submit a '
+                                     f'comment when they should not be able to.')
                     return Response(status=status.HTTP_403_FORBIDDEN)
             else:
+                debugLogger.info(f'User "{username}" tried to submit a '
+                                 f'comment before mystery start date.')
                 return Response(status=status.HTTP_400_BAD_REQUEST)
         except AttributeError:
             # catches if an attribute does not exist
+            debugLogger.exception(f'User "{username}" comment create failed: {data}', exc_info=True)
             return Response(status=status.HTTP_400_BAD_REQUEST)
         except ObjectDoesNotExist:
             # catches if an object (instance) does not exist
+            debugLogger.exception(f'User "{username}" comment create failed: {data}', exc_info=True)
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
