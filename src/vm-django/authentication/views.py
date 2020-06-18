@@ -45,7 +45,7 @@ class Login(ObtainAuthToken):
                 release_info = get_current_release()
 
                 # log successful login
-                activityLogger.info(f'User "{username}" logged in.')
+                activityLogger.info(f'Login: User "{username}" logged in.')
 
                 return Response({
                     'token': token.key,
@@ -82,7 +82,7 @@ class Logout(APIView):
         try:
             username = request.user.get_username()
             request.user.auth_token.delete()
-            activityLogger.info(f'User "{username}" logged out.')
+            activityLogger.info(f'Logout: User "{username}" logged out.')
         except AttributeError:
             debugLogger.exception(f'User "{username}" failed to log out.', exc_info=True)
             return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -126,7 +126,7 @@ class ChangePassword(APIView):
                 user.save()
 
                 # log password change
-                activityLogger.info(f'User "{username}" changed password.')
+                activityLogger.info(f'Password change: User "{username}" changed password.')
                 return Response(status=status.HTTP_200_OK)
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST)

@@ -13,3 +13,9 @@ debugLogger = logging.getLogger('debug')
 activityLogger.info('log message')
 debugLogger.debug('log message')
 """
+
+LEGEND:
+    activity.log:
+        "Login" - user login
+        "Logout" - user logout
+        "Password change" - user change password
