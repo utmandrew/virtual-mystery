@@ -310,7 +310,13 @@ class TaCommentCreate(APIView):
             if serializer.is_valid():
                 # creates comment
                 serializer.save()
+
+                # log successful TA comment
+                activityLogger.info(f'TA comment: {data}')
                 return Response(status=status.HTTP_201_CREATED)
+            # otherwise, log unsuccessful comment data
+            debugLogger.debug(f'Unsuccessful TA comment: {data}')
             return Response(status=status.HTTP_400_BAD_REQUEST)
         else:
+            debugLogger.debug('Attempted to create TA comment before mystery start date.')
             return Response(status=status.HTTP_400_BAD_REQUEST)
