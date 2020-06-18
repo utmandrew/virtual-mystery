@@ -305,6 +305,8 @@ class TaCommentCreate(APIView):
             data['instance'] = instance.id
             data['release'] = release
 
+            username = request.user.get_username()
+
             serializer = CommentSerializer(data=data)
 
             if serializer.is_valid():
@@ -312,10 +314,10 @@ class TaCommentCreate(APIView):
                 serializer.save()
 
                 # log successful TA comment
-                activityLogger.info(f'TA comment: {data}')
+                activityLogger.info(f'TA comment ({username}): {data}')
                 return Response(status=status.HTTP_201_CREATED)
             # otherwise, log unsuccessful comment data
-            debugLogger.debug(f'Unsuccessful TA comment: {data}')
+            debugLogger.debug(f'Unsuccessful TA comment ({username}): {data}')
             return Response(status=status.HTTP_400_BAD_REQUEST)
         else:
             debugLogger.debug('Attempted to create TA comment before mystery start date.')
