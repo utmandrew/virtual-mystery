@@ -19,3 +19,6 @@ LEGEND:
         "Login" - user login
         "Logout" - user logout
         "Password change" - user change password
+        "TA comment" - a new TA comment on a group
+        "Result created" - a newly created result for a student
+        "Result updated" - an update to a result by a TA
