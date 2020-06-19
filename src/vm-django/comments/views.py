@@ -136,30 +136,39 @@ class ReplyCreate(APIView):
         Creates a reply to a comment through info submitted in a post request
         and returns the newly created reply.
         """
-
+        username = ''
+        data = {}
         try:
             # (.copy returns a mutable QueryDict object)
             data = request.data.copy()
             # current user instance
             instance = request.user.group.instance.all()[0].id
+            username = request.user.get_username()
 
             # checks if reply owner and parent comment are in the same instance
-            if Comment.objects.filter(instance=instance, id=data.get('parent',
-                                                                     None)):
+            if Comment.objects.filter(instance=instance, id=data.get('parent', None)):
                 data['owner'] = request.user.id
                 serializer = ReplySerializer(data=data)
             else:
+                debugLogger.debug(f'Reply error: user "{username}" tried to '
+                                  f'create a reply with no parent comment.')
                 return Response(status=status.HTTP_400_BAD_REQUEST)
         except AttributeError:
             # catches if an attribute does not exist
+            debugLogger.exception(f'User "{username}" reply create failed: {data}', exc_info=True)
             return Response(status=status.HTTP_400_BAD_REQUEST)
         except ObjectDoesNotExist:
             # catches if an object (instance) does not exist
+            debugLogger.exception(f'User "{username}" reply create failed: {data}', exc_info=True)
             return Response(status=status.HTTP_400_BAD_REQUEST)
         if serializer.is_valid():
             # creates reply
             serializer.save()
+
+            # log reply
+            activityLogger.info(f'User reply ({username}): {data}')
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        debugLogger.debug(f'Invalid serializer for comment reply: {data}')
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
