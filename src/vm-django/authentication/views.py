@@ -129,6 +129,9 @@ class ChangePassword(APIView):
                 activityLogger.info(f'Password change: User "{username}" changed password.')
                 return Response(status=status.HTTP_200_OK)
             else:
+                # log unsuccessful password change
+                activityLogger.info(f'Failed password change: User "{username}" attempted to '
+                                    f'change their password but did not enter matching passwords.')
                 return Response(status=status.HTTP_400_BAD_REQUEST)
 
         except AttributeError:
