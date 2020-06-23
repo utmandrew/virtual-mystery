@@ -58,7 +58,7 @@ LOGGING = {
     },
     'loggers': {
         'activity': {
-            'level': 'DEBUG',
+            'level': 'INFO',
             'handlers': ['activityHandler'],
         },
         'debug': {
