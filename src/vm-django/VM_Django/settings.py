@@ -32,6 +32,43 @@ ALLOWED_HOSTS = ['*']
 AUTH_USER_MODEL = 'system.User'
 
 
+# for logging, see src/vm-django/logs/logs.txt for usage
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'defaultFormatter': {
+            'format': '%(asctime)s [%(levelname)s] - %(message)s',
+            'datefmt': '%d/%m/%Y %H:%M:%S',
+        },
+    },
+    'handlers': {
+        'activityHandler': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'formatter': 'defaultFormatter',
+            'filename': os.path.join(BASE_DIR, '../vm-django/logs/activity.log'),
+        },
+        'debugHandler': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'formatter': 'defaultFormatter',
+            'filename': os.path.join(BASE_DIR, '../vm-django/logs/debug.log'),
+        },
+    },
+    'loggers': {
+        'activity': {
+            'level': 'INFO',
+            'handlers': ['activityHandler'],
+        },
+        'debug': {
+            'level': 'DEBUG',
+            'handlers': ['debugHandler'],
+        },
+    }
+}
+
+
 # Application definition
 
 INSTALLED_APPS = [

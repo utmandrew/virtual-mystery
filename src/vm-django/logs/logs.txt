@@ -1,0 +1,28 @@
+activity.log holds details about user activity
+
+debug.log holds details about errors and exceptions, etc
+
+
+To use logging in your app:
+"""
+import logging
+
+activityLogger = logging.getLogger('activity')
+debugLogger = logging.getLogger('debug')
+
+activityLogger.info('log message')
+debugLogger.debug('log message')
+"""
+
+LEGEND:
+    activity.log:
+        "Login" - user login
+        "Logout" - user logout
+        "Password change" - user change password
+        "Failed password change" - user attempts to change password but enters
+            two passwords which do not match, hence the change does not go through
+        "TA comment" - a new TA comment on a group
+        "Result created" - a newly created result for a student
+        "Result updated" - an update to a result by a TA
+        "User comment" - a new comment by a student on a release
+        "User reply" - a new reply to a comment by a user

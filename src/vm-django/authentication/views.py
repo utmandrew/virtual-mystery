@@ -1,3 +1,5 @@
+import logging
+
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password, \
     get_password_validators
@@ -13,6 +15,10 @@ from rest_framework.authentication import TokenAuthentication
 from mystery.models import Instance
 from release import get_current_release
 
+activityLogger = logging.getLogger('activity')
+debugLogger = logging.getLogger('debug')
+
+
 # Create your views here.
 
 
@@ -24,6 +30,7 @@ class Login(ObtainAuthToken):
     """
 
     def post(self, request, *args, **kwargs):
+        username = ''
         try:
             # checks if user credentials are correct
             username = request.data['username']
@@ -37,6 +44,9 @@ class Login(ObtainAuthToken):
                 # get current release info
                 release_info = get_current_release()
 
+                # log successful login
+                activityLogger.info(f'Login: User "{username}" logged in.')
+
                 return Response({
                     'token': token.key,
                     'release': release_info[0],
@@ -49,10 +59,13 @@ class Login(ObtainAuthToken):
                 # authentication failed
                 return Response(status=status.HTTP_400_BAD_REQUEST)
         except AttributeError:
+            debugLogger.exception(f'User "{username}" login failed.', exc_info=True)
             return Response(status=status.HTTP_400_BAD_REQUEST)
         except KeyError:
+            debugLogger.exception(f'User "{username}" login failed.', exc_info=True)
             return Response(status=status.HTTP_400_BAD_REQUEST)
         except ObjectDoesNotExist:
+            debugLogger.exception(f'User "{username}" login failed.', exc_info=True)
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -65,9 +78,13 @@ class Logout(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
+        username = ''
         try:
+            username = request.user.get_username()
             request.user.auth_token.delete()
+            activityLogger.info(f'Logout: User "{username}" logged out.')
         except AttributeError:
+            debugLogger.exception(f'User "{username}" failed to log out.', exc_info=True)
             return Response(status=status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_200_OK)
 
@@ -82,8 +99,10 @@ class ChangePassword(APIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request, *args, **kwargs):
+        username = ''
         try:
             user = request.user
+            username = request.user.get_username()
             new_password = request.data['new_password']
             confirm_password = request.data['confirm_password']
             # required password validator configuration
@@ -94,7 +113,7 @@ class ChangePassword(APIView):
                 }
             ]
 
-            # check to see if password conformation matches with new pasword
+            # check to see if password confirmation matches with new password
             if new_password == confirm_password:
                 # gets password validators
                 validators = get_password_validators(validator_config)
@@ -105,15 +124,25 @@ class ChangePassword(APIView):
                 # sets and saves new password for user
                 user.set_password(new_password)
                 user.save()
+
+                # log password change
+                activityLogger.info(f'Password change: User "{username}" changed password.')
                 return Response(status=status.HTTP_200_OK)
             else:
+                # log unsuccessful password change
+                activityLogger.info(f'Failed password change: User "{username}" attempted to '
+                                    f'change their password but did not enter matching passwords.')
                 return Response(status=status.HTTP_400_BAD_REQUEST)
 
         except AttributeError:
+            debugLogger.exception(f'User "{username}" password change failed.', exc_info=True)
             return Response(status=status.HTTP_400_BAD_REQUEST)
         except KeyError:
+            debugLogger.exception(f'User "{username}" password change failed.', exc_info=True)
             return Response(status=status.HTTP_400_BAD_REQUEST)
         except ValueError:
+            debugLogger.exception(f'User "{username}" password change failed.', exc_info=True)
             return Response(status=status.HTTP_400_BAD_REQUEST)
         except ValidationError:
+            debugLogger.exception(f'User "{username}" password change failed.', exc_info=True)
             return Response(status=status.HTTP_400_BAD_REQUEST)
