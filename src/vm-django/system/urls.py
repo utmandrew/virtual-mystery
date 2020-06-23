@@ -6,7 +6,7 @@ from rest_framework.routers import DefaultRouter
 from . import views
 
 router = DefaultRouter()
-router.register('ta-viewset', views.ListPracticals, base_name='ta-viewset')
+router.register('ta-viewset', views.ListPracticals, basename='ta-viewset')
 
 urlpatterns = [
     url(r'^practicals/', views.ListPracticals.as_view()),
