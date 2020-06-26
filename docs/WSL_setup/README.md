@@ -20,7 +20,7 @@ Requirements:
      then run the wsl command again.
 
 3. **Installing Ubuntu**\
-     Go to the Microsoft Store and install `Ubuntu 18.04 LTS` from `Canonical Group Limited`.\
+     Go to the Microsoft Store and install `Ubuntu 20.04 LTS` from `Canonical Group Limited`.\
      Launch the app and set up a user account with your desired username and password.\
      Run `sudo apt-get update`.\
      Run `sudo apt-get upgrade` and confirm the command.
@@ -103,7 +103,8 @@ Requirements:
      a desired directory.
 
 11. **Install Requirements**\
-     In Ubuntu, navigate to the repo you just cloned and go into the `src` folder.\
+     In Ubuntu, navigate to the repo you just cloned and go into the `src` folder.
+     You should see a file named `Requirements.txt`.\
      If you cloned the repo into your Windows file system, this can be done by
      holding down the shift key, right clicking, and selecting `Open Linux shell here`
      from the dropdown menu within file explorer.
@@ -112,6 +113,7 @@ Requirements:
      run `workon vmenv` if that's not the case.
 
      Inside the virtual environment, `pip` is mapped to `pip3`, so we can start using `pip` instead.\
+     Run `sudo apt-get install libpq-dev`. This is a required library for one of the requirements.\
      Run `pip install -r Requirements.txt` and ensure no errors are thrown.\
      Run `pip install mod-wsgi-httpd`, this will take a while.\
      Run `pip install mod-wsgi`.
@@ -120,15 +122,17 @@ Requirements:
      running `pip freeze`.
      For reference, the package versions used for this guide are:
      ```
-     Python 3.6.9
+     Python 3.8.2
+     asgiref==3.2.10
      chardet==3.0.4
-     Django==2.0.13
-     django-cors-headers==2.3.0
-     djangorestframework==3.9.1
+     Django==3.0.7
+     django-cors-headers==3.4.0
+     djangorestframework==3.11.0
      mod-wsgi==4.7.1
      mod-wsgi-httpd==2.4.41.1
-     psycopg2==2.7.5
+     psycopg2==2.8.5
      pytz==2020.1
+     sqlparse==0.3.1
      ```
 
 12. **Configure Django settings.py file**
@@ -137,14 +141,14 @@ Requirements:
      - set `DEBUG = False`
      - Change database settings:
         - Note: single quotes are required
-        - NAME = database name (name of created db in postgres)
-        - USER = database owner username
-        - PASSWORD = database owner password
-        - HOST = can be left as localhost
-        - PORT = 5432 (default postgresql port)
+        - `NAME` = database name (name of created db in postgres)
+        - `USER` = database owner username
+        - `PASSWORD` = database owner password
+        - `HOST` = can be left as localhost
+        - `PORT` = 5432 (default postgresql port)
      - Change CORS settings:
-        - comment out CORS_ORIGIN_ALLOW_ALL = True
-        - uncomment CORS_ORIGIN_WHITELIST
+        - comment out `CORS_ORIGIN_ALLOW_ALL = True`
+        - uncomment `CORS_ORIGIN_WHITELIST`
         - add server ip to the whitelist (again, not recommended to include a port)
 
 13. **Setup Django (in virtual environment)**\
@@ -157,10 +161,10 @@ Requirements:
      Run `python manage.py collectstatic`.
 
 14. **Install apache2 and Angular**\
-     apache2:\
+     *apache2*:\
      Run `sudo apt install apache2`.
 
-     Angular:\
+     *Angular*:\
      Run `sudo apt install npm` for the package manager to install Angular.\
      Run `sudo npm install npm@latest -g`, and RESTART Ubuntu. **(IMPORTANT!)**\
      Run `sudo npm install -g n`.\
@@ -170,7 +174,6 @@ Requirements:
 15. **Building Angular**\
      Navigate to `virtual-mystery/src/vm-angular`.\
      Run `sudo npm install`, this takes a while.\
-     Run `npm i @angular-devkit/build-angular@0.801` to get the right angular version.\
      Run `ng build --prod`, this also takes a while, and will produce a `dist` folder.\
      Link to the `dist` folder correctly in your `.conf` file.
 
@@ -195,5 +198,5 @@ Requirements:
      that the django login page displays. Try to log in.
 
 18. **Adding content**\
-     The site should now be set up. To add content, follow the instructions
+     The site should now be set up. To add content and actually be able to log in, follow the instructions
      in [Setup.txt](https://github.com/utmandrew/virtual-mystery/blob/master/docs/Setup.txt "Setup documentation").
