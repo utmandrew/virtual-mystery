@@ -84,14 +84,14 @@ Requirements:
      source /usr/local/bin/virtualenvwrapper.sh
      ```
 
-     After saving the `.bashrc` file, restart Ubuntu.
+     After saving the `.bashrc` file, restart Ubuntu for the changes to take effect.
 
 9. **Creating a virtual environment**\
      In your home directory, make a virtual environment for the project.\
      This can be done by running `mkvirtualenv -p <python version> <virtual environment name>`.\
      e.g. `mkvirtualenv -p python3 vmenv`.
 
-     To enter this virtual environment in the future, run `workon <env name>`.
+     To enter this virtual environment in the future, run `workon <environment name>`.
      e.g. `workon vmenv`.
 
      When you are in the virtual environment, your shell prompt should
@@ -110,10 +110,10 @@ Requirements:
      from the dropdown menu within file explorer.
 
      Once in the repo, make sure you are still working on your virtual environment,
-     run `workon vmenv` if that's not the case.
+     run `workon <environment name>` if that's not the case.
 
      Inside the virtual environment, `pip` is mapped to `pip3`, so we can start using `pip` instead.\
-     Run `sudo apt-get install libpq-dev`. This is a required library for one of the requirements.\
+     Run `sudo apt-get install libpq-dev`. This is a required library for one of the packages.\
      Run `pip install -r Requirements.txt` and ensure no errors are thrown.\
      Run `pip install mod-wsgi-httpd`, this will take a while.\
      Run `pip install mod-wsgi`.
@@ -157,7 +157,7 @@ Requirements:
      Run `python manage.py migrate`.\
      Run `python manage.py createsuperuser`.\
      Enter preferred credentials when prompted (skip email field by pressing enter if desired).\
-     `Superuser created successfully.` prompt should be shown afterwards.\
+     A `Superuser created successfully.` prompt should be shown afterwards.\
      Run `python manage.py collectstatic`.
 
 14. **Install apache2 and Angular**\
