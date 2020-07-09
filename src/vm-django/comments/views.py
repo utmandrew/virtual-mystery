@@ -1,4 +1,5 @@
 import logging
+from html.parser import HTMLParser
 
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -17,8 +18,32 @@ activityLogger = logging.getLogger('activity')
 debugLogger = logging.getLogger('debug')
 
 
-# Create your views here.
+class HTMLStripper(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.reset()
+        self.strict = False
+        self.convert_charrefs = True
+        self.text = []
 
+    def handle_data(self, d) -> None:
+        self.text.append(d)
+
+    def get_data(self) -> str:
+        return ''.join(self.text)
+
+
+def strip_tags(html: str) -> str:
+    """
+    Returns the <html> string stripped of any HTML tags using
+    the HTMLStripper class defined above.
+    """
+    s = HTMLStripper()
+    s.feed(html)
+    return s.get_data()
+
+
+# Create your views here.
 
 class CommentList(APIView):
     """
