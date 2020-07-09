@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LinkyModule } from 'angular-linky';
 
 // custom modules
 import { AppRoutingModule } from './app-routing/app-routing.module';
@@ -44,34 +45,35 @@ import { MustMatchDirective } from './auth/must-match.directive';
     ReplycreateComponent,
     NotFoundComponent,
     MysteryComponent,
-	ReleaseViewComponent,
-  ReleaseListComponent,
-  ArtifactViewComponent,
-  TAComponent,
+    ReleaseViewComponent,
+    ReleaseListComponent,
+    ArtifactViewComponent,
+    TAComponent,
 
-  ResultViewComponent,
+    ResultViewComponent,
 
-  GradesComponent,
+    GradesComponent,
 
-  TaInstructionsComponent,
+    TaInstructionsComponent,
 
-  ChangePasswordComponent,
+    ChangePasswordComponent,
 
-  MustMatchDirective,
+    MustMatchDirective,
   ],
   imports: [
     BrowserModule,
-	HttpClientModule,
-	AppRoutingModule,
-	FormsModule,
-	ReactiveFormsModule
+    HttpClientModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    LinkyModule
   ],
   providers: [
-	{
-		provide: HTTP_INTERCEPTORS,
-		useClass: AuthInterceptor,
-		multi: true
-	}
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

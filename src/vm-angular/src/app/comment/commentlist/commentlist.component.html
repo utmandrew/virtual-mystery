@@ -23,7 +23,7 @@
 				<h6 class="text-uppercase font-weight-bold media-heading rounded">{{ comment.username }} </h6>
 		
 				<div class="row rounded shadow m-1 p-2" [ngClass]="{' bg-ta': comment.is_ta===true , 'bg-info': comment.is_ta===false}">
-					<p class= "col-12 lead rounded text-light" >{{ comment.text }}</p>
+					<p class= "col-12 lead rounded text-light" ><span [innerHTML]="comment.text | linky"></span></p>
 				
 			<!-- Replies -->
 			
@@ -39,7 +39,7 @@
 									</div>
 									<div class="media-body ml-2 rounded">
 										<h6 class="text-uppercase font-weight-bold media-heading rounded ">{{ reply.username }}</h6>
-										<p class="lead rounded bg-reply shadow text-light mr-2 p-2">{{ reply.text }}</p>
+										<p class="lead rounded bg-reply shadow text-light mr-2 p-2"><span [innerHTML]="reply.text | linky"></span></p>
 
 									</div>
 								</div>
