@@ -19,20 +19,31 @@ debugLogger = logging.getLogger('debug')
 
 
 class HTMLStripper(HTMLParser):
+    """
+    A class that helps to parse a string and remove unwanted HTML tags.
+    """
+
     def __init__(self):
         super().__init__()
         self.reset()
         self.strict = False
         self.convert_charrefs = True
         self.text = []
-        self.allowed = {'b', 'strong', 'i', 'em', 'small', 'sub', 'sup'}
+        self.allowed = {'b', 'strong', 'i', 'em', 'small', 'sub', 'sup', 'br'}
 
     @staticmethod
     def reconstruct(tag, attrs):
+        """Reconstructs a tag from it's parsed elements."""
         args = [f'{k}="{v}"' for k, v in attrs]
         return f'<{tag} {" ".join(args)}>' if args else f'<{tag}>'
 
     def handle_starttag(self, tag, attrs):
+        """
+        Handles any starting HTML tags.
+
+        If the tag is allowed, then reconstruct the tag string and treat it
+        as normal data.
+        """
         if tag in self.allowed:
             self.handle_data(self.reconstruct(tag, attrs))
 
@@ -41,6 +52,7 @@ class HTMLStripper(HTMLParser):
             self.handle_data(f'</{tag}>')
 
     def handle_data(self, d) -> None:
+        # write any non-tag data to the output list
         self.text.append(d)
 
     def get_data(self) -> str:
