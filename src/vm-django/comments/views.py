@@ -25,6 +25,20 @@ class HTMLStripper(HTMLParser):
         self.strict = False
         self.convert_charrefs = True
         self.text = []
+        self.allowed = {'b', 'strong', 'i', 'em', 'small', 'sub', 'sup'}
+
+    @staticmethod
+    def reconstruct(tag, attrs):
+        args = [f'{k}="{v}"' for k, v in attrs]
+        return f'<{tag} {" ".join(args)}>' if args else f'<{tag}>'
+
+    def handle_starttag(self, tag, attrs):
+        if tag in self.allowed:
+            self.handle_data(self.reconstruct(tag, attrs))
+
+    def handle_endtag(self, tag):
+        if tag in self.allowed:
+            self.handle_data(f'</{tag}>')
 
     def handle_data(self, d) -> None:
         self.text.append(d)
