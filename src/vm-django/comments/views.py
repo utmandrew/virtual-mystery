@@ -43,6 +43,19 @@ def strip_tags(html: str) -> str:
     return s.get_data()
 
 
+def sanitize_text(text: str) -> str:
+    """
+    Sanitizes text for HTML and logs to debug.log if offending comment found.
+    Returns the sanitized string with newlines replaced with <br>.
+    """
+    stripped_text = strip_tags(text)
+    if stripped_text != text:
+        # log warning if text contains HTML
+        debugLogger.warning(f'HTML detected in comment or reply:\n{text}')
+    # change newlines to line breaks to observe paragraph spacing
+    return stripped_text.replace('\n', '<br>')
+
+
 # Create your views here.
 
 class CommentList(APIView):
@@ -118,6 +131,9 @@ class CommentCreate(APIView):
                     data['instance'] = instance
                     data['release'] = release_info[0]
 
+                    # sanitize the input string
+                    data['text'] = sanitize_text(data['text'])
+
                     serializer = CommentSerializer(data=data)
 
                     if serializer.is_valid():
@@ -169,6 +185,9 @@ class ReplyCreate(APIView):
             # current user instance
             instance = request.user.group.instance.all()[0].id
             username = request.user.get_username()
+
+            # sanitize the input string
+            data['text'] = sanitize_text(data['text'])
 
             # checks if reply owner and parent comment are in the same instance
             if Comment.objects.filter(instance=instance, id=data.get('parent', None)):

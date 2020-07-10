@@ -26,3 +26,7 @@ LEGEND:
         "Result updated" - an update to a result by a TA
         "User comment" - a new comment by a student on a release
         "User reply" - a new reply to a comment by a user
+
+    debug.log:
+        "HTML detected in comment or reply" - HTML tags were detected in the text and
+            taken out before storage in the database.
