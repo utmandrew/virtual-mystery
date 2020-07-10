@@ -18,7 +18,7 @@ activityLogger = logging.getLogger('activity')
 debugLogger = logging.getLogger('debug')
 
 
-class HTMLStripper(HTMLParser):
+class HTMLSanitizer(HTMLParser):
     """
     A class that helps to parse a string and remove unwanted HTML tags.
     """
@@ -64,7 +64,7 @@ def strip_tags(html: str) -> str:
     Returns the <html> string stripped of any HTML tags using
     the HTMLStripper class defined above.
     """
-    s = HTMLStripper()
+    s = HTMLSanitizer()
     s.feed(html)
     return s.get_data()
 
