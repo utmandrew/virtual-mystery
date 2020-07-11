@@ -62,7 +62,7 @@ class HTMLSanitizer(HTMLParser):
 def strip_tags(html: str) -> str:
     """
     Returns the <html> string stripped of any HTML tags using
-    the HTMLStripper class defined above.
+    the HTMLSanitizer class defined above.
     """
     s = HTMLSanitizer()
     s.feed(html)
