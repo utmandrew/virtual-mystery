@@ -30,6 +30,7 @@ class HTMLSanitizer(HTMLParser):
         self.convert_charrefs = True
         self.text = []
         self.allowed = {'b', 'strong', 'i', 'em', 'small', 'sub', 'sup', 'br'}
+        self.unwanted_html_found = False
 
     @staticmethod
     def reconstruct(tag, attrs):
@@ -42,31 +43,30 @@ class HTMLSanitizer(HTMLParser):
         Handles any starting HTML tags.
 
         If the tag is allowed, then reconstruct the tag string and treat it
-        as normal data.
+        as normal data. Otherwise, set self.unwanted_html_found to True.
         """
         if tag in self.allowed:
             self.handle_data(self.reconstruct(tag, attrs))
+        else:
+            self.unwanted_html_found = True
 
     def handle_endtag(self, tag):
         if tag in self.allowed:
             self.handle_data(f'</{tag}>')
+        else:
+            self.unwanted_html_found = True
 
     def handle_data(self, d) -> None:
         # write any non-tag data to the output list
         self.text.append(d)
 
-    def get_data(self) -> str:
-        return ''.join(self.text)
-
-
-def strip_tags(html: str) -> str:
-    """
-    Returns the <html> string stripped of any HTML tags using
-    the HTMLSanitizer class defined above.
-    """
-    s = HTMLSanitizer()
-    s.feed(html)
-    return s.get_data()
+    def get_data(self) -> tuple:
+        """
+        Returns a tuple of two elements consisting of:
+            1. the sanitized output string
+            2. a boolean indicating whether any disallowed html was found and removed
+        """
+        return ''.join(self.text), self.unwanted_html_found
 
 
 def sanitize_text(data: dict, username: str) -> str:
@@ -75,8 +75,13 @@ def sanitize_text(data: dict, username: str) -> str:
     Returns the sanitized string with newlines replaced with <br>.
     """
     text = data['text']
-    stripped_text = strip_tags(text)
-    if stripped_text != text:
+
+    sanitizer = HTMLSanitizer()
+    sanitizer.feed(text)
+    stripped_text, text_altered = sanitizer.get_data()
+    sanitizer.close()
+
+    if text_altered:
         # log warning if text contains unwanted HTML
         debugLogger.warning(f'HTML detected in comment or reply ({username}): {data}')
     # change newlines to line breaks to observe paragraph spacing
