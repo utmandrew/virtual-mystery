@@ -8,7 +8,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.base import BaseCommand, CommandError
 from mystery.models import Mystery, Release
 
-
 STATIC_DIR = os.path.join("mystery", "static", "mystery")
 # makes static dir if it doesn't already exist
 if not os.path.exists(STATIC_DIR):
@@ -182,7 +181,8 @@ class Command(BaseCommand):
                                               'rb') as file:
 
                                         # saves clue
-                                        clue = decode_bytes(file.read())
+                                        clue = decode_bytes(file.read()) \
+                                            .replace('\r\n', '<br>').replace('\n', '<br>')
 
                                 elif file_path.lower().endswith("ans.txt"):
                                     # answer file
@@ -190,7 +190,8 @@ class Command(BaseCommand):
                                               'rb') as file:
 
                                         # saves answer
-                                        ans = decode_bytes(file.read())
+                                        ans = decode_bytes(file.read()) \
+                                            .replace('\r\n', '<br>').replace('\n', '<br>')
 
                                 elif file_path.lower().endswith("jpg"):
                                     # image file
@@ -292,6 +293,3 @@ class Command(BaseCommand):
             # error occurred during folder structure traversal
             self.stderr.write(self.style.ERROR(
                 "(Error) Error during folder traversal."))
-
-
-
