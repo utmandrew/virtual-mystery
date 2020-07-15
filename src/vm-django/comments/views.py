@@ -363,13 +363,15 @@ class TaCommentCreate(APIView):
         release = request.data['release']
         # checks if mystery start date has been reached
         if release > 0:
+            username = request.user.get_username()
             # (.copy returns a mutable QueryDict object)
             data = request.data.copy()
             data['owner'] = request.user.id
             data['instance'] = instance.id
             data['release'] = release
 
-            username = request.user.get_username()
+            # sanitize the input string
+            data['text'] = sanitize_text(data, username)
 
             serializer = CommentSerializer(data=data)
 
