@@ -154,7 +154,9 @@
 
                         <div class="card-body">
                             <div class="card-title font-weight-bold text-uppercase"> {{ comment.username }}</div>
-                            <p class="card-text font-italic">" {{ comment.text }} "</p>
+                            <p class="card-text font-italic">
+                                " <span [innerHTML]="comment.text | linky"></span> "
+                            </p>
                             <hr>
                             <div *ngIf="!comment.marked">
                                 <div class="input-group mb-1">
@@ -277,7 +279,9 @@
                 <div class="card shadow-sm my-3" *ngIf="comment.is_ta">
                     <div class="card-body">
                         <div class="card-title font-weight-bold text-uppercase"> TA: {{ comment.username }}</div>
-                        <p class="card-text font-italic"> {{ comment.text }}</p>
+                        <p class="card-text font-italic">
+                            <span [innerHTML]="comment.text | linky"></span>
+                        </p>
                     </div>
                 </div>
             </div>
