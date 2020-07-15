@@ -1,5 +1,7 @@
 import logging
 
+import bleach
+
 from django.core.exceptions import ObjectDoesNotExist
 
 from rest_framework import status, permissions
@@ -17,8 +19,27 @@ activityLogger = logging.getLogger('activity')
 debugLogger = logging.getLogger('debug')
 
 
-# Create your views here.
+def sanitize_text(data: dict, username: str) -> str:
+    """
+    Sanitizes text for HTML and logs to debug.log if offending comment found.
+    Returns the sanitized string with newlines replaced with <br>.
+    """
+    text = data['text']
 
+    bleached_text = bleach.clean(text,
+                                 tags=['a', 'abbr', 'acronym', 'b', 'blockquote',
+                                       'br', 'code', 'em', 'i', 'li', 'ol',
+                                       'small', 'strong', 'sub', 'sup', 'ul'],
+                                 strip=True)
+    # replacing all the spaces to try to prevent False positives
+    if bleached_text.replace(' ', '') != text.replace(' ', ''):
+        # log warning if text contains unwanted HTML
+        debugLogger.warning(f'HTML detected in comment or reply ({username}): {data}')
+    # change newlines to line breaks to observe paragraph spacing
+    return bleached_text.replace('\n', '<br>')
+
+
+# Create your views here.
 
 class CommentList(APIView):
     """
@@ -93,6 +114,9 @@ class CommentCreate(APIView):
                     data['instance'] = instance
                     data['release'] = release_info[0]
 
+                    # sanitize the input string
+                    data['text'] = sanitize_text(data, username)
+
                     serializer = CommentSerializer(data=data)
 
                     if serializer.is_valid():
@@ -144,6 +168,9 @@ class ReplyCreate(APIView):
             # current user instance
             instance = request.user.group.instance.all()[0].id
             username = request.user.get_username()
+
+            # sanitize the input string
+            data['text'] = sanitize_text(data, username)
 
             # checks if reply owner and parent comment are in the same instance
             if Comment.objects.filter(instance=instance, id=data.get('parent', None)):
@@ -336,13 +363,15 @@ class TaCommentCreate(APIView):
         release = request.data['release']
         # checks if mystery start date has been reached
         if release > 0:
+            username = request.user.get_username()
             # (.copy returns a mutable QueryDict object)
             data = request.data.copy()
             data['owner'] = request.user.id
             data['instance'] = instance.id
             data['release'] = release
 
-            username = request.user.get_username()
+            # sanitize the input string
+            data['text'] = sanitize_text(data, username)
 
             serializer = CommentSerializer(data=data)
 
