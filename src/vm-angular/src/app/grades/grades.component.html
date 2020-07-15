@@ -5,7 +5,7 @@
 
       <div class="card-title font-weight-bold text-uppercase">{{ comment.username }}</div>
 
-      <p class="card-text font-italic"> My Comment: {{ comment.text }}</p>
+      <p class="card-text font-italic"> My Comment: <span [innerHTML]="comment.text | linky"></span></p>
 
       <div *ngIf="comment.marked===true">
         <p>T.A's Feedback: {{ comment.result[0].feedback }}</p>
