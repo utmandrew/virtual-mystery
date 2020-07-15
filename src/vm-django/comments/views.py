@@ -1,5 +1,6 @@
 import logging
-from html.parser import HTMLParser
+
+import bleach
 
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -18,57 +19,6 @@ activityLogger = logging.getLogger('activity')
 debugLogger = logging.getLogger('debug')
 
 
-class HTMLSanitizer(HTMLParser):
-    """
-    A class that helps to parse a string and remove unwanted HTML tags.
-    """
-
-    def __init__(self):
-        super().__init__()
-        self.reset()
-        self.strict = False
-        self.convert_charrefs = True
-        self.text = []
-        self.allowed = {'b', 'strong', 'i', 'em', 'small', 'sub', 'sup', 'br'}
-        self.unwanted_html_found = False
-
-    @staticmethod
-    def reconstruct(tag, attrs):
-        """Reconstructs a tag from it's parsed elements."""
-        args = [f'{k}="{v}"' for k, v in attrs]
-        return f'<{tag} {" ".join(args)}>' if args else f'<{tag}>'
-
-    def handle_starttag(self, tag, attrs):
-        """
-        Handles any starting HTML tags.
-
-        If the tag is allowed, then reconstruct the tag string and treat it
-        as normal data. Otherwise, set self.unwanted_html_found to True.
-        """
-        if tag in self.allowed:
-            self.handle_data(self.reconstruct(tag, attrs))
-        else:
-            self.unwanted_html_found = True
-
-    def handle_endtag(self, tag):
-        if tag in self.allowed:
-            self.handle_data(f'</{tag}>')
-        else:
-            self.unwanted_html_found = True
-
-    def handle_data(self, d) -> None:
-        # write any non-tag data to the output list
-        self.text.append(d)
-
-    def get_data(self) -> tuple:
-        """
-        Returns a tuple of two elements consisting of:
-            1. the sanitized output string
-            2. a boolean indicating whether any disallowed html was found and removed
-        """
-        return ''.join(self.text), self.unwanted_html_found
-
-
 def sanitize_text(data: dict, username: str) -> str:
     """
     Sanitizes text for HTML and logs to debug.log if offending comment found.
@@ -76,16 +26,17 @@ def sanitize_text(data: dict, username: str) -> str:
     """
     text = data['text']
 
-    sanitizer = HTMLSanitizer()
-    sanitizer.feed(text)
-    stripped_text, text_altered = sanitizer.get_data()
-    sanitizer.close()
-
-    if text_altered:
+    bleached_text = bleach.clean(text,
+                                 tags=['a', 'abbr', 'acronym', 'b', 'blockquote',
+                                       'br', 'code', 'em', 'i', 'li', 'ol',
+                                       'small', 'strong', 'sub', 'sup', 'ul'],
+                                 strip=True)
+    # replacing all the spaces to try to prevent False positives
+    if bleached_text.replace(' ', '') != text.replace(' ', ''):
         # log warning if text contains unwanted HTML
         debugLogger.warning(f'HTML detected in comment or reply ({username}): {data}')
     # change newlines to line breaks to observe paragraph spacing
-    return stripped_text.replace('\n', '<br>')
+    return bleached_text.replace('\n', '<br>')
 
 
 # Create your views here.
