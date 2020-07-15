@@ -1,25 +1,23 @@
 <div *ngFor="let comment of list_comments">
-    <div class="card shadow-lg my-4" [ngClass]="{'bg-info text-white': comment.marked===true}">
+  <div class="card shadow-lg my-4" [ngClass]="{'bg-info text-white': comment.marked===true}">
 
-        <div class="card-body">
+    <div class="card-body">
 
-            <div class="card-title font-weight-bold text-uppercase">{{ comment.username }}</div>
+      <div class="card-title font-weight-bold text-uppercase">{{ comment.username }}</div>
 
-            <p class="card-text font-italic"> My Comment: {{ comment.text }}</p>
+      <p class="card-text font-italic"> My Comment: {{ comment.text }}</p>
 
-            <div *ngIf="comment.marked===true">
-              <p>T.A's Feedback: {{ comment.result[0].feedback }}</p>
-              <p>My Mark: {{ comment.result[0].mark }}</p>
-              <button class="btn bg-darkblue text-white float-right" (click)="selectedRelease(comment.release)">View Release: {{ comment.release }}</button>
-            </div>
-            <div *ngIf="!comment.marked===true">
-              <p>Your submission is still being marked :) </p>
-              <button class="btn btn-sm btn-info float-right" (click)="selectedRelease(comment.release)">View Release: {{ comment.release }}</button>
-            </div>
-
-
-        </div>
+      <div *ngIf="comment.marked===true">
+        <p>T.A's Feedback: {{ comment.result[0].feedback }}</p>
+        <p>My Mark: {{ comment.result[0].mark }}</p>
+        <button class="btn bg-darkblue text-white float-right" (click)="selectedRelease(comment.release)">View Release:
+          {{ comment.release }}</button>
+      </div>
+      <div *ngIf="!comment.marked===true">
+        <p>Your submission is still being marked :) </p>
+        <button class="btn btn-sm btn-info float-right" (click)="selectedRelease(comment.release)">View Release:
+          {{ comment.release }}</button>
+      </div>
     </div>
-
   </div>
-
+</div>
