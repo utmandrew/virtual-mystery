@@ -182,7 +182,7 @@ class Command(BaseCommand):
 
                                         # saves clue
                                         clue = decode_bytes(file.read()) \
-                                            .replace('\r\n', '<br>').replace('\n', '<br>')
+                                            .replace('\r\n', '<br />').replace('\n', '<br />')
 
                                 elif file_path.lower().endswith("ans.txt"):
                                     # answer file
@@ -191,7 +191,7 @@ class Command(BaseCommand):
 
                                         # saves answer
                                         ans = decode_bytes(file.read()) \
-                                            .replace('\r\n', '<br>').replace('\n', '<br>')
+                                            .replace('\r\n', '<br />').replace('\n', '<br />')
 
                                 elif file_path.lower().endswith("jpg"):
                                     # image file
