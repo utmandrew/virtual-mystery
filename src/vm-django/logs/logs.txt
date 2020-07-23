@@ -17,6 +17,7 @@ debugLogger.debug('log message')
 LEGEND:
     activity.log:
         "Login" - user login
+        "Failed login" - Password does not match username, or username does not exist
         "Logout" - user logout
         "Password change" - user change password
         "Failed password change" - user attempts to change password but enters

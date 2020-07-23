@@ -57,6 +57,7 @@ class Login(ObtainAuthToken):
 
             else:
                 # authentication failed
+                activityLogger.error(f'Failed login: User "{username}" failed authentication.')
                 return Response(status=status.HTTP_400_BAD_REQUEST)
         except AttributeError:
             debugLogger.exception(f'User "{username}" login failed.', exc_info=True)
