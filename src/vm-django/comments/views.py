@@ -1,7 +1,7 @@
 import logging
+from datetime import datetime
 
 import bleach
-
 from django.core.exceptions import ObjectDoesNotExist
 
 from rest_framework import status, permissions
@@ -17,6 +17,11 @@ from release import get_current_release
 
 activityLogger = logging.getLogger('activity')
 debugLogger = logging.getLogger('debug')
+
+
+def get_time() -> str:
+    """Gets the current date and time and returns it as a string format."""
+    return datetime.now().strftime('%I:%M:%S %p, %d %b %Y')
 
 
 def sanitize_text(data: dict, username: str) -> str:
