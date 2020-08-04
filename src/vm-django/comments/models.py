@@ -53,7 +53,7 @@ class Result(models.Model):
     owner = models.TextField()
     
     # Mark Integer
-    mark = models.PositiveIntegerField()
+    mark = models.FloatField()
     # feedback comment
     feedback = models.TextField()
     # the comment which is being marked

@@ -196,7 +196,7 @@ export class TAComponent implements OnInit {
     result.id = id;
     if (result.mark == '' || result.mark == undefined || !(result.mark == '0' || result.mark == '1' || result.mark == '2')) {
       this.invalid = true;
-      return
+      // return
     }
     this.invalid = false;
 	
