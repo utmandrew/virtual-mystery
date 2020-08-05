@@ -379,6 +379,7 @@ class TaCommentCreate(APIView):
 
             # sanitize the input string
             data['text'] = sanitize_text(data, username)
+            data['time'] = get_time_string()
 
             serializer = CommentSerializer(data=data)
 
