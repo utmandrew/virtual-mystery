@@ -194,9 +194,10 @@ export class TAComponent implements OnInit {
 
   public sendResult(result, id){
     result.id = id;
-    if (result.mark == '' || result.mark == undefined || !(result.mark == '0' || result.mark == '1' || result.mark == '2')) {
+    let regexpfloat: RegExp = /^(\d*\.)?\d+$/;
+    if (!regexpfloat.test(result.mark)) {
       this.invalid = true;
-      // return
+      return
     }
     this.invalid = false;
 	
