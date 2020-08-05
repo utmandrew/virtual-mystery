@@ -178,7 +178,7 @@
                                         minlength="2" [(ngModel)]="results[i].mark">
                                 </div>
                                 <div *ngIf="invalid" class="alert alert-danger" role="alert">
-                                    Marks must be integers in the range of 0 - 2. Feedback can be empty.
+                                    Marks must be an integer or decimal number.
                                 </div>
                                 <button class="btn btn-outline-danger float-right"
                                     (click)="sendResult(results[i], comment.id)"> Submit </button>
@@ -241,7 +241,7 @@
                                             minlength="1" [(ngModel)]="results[i].mark">
                                     </div>
                                     <div *ngIf="invalid" class="alert alert-danger" role="alert">
-                                        Marks must be integers in the range of 0 - 2. Feedback can be empty.
+                                        Marks must be an integer or decimal number.
                                     </div>
 
                                     <button class="btn btn-light shadow-lg btn-sm float-right"
