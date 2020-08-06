@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -30,7 +29,6 @@ ALLOWED_HOSTS = ['*']
 # Custom user model settings
 # refer to https://docs.djangoproject.com/en/3.0/topics/auth/customizing/
 AUTH_USER_MODEL = 'system.User'
-
 
 # for logging, see src/vm-django/logs/logs.txt for usage
 LOGGING = {
@@ -67,7 +65,6 @@ LOGGING = {
         },
     }
 }
-
 
 # Application definition
 
@@ -122,7 +119,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'VM_Django.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -206,7 +202,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/

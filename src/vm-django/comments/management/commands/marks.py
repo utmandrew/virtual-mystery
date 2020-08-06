@@ -106,7 +106,7 @@ class Command(BaseCommand):
                     # error while getting user mystery
                     self.stderr.write(
                         self.style.WARNING("(Warning) error during mark "
-                                    "extraction: {}".format(user.username)))
+                                           "extraction: {}".format(user.username)))
                 except IOError:
                     # error writing file
                     self.stderr.write(
@@ -122,5 +122,3 @@ class Command(BaseCommand):
             # error writing file
             self.stderr.write(
                 self.style.ERROR("(Error) IOError."))
-
-
