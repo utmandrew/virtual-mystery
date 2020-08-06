@@ -7,6 +7,7 @@ from .models import Comment, Reply
 from mystery.models import Mystery, Instance
 from system.models import Group, Practical
 
+
 # Create your tests here.
 
 
@@ -24,7 +25,7 @@ class CommentCreateTest(TestCase):
         cls.User = get_user_model()
         # test dependencies
         cls.user = cls.User.objects.create_user(username='test1',
-                                             password='test1password')
+                                                password='test1password')
         cls.practical = Practical.objects.create()
         cls.group = Group.objects.create(name='group1',
                                          practical=cls.practical)
@@ -32,7 +33,7 @@ class CommentCreateTest(TestCase):
         cls.user.save()
         cls.mystery = Mystery.objects.create(name='mystery1')
         cls.instance = Instance.objects.create(group=cls.group,
-                                                mystery=cls.mystery)
+                                               mystery=cls.mystery)
 
     def test_invalid_authentication(self):
         """
@@ -57,8 +58,8 @@ class CommentCreateTest(TestCase):
         self.assertEqual(response.status_code, 401)
         # comment created test
         self.assertFalse(Comment.objects.filter(owner=self.user,
-                                               instance=self.instance,
-                                               text='first comment1').exists())
+                                                instance=self.instance,
+                                                text='first comment1').exists())
 
     def test_missing_data(self):
         """
@@ -83,8 +84,8 @@ class CommentCreateTest(TestCase):
         self.assertEqual(response.status_code, 400)
         # comment created test
         self.assertFalse(Comment.objects.filter(owner=self.user,
-                                               instance=self.instance,
-                                               text='first comment').exists())
+                                                instance=self.instance,
+                                                text='first comment').exists())
 
     def test_valid_comment(self):
         """
@@ -109,8 +110,8 @@ class CommentCreateTest(TestCase):
         self.assertEqual(response.status_code, 201)
         # comment created test
         self.assertTrue(Comment.objects.filter(owner=self.user,
-                                            instance=self.instance,
-                                                text='first comment').exists())
+                                               instance=self.instance,
+                                               text='first comment').exists())
 
     def test_multi_comment(self):
         """
@@ -150,8 +151,8 @@ class CommentCreateTest(TestCase):
         self.assertEqual(response.status_code, 403)
         # comment created test
         self.assertFalse(Comment.objects.filter(owner=self.user,
-                                               instance=self.instance,
-                                               text='second comment').exists())
+                                                instance=self.instance,
+                                                text='second comment').exists())
 
     def test_no_release(self):
         """
@@ -179,8 +180,8 @@ class CommentCreateTest(TestCase):
             self.assertEqual(response.status_code, 400)
             # comment created test
             self.assertFalse(Comment.objects.filter(owner=self.user,
-                                                instance=self.instance,
-                                                text='first comment').exists())
+                                                    instance=self.instance,
+                                                    text='first comment').exists())
 
 
 class CommentListTest(TestCase):
@@ -198,15 +199,15 @@ class CommentListTest(TestCase):
 
         # commented
         cls.user = cls.User.objects.create_user(username='test1',
-                                            password='test1password')
+                                                password='test1password')
 
         # commented
         cls.user2 = cls.User.objects.create_user(username='test2',
-                                            password='test2password')
+                                                 password='test2password')
 
         # not commented
         cls.user3 = cls.User.objects.create_user(username='test3',
-                                             password='test3password')
+                                                 password='test3password')
 
         cls.practical = Practical.objects.create()
         cls.group = Group.objects.create(name='group1',
@@ -249,8 +250,8 @@ class CommentListTest(TestCase):
             self.assertEqual(response.status_code, 201)
             # comment created test
             self.assertTrue(Comment.objects.filter(owner=self.user,
-                                                instance=self.instance,
-                                                text='first comment').exists())
+                                                   instance=self.instance,
+                                                   text='first comment').exists())
 
             # save comment id
             self.comment = Comment.objects.filter(owner=self.user,
@@ -280,8 +281,8 @@ class CommentListTest(TestCase):
 
             # save reply id
             self.reply = Reply.objects.filter(owner=self.user2,
-                                                   parent=self.comment,
-                                                   text='first reply')[0].id
+                                              parent=self.comment,
+                                              text='first reply')[0].id
 
             # second reply
             # auth token
@@ -306,8 +307,8 @@ class CommentListTest(TestCase):
 
             # save reply id
             self.reply2 = Reply.objects.filter(owner=self.user,
-                                              parent=self.comment,
-                                              text='second reply')[0].id
+                                               parent=self.comment,
+                                               text='second reply')[0].id
 
             # second comment
             # auth token
@@ -327,13 +328,13 @@ class CommentListTest(TestCase):
             self.assertEqual(response.status_code, 201)
             # comment created test
             self.assertTrue(Comment.objects.filter(owner=self.user2,
-                                            instance=self.instance,
-                                            text='second comment').exists())
+                                                   instance=self.instance,
+                                                   text='second comment').exists())
 
             # save comment id
             self.comment2 = Comment.objects.filter(owner=self.user2,
-                                                  instance=self.instance,
-                                                  text='second comment')[0].id
+                                                   instance=self.instance,
+                                                   text='second comment')[0].id
 
     def test_invalid_authentication(self):
         """
@@ -360,7 +361,7 @@ class CommentListTest(TestCase):
             self.assertEqual(response.status_code, 401)
             # returned comments test
             self.assertJSONEqual(response.content.decode('utf-8'),
-                {'detail': 'Invalid token.'})
+                                 {'detail': 'Invalid token.'})
 
     def test_no_comment(self):
         """
@@ -408,7 +409,7 @@ class CommentListTest(TestCase):
             # comment create response
             response = self.client.get(reverse('comment:comment_list',
                                                kwargs={'release': 1}),
-                                               {}, **header)
+                                       {}, **header)
 
             # run test
             # proper status code test
@@ -457,7 +458,7 @@ class ReplyCreateTest(TestCase):
         cls.User = get_user_model()
 
         cls.user = cls.User.objects.create_user(username='test1',
-                                            password='test1password')
+                                                password='test1password')
         cls.practical = Practical.objects.create()
         cls.group = Group.objects.create(name='group1',
                                          practical=cls.practical)
@@ -481,20 +482,20 @@ class ReplyCreateTest(TestCase):
 
         # comment create response
         response = self.client.post(reverse('comment:comment_create'), data,
-                                   **header)
+                                    **header)
 
         # run test
         # proper status code test
         self.assertEqual(response.status_code, 201)
         # comment created test
         self.assertTrue(Comment.objects.filter(owner=self.user,
-                                              instance=self.instance,
-                                              text='first comment').exists())
+                                               instance=self.instance,
+                                               text='first comment').exists())
 
         # save comment id
         self.comment = Comment.objects.filter(owner=self.user,
-                                             instance=self.instance,
-                                             text='first comment')[0].id
+                                              instance=self.instance,
+                                              text='first comment')[0].id
 
     def test_invalid_authentication(self):
         """
@@ -546,8 +547,8 @@ class ReplyCreateTest(TestCase):
         self.assertEqual(response.status_code, 400)
         # reply created test
         self.assertFalse(Reply.objects.filter(owner=self.user,
-                                             parent=self.comment,
-                                             text='first comment').exists())
+                                              parent=self.comment,
+                                              text='first comment').exists())
 
     def test_valid_reply(self):
         """
@@ -571,8 +572,8 @@ class ReplyCreateTest(TestCase):
         self.assertEqual(response.status_code, 201)
         # reply created test
         self.assertTrue(Reply.objects.filter(owner=self.user,
-                                              parent=self.comment,
-                                              text='first comment').exists())
+                                             parent=self.comment,
+                                             text='first comment').exists())
 
     def test_parent_dne(self):
         """
@@ -597,5 +598,5 @@ class ReplyCreateTest(TestCase):
         self.assertEqual(response.status_code, 400)
         # reply created test
         self.assertFalse(Reply.objects.filter(owner=self.user,
-                                             parent=self.comment,
-                                             text='first comment').exists())
+                                              parent=self.comment,
+                                              text='first comment').exists())
