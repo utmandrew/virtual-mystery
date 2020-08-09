@@ -19,7 +19,7 @@ activityLogger = logging.getLogger('activity')
 debugLogger = logging.getLogger('debug')
 
 
-def get_time_string() -> str:
+def get_time() -> str:
     """Gets the current date and time and returns it as a string format."""
     return datetime.now().strftime('%I:%M:%S %p, %d %b %Y')
 
@@ -121,7 +121,6 @@ class CommentCreate(APIView):
 
                     # sanitize the input string
                     data['text'] = sanitize_text(data, username)
-                    data['time'] = get_time_string()
 
                     serializer = CommentSerializer(data=data)
 
@@ -177,7 +176,6 @@ class ReplyCreate(APIView):
 
             # sanitize the input string
             data['text'] = sanitize_text(data, username)
-            data['time'] = get_time_string()
 
             # checks if reply owner and parent comment are in the same instance
             if Comment.objects.filter(instance=instance, id=data.get('parent', None)):

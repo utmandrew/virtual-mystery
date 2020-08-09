@@ -10,7 +10,7 @@ class ReplySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Reply
-        fields = ('id', 'username', 'owner', 'text', 'parent', 'time')
+        fields = ('id', 'username', 'owner', 'text', 'parent')
         read_only_fields = ('id', 'username')
         extra_kwargs = {'owner': {'write_only': True},
                         'parent': {'write_only': True}}
@@ -24,10 +24,10 @@ class ResultSerializer(serializers.ModelSerializer):
     class Meta:
         model = Result
         fields = ('owner', 'mark', 'feedback', 'comment', 'id')
-        # extra_kwargs = {'owner': {'write_only': True},
-        # 'feedback': {'write_only': True},
-        # 'mark': {'write_only': True},
-        # 'comment':{'write_only':True}}
+        #extra_kwargs = {'owner': {'write_only': True},
+                        #'feedback': {'write_only': True},
+                        #'mark': {'write_only': True},
+                        #'comment':{'write_only':True}}
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -41,12 +41,11 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ('id', 'username', 'text', 'marked', 'reply', 'owner',
-                  'instance', 'release', 'is_ta', 'time')
-        read_only_fields = ('id', 'username', 'reply', 'is_ta')
+                  'instance', 'release', 'is_ta')
+        read_only_fields = ('id', 'username', 'reply', 'is_ta' )
         extra_kwargs = {'owner': {'write_only': True},
                         'release': {'write_only': True},
                         'instance': {'write_only': True}}
-
 
 class TACommentSerializer(serializers.ModelSerializer):
     """
@@ -61,6 +60,6 @@ class TACommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ('id', 'username', 'text', 'marked', 'reply', 'owner', 'result',
                   'instance', 'release', 'is_ta')
-        read_only_fields = ('id', 'username', 'reply', 'is_ta', 'release')
+        read_only_fields = ('id', 'username', 'reply', 'is_ta','release')
         extra_kwargs = {'owner': {'write_only': True},
                         'instance': {'write_only': True}}
