@@ -14,3 +14,11 @@
     height: 200px;
     border-radius: 50%;
 }
+.comment-display h6 {
+    display: inline;
+}
+.comment-display span {
+    float: right;
+    color: darkgray;
+    font-size: small;
+}

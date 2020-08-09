@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 
+
 # Create your models here.
 
 
@@ -22,6 +23,9 @@ class Comment(models.Model):
     # comment text (no max char count)
     text = models.TextField()
 
+    # a string storing the time this comment was created
+    time = models.TextField()
+
     class Meta:
         ordering = ('created',)
         unique_together = ('owner', 'instance', 'release')
@@ -38,6 +42,8 @@ class Reply(models.Model):
                               on_delete=models.CASCADE)
     # reply text (no max char count)
     text = models.TextField()
+    # a string storing the time this reply was created
+    time = models.TextField()
     # refers to parent comment
     parent = models.ForeignKey(Comment, on_delete=models.CASCADE,
                                related_name='reply')
@@ -51,11 +57,11 @@ class Result(models.Model):
     Group model, Users refer to a specific group that they belong to.
     """
     owner = models.TextField()
-    
+
     # Mark Integer
     mark = models.FloatField()
     # feedback comment
     feedback = models.TextField()
     # the comment which is being marked
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE,
-                               related_name='result')
+                                related_name='result')

@@ -11,35 +11,35 @@ export class TAComponent implements OnInit {
 
   error: boolean = false;
   // for practicals
-  practical_data: Array<object>=[];
+  practical_data: Array<object> = [];
   chosen_practical: string;
   // for groups
   chosen_group: number;
-  group_data: Array<object>= [];
+  group_data: Array<object> = [];
   // for users
-  list_users: Array<object>= [];
+  list_users: Array<object> = [];
   chosen_user: string;
 
   // for the groups releases
-  groups_relases: Array<object>=[];
+  groups_relases: Array<object> = [];
   curr_release: number;
 
-  groups_comments: Array<object>=[];
+  groups_comments: Array<object> = [];
 
 
   edit: Boolean = false;
-  
+
   show_image: boolean = true;
-  
-  chosen_group_name: String="Choose Group";
+
+  chosen_group_name: String = "Choose Group";
 
   invalid: Boolean = false;
 
   // the results for a student given by the t.a
   results: Array<Result> = [];
-  
+
   // carousel image index to display
-  public display: number = 0; 
+  public display: number = 0;
 
 
 
@@ -54,13 +54,13 @@ export class TAComponent implements OnInit {
 
   ngOnInit() {
     // get all the Practicals in the course so far
-    this.chosen_practical="Choose Practical";
-    this.chosen_group= 0;
+    this.chosen_practical = "Choose Practical";
+    this.chosen_group = 0;
     this.chosen_user = "Choose User";
     this.getPracticals();
   }
 
-  reinitialize(){
+  reinitialize() {
     this.chosenUser(this.chosen_user);
     // this.chosen_practical="Choose Practical";
     // this.chosen_group="Choose Group";
@@ -68,7 +68,7 @@ export class TAComponent implements OnInit {
 
   }
 
-  public chosenPractical(praName){
+  public chosenPractical(praName) {
     this.getGroups(praName);
     this.chosen_practical = praName;
     this.chosen_group = 0;
@@ -77,7 +77,7 @@ export class TAComponent implements OnInit {
     this.groups_relases = [];
   }
 
-  public chosenGroup(group){
+  public chosenGroup(group) {
     this.getUsers(group.id);
     this.getGroupsRelases(group.id);
     this.chosen_group = group.id;
@@ -85,99 +85,99 @@ export class TAComponent implements OnInit {
     this.chosen_user = "Choose User";
   }
 
-  public chosenUser(userName){
+  public chosenUser(userName) {
     // now that a user is picked get his/her top-level to be marked
     this.chosen_user = userName;
 
   }
 
-  public getPracticals(){
-    this.taService.getPracticals().subscribe((data: Array<object>)=> {
+  public getPracticals() {
+    this.taService.getPracticals().subscribe((data: Array<object>) => {
       this.error = false;
-    this.practical_data = data;
+      this.practical_data = data;
 
     },
 
-    error => {
-      // ann error on the API call
-      this.error=true;
-    });
+      error => {
+        // ann error on the API call
+        this.error = true;
+      });
   }
 
 
   // after click on a practical
-  public getGroups(praName){
-    this.taService.getGroups(praName).subscribe((data: Array<object>)=> {
+  public getGroups(praName) {
+    this.taService.getGroups(praName).subscribe((data: Array<object>) => {
       this.error = false;
-    this.group_data = data;
+      this.group_data = data;
 
 
     },
 
-    error => {
-      // ann error on the API call
-      this.error=true;
-    });
+      error => {
+        // ann error on the API call
+        this.error = true;
+      });
   }
 
-  public getUsers(groupId){
-    this.taService.getUsers(groupId).subscribe((data: Array<object>)=> {
+  public getUsers(groupId) {
+    this.taService.getUsers(groupId).subscribe((data: Array<object>) => {
       this.error = false;
-    this.list_users = data;
+      this.list_users = data;
 
     },
-    error => {
-      // ann error on the API call
-      this.error=true;
-    });
+      error => {
+        // ann error on the API call
+        this.error = true;
+      });
   }
 
 
-  public getGroupsRelases(groupId){
-    this.taService.getGroupsRelases(groupId).subscribe((data: Array<object>)=> {
+  public getGroupsRelases(groupId) {
+    this.taService.getGroupsRelases(groupId).subscribe((data: Array<object>) => {
       this.error = false;
 
-	  this.groups_relases = data;
+      this.groups_relases = data;
       this.curr_release = JSON.parse(sessionStorage.getItem('currentUser'))['release'];
-    this.show_image = true;
- 
+      this.show_image = true;
 
-    this.getGroupsComments(groupId, this.curr_release);
+
+      this.getGroupsComments(groupId, this.curr_release);
     },
-    error => {
-      // ann error on the API call
-      this.error=true;
-    });
+      error => {
+        // ann error on the API call
+        this.error = true;
+      });
   }
 
-  public getGroupsComments(groupId, release){
-    this.taService.getGroupsComments(groupId, release).subscribe((data: Array<object>)=> {
+  public getGroupsComments(groupId, release) {
+    this.taService.getGroupsComments(groupId, release).subscribe((data: Array<object>) => {
       this.error = false;
       this.groups_comments = data;
       this.taComment.text = '';
-      for (let i = 0; i < this.groups_comments.length; i++ ){
+      for (let i = 0; i < this.groups_comments.length; i++) {
         this.createResultModel(i);
       }
 
     },
-    error => {
-      // ann error on the API call
-      this.error=true;
-    });
+      error => {
+        // ann error on the API call
+        this.error = true;
+      });
   }
 
-  public previousRelease(){
-      this.curr_release = this.curr_release - 1;
-      this.getGroupsComments(this.chosen_group, this.curr_release);
-	  this.show_image = true;
-	  this.display = 0;
+  public previousRelease() {
+    this.curr_release = this.curr_release - 1;
+    this.getGroupsComments(this.chosen_group, this.curr_release);
+    this.show_image = true;
+    this.display = 0;
   }
 
-  public nextRelease(){
-      this.curr_release = this.curr_release + 1;
-      this.getGroupsComments(this.chosen_group, this.curr_release);
-	  this.show_image = true;
-	  this.display = 0;
+  public nextRelease() {
+    this.curr_release = this.curr_release + 1;
+    this.getGroupsComments(this.chosen_group, this.curr_release);
+    this.show_image = true;
+    this.display = 0;
   }
 
   /* toggles show_replies flag for CommentInterface object */
@@ -192,107 +192,106 @@ export class TAComponent implements OnInit {
     }
   }*/
 
-  public sendResult(result, id){
+  public sendResult(result, id) {
     result.id = id;
-    if (result.mark == '' || result.mark == undefined || !(result.mark == '0' || result.mark == '1' || result.mark == '2')) {
+    let regexpfloat: RegExp = /^(\d*\.)?\d+$/;
+    if (!regexpfloat.test(result.mark)) {
       this.invalid = true;
-      // return
+      return
     }
     this.invalid = false;
-	
-	if (result.feedback==undefined || result.feedback.length == 0){
-      result.feedback="No Feedback";
-	}
+
+    if (result.feedback == undefined || result.feedback.length == 0) {
+      result.feedback = "No Feedback";
+    }
 
 
-    this.taService.sendResult(result).subscribe((response)=>{
+    this.taService.sendResult(result).subscribe((response) => {
       this.error = false;
       //this.reinitialize();
       this.getGroupsComments(this.chosen_group, this.curr_release);
 
     },
-    error => {
-      this.error = true;
+      error => {
+        this.error = true;
 
-    }
+      }
 
     );
 
     //this.chosenUser(this.chosen_user);
-
-
-
   }
 
-  public createTaComment(release, mystery){
+  public createTaComment(release, mystery) {
     this.taComment.release = release;
     this.taComment.mystery = mystery;
     this.taComment.group = this.chosen_group;
 
-    this.taService.createTaComment(this.taComment).subscribe((response)=>{
+    this.taService.createTaComment(this.taComment).subscribe((response) => {
       this.error = false;
       //this.reinitialize();
       this.getGroupsComments(this.chosen_group, this.curr_release);
       this.taComment.text = '';
     },
-    error => {
-      if(error.status === 400){
-        this.chosenPractical(this.chosen_practical);
+      error => {
+        if (error.status === 400) {
+          this.chosenPractical(this.chosen_practical);
 
+        }
+        this.error = true;
       }
-      this.error = true;
-    }
 
     );
 
   }
 
-  public toggleEdit(id){
+  public toggleEdit(id) {
     this.invalid = false;
-    if (this.results[id].edit == false){
+    if (this.results[id].edit == false) {
       this.results[id].edit = true;
-    }else{
+    } else {
       this.results[id].edit = false;
     }
   }
-  public selectEdit(feedback, mark, id){
+
+  public selectEdit(feedback, mark, id) {
     this.results[id].feedback = feedback;
     this.results[id].mark = mark;
 
   }
 
-  public createResultModel(id){
+  public createResultModel(id) {
     let result = new Result();
-    if (id >= this.results.length){
+    if (id >= this.results.length) {
       this.results.push(result);
-    } else{
+    } else {
       this.results[id] = result;
     }
 
   }
-  
+
   setShowImage(bool: boolean) {
-	  // sets show_image variable to bool
-	  this.show_image = bool;
+    // sets show_image variable to bool
+    this.show_image = bool;
   }
-  
+
   // returns an array with i elements
   counter(i: number) {
-	  return new Array(i);
+    return new Array(i);
   }
-  
+
   // selects next carousel image
   nextImage(maxIndex: number) {
-	  if (this.display < maxIndex) {
-		  this.display += 1;
-	  }
+    if (this.display < maxIndex) {
+      this.display += 1;
+    }
   }
-  
+
   // selects previous carousel image
   previousImage() {
-	  if (this.display > 0) {
-		  this.display -= 1;
-	  }
+    if (this.display > 0) {
+      this.display -= 1;
+    }
   }
 
 }
