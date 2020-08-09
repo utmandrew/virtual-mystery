@@ -39,11 +39,8 @@
 								<img src="assets/misc/shapeprofile.png" class="media-object" style="width:40px">
 							</div>
 							<div class="media-body ml-2 rounded">
-								<div class="comment-display">
-									<h6 class="text-uppercase font-weight-bold media-heading rounded">
-										{{ reply.username }} <span> {{reply.time}} </span>
-									</h6>
-								</div>
+								<h6 class="text-uppercase font-weight-bold media-heading rounded ">{{ reply.username }}
+								</h6>
 								<p class="lead rounded bg-reply shadow text-light mr-2 p-2"><span
 										[innerHTML]="reply.text | linky"></span></p>
 							</div>
