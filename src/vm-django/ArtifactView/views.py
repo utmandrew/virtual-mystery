@@ -15,7 +15,8 @@ from rest_framework.permissions import IsAuthenticated
 from release import get_current_release
 
 from . import models
-from mystery.models import Mystery, Release
+from mystery.models import Mystery,Release
+
 
 
 class ArtifactViewData(APIView):
@@ -24,14 +25,18 @@ class ArtifactViewData(APIView):
 
     """
 
+
     permission_classes = (permissions.IsAuthenticated,)
 
+
     def get(self, request, format=None):
+        
+
 
         current_week = get_current_release()
 
         # now releases are contricted in 1-3
-
+        
         if (current_week % 3) == 0:
             current_week = 3
         elif current_week % 3 == 1:
@@ -45,6 +50,8 @@ class ArtifactViewData(APIView):
 
         mystery_ob = Release.objects.get(pk=current_week)
 
+
+
         # Need to implement a method to assign mysteries to groups in a list format
         # so we can figure which mysteries to release in which order
         # later implement a method to organize all 1-9 releases for a student so we can 
@@ -56,21 +63,22 @@ class ArtifactViewData(APIView):
         # not currently storing images in db so we must use a path in front end
 
         path_image = "assets/anthro-virtual-mysteries/Archaeology-demo/"
-        # path_clue = "assets/anthro-virtual-mysteries/Archaeology-demo/"
+        #path_clue = "assets/anthro-virtual-mysteries/Archaeology-demo/"
         path_clue = mystery_ob.clue
-        # path_answer = "assets/anthro-virtual-mysteries/Archaeology-demo/"
+        #path_answer = "assets/anthro-virtual-mysteries/Archaeology-demo/"
         path_answer = mystery_ob.answer
 
-        path_image += str(mystery_name.name) + "/Release" + str(current_week) + "/image1.jpg"
-        # path_clue += str(request.user.group.mystery1) + "/Release" +str(current_week)+"/clue.txt"
-        # path_answer += str(request.user.group.mystery1) + "/Release" +str(current_week)+ "/ans.txt"
+        path_image += str(mystery_name.name) + "/Release" +str(current_week) +"/image1.jpg"
+        #path_clue += str(request.user.group.mystery1) + "/Release" +str(current_week)+"/clue.txt"
+        #path_answer += str(request.user.group.mystery1) + "/Release" +str(current_week)+ "/ans.txt"
 
-        # Release.objects.filter(mystery=users_mystery, release=required_release)
+
+        #Release.objects.filter(mystery=users_mystery, release=required_release)
         return Response({
-            'user': str(request.user),
-            'mystery': str(mystery_name.name),
-            'image': path_image,
-            'clue': path_clue,
-            'answer': path_answer,
-        },
-            status=status.HTTP_200_OK)
+                    'user': str(request.user),
+                    'mystery': str(mystery_name.name),
+                    'image': path_image,
+                    'clue': path_clue,
+                    'answer': path_answer, 
+                    }, 
+                    status=status.HTTP_200_OK)

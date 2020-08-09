@@ -3,7 +3,6 @@ import hashlib
 import hmac
 from django.conf import settings
 
-
 # Create your models here.
 
 
@@ -15,7 +14,7 @@ class Mystery(models.Model):
     name = models.TextField()
     # hashed mystery name
     hash = models.CharField(max_length=64, blank=True, null=True, default=None)
-
+    
     def save(self, *args, **kwargs):
         """
         overriding the default save method.

@@ -7,7 +7,6 @@ from comments.models import Comment, Reply
 from .models import Mystery, Instance, Release
 from system.models import Group, Practical
 
-
 # Create your tests here.
 
 
@@ -35,14 +34,14 @@ class ReleaseListTest(TestCase):
         cls.instance = Instance.objects.create(group=cls.group,
                                                mystery=cls.mystery)
         cls.release1 = Release.objects.create(mystery=cls.mystery,
-                                              number=1,
-                                              clue="clue1",
-                                              answer="answer1")
+                                             number=1,
+                                             clue="clue1",
+                                             answer="answer1")
         cls.hash1 = cls.release1.hash
         cls.release2 = Release.objects.create(mystery=cls.mystery,
-                                              number=2,
-                                              clue="clue2",
-                                              answer="answer2")
+                                             number=2,
+                                             clue="clue2",
+                                             answer="answer2")
         cls.hash2 = cls.release2.hash
         cls.release3 = Release.objects.create(mystery=cls.mystery,
                                               number=3,
@@ -63,7 +62,7 @@ class ReleaseListTest(TestCase):
 
         # release list response
         response = self.client.get(reverse('mystery:release_list'), {},
-                                   **header)
+                                    **header)
 
         # run test
         # proper status code test
@@ -121,7 +120,7 @@ class ReleaseListTest(TestCase):
 
             # comment create response
             response = self.client.get(reverse('mystery:release_list'), {},
-                                       **header)
+                                        **header)
 
             # run test
             # proper status code test
@@ -182,7 +181,7 @@ class ArtifactTest(TestCase):
         # release list response
         response = self.client.get(reverse('mystery:artifact_view',
                                            kwargs={'release': 1}), {},
-                                   **header)
+                                           **header)
 
         # run test
         # proper status code test
@@ -207,7 +206,7 @@ class ArtifactTest(TestCase):
             # comment create response
             response = self.client.get(reverse('mystery:artifact_view',
                                                kwargs={'release': 1}), {},
-                                       **header)
+                                               **header)
 
             # run test
             # proper status code test
@@ -241,7 +240,7 @@ class ArtifactTest(TestCase):
             # comment create response
             response = self.client.get(reverse('mystery:artifact_view',
                                                kwargs={'release': 3}), {},
-                                       **header)
+                                               **header)
 
             # run test
             # proper status code test
@@ -282,3 +281,20 @@ class ArtifactTest(TestCase):
         """
 
         pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

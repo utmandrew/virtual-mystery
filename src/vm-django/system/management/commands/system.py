@@ -196,3 +196,5 @@ class Command(BaseCommand):
         except IOError:
             # error reading file
             self.stderr.write(self.style.ERROR("(Error) Error reading file."))
+
+

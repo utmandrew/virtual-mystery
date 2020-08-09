@@ -49,56 +49,50 @@ class ListGroups(APIView):
     Take a Practical name as input and return all groups
     that are in that practical
     """
-
-    def get(self, request, praName):
+    def get(self,request,praName):
         # TO DO: need to send all names for all groups
 
-        practical = Practical.objects.filter(name=praName).first()
+        practical = Practical.objects.filter(name= praName).first()
 
-        group = Group.objects.filter(practical=practical)
+        group = Group.objects.filter(practical = practical)
 
-        serializer = GroupSerializer(group, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
 
+        serializer = GroupSerializer(group,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
 
 class ListUsers(APIView):
     """
     Take a Practical name as input and return all groups
     that are in that practical
     """
-
-    def get(self, request, groupId):
+    def get(self,request, groupId):
         # TO DO: need to send all names for all groups
 
-        group = Group.objects.filter(id=groupId).first()
+        group = Group.objects.filter(id = groupId).first()
 
         users = User.objects.filter(group=group)
 
         serializer = ProfileSerializer(users, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
+        return Response(serializer.data,status=status.HTTP_200_OK)
 
 class UserCheck(APIView):
     """
     Checks if the user is a TA or not
     """
-
-    def get(self, request, Formant=None):
+    def get(self,request ,Formant=None):
         user = request.user.is_ta
-        return Response({'is_ta': user}, status=status.HTTP_200_OK)
-
+        return Response ({'is_ta':user}, status=status.HTTP_200_OK)
 
 class UserComment(APIView):
     """
     Take a Practical name as input and return all groups
     that are in that practical
     """
-
-    def get(self, request, userName):
-        # Blog.objects.filter(entry__headline__contains='Lennon', entry__pub_date__year=2008)
+    def get(self,request, userName):
+        #Blog.objects.filter(entry__headline__contains='Lennon', entry__pub_date__year=2008)
         selectedUser = User.objects.get(username=userName)
-        selectedComment = Comment.objects.filter(owner=selectedUser)
+        selectedComment = Comment.objects.filter(owner= selectedUser)
 
-        serializer = CommentSerializer(selectedComment, many=True)
+        serializer = CommentSerializer(selectedComment,many=True)
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data,status=status.HTTP_200_OK)

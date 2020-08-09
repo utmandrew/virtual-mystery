@@ -161,8 +161,8 @@ class LogoutTest(TestCase):
         # gets custom user model
         cls.User = get_user_model()
         cls.user = cls.User.objects.create_user(username="Test1",
-                                                email="Test1@example.com",
-                                                password="12345")
+                                             email="Test1@example.com",
+                                             password="12345")
         if cls.custom:
             cls.practical = Practical.objects.create()
             cls.group = Group.objects.create(name='group1',
@@ -266,3 +266,4 @@ class LogoutTest(TestCase):
             self.assertEqual(response.status_code, 401)
             # user token test
             self.assertEqual(token2.key, token1.key)
+

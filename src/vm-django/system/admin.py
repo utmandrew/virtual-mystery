@@ -12,12 +12,12 @@ class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
 
     fieldsets = UserAdmin.fieldsets + (
-        (None, {'fields': ('group', 'is_ta')}),
+        (None, {'fields': ('group','is_ta')}),
     )
 
     # fields to be displayed in admin
     add_fieldsets = UserAdmin.add_fieldsets + (
-        (None, {'fields': ('group', 'is_ta')}),
+        (None, {'fields': ('group','is_ta')}),
     )
 
 
@@ -25,3 +25,5 @@ class CustomUserAdmin(UserAdmin):
 admin.site.register(User, CustomUserAdmin)
 admin.site.register(Group)
 admin.site.register(Practical)
+
+

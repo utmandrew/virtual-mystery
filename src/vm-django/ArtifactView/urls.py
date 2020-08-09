@@ -10,5 +10,5 @@ router.register('artifact-viewset', views.ArtifactViewData, basename='artifact-v
 
 urlpatterns = [
     url(r'^artifact-view/', views.ArtifactViewData.as_view()),
-    # url(r'', include(router.urls))
+    #url(r'', include(router.urls))
 ]

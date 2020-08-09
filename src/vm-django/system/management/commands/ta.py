@@ -128,7 +128,7 @@ class Command(BaseCommand):
                             # csv entries are stripped of leading and trailing
                             # whitespace
                             _ = create_ta(row[0].strip(), row[1].strip(),
-                                          row[2].strip())
+                                            row[2].strip())
 
                         except IntegrityError:
                             # duplicate information

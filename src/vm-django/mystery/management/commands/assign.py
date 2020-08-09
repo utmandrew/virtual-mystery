@@ -53,7 +53,7 @@ class Command(BaseCommand):
     Format: PRA,Group,Mystery
     """
 
-    help = 'Used to create mystery app instance objects and connections from ' \
+    help = 'Used to create mystery app instance objects and connections from '\
            'csv file (Format: PRA,Group,Mystery)'
 
     def add_arguments(self, parser):
