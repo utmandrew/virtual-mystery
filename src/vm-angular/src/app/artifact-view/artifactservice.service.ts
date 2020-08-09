@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpService} from '../http.service';
+import { HttpService } from '../http.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +8,7 @@ import { HttpService} from '../http.service';
 /* Service that allows access to all artifactview component functions dealing with api */
 export class ArtifactserviceService {
 
-  API_URL = '/api';
+  API_URL = 'http://localhost:8000/api';
   ASSETS_URL = '/static/mystery';
 
   constructor(private httpClient: HttpService) { }

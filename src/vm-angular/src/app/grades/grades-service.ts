@@ -6,20 +6,20 @@ import { HttpService } from '../http.service';
   providedIn: 'root'
 })
 export class GradesService {
-  API_URL = '/api';
+  API_URL = 'http://localhost:8000/api';
 
   constructor(private httpClient: HttpService) { }
-  
+
   /*
   Returns a list of comments for the logged in user
   - Comment objects have their results
   - Sort Comments by release number
   */
-  getGradesList(){
+  getGradesList() {
     return this.httpClient.get(`${this.API_URL}/comment/userGrades`);
 
   }
 
-  
-  
+
+
 }

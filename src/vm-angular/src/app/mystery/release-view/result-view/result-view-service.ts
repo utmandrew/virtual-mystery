@@ -11,11 +11,11 @@ import { HttpService } from '../../../http.service';
 export class ResultViewService {
 
 
-  API_URL = '/api';
+  API_URL = 'http://localhost:8000/api';
 
   constructor(private httpClient: HttpService) { }
 
-  getComment(){
+  getComment() {
     return this.httpClient.get(`${this.API_URL}/comment/userResult`);
   }
 
