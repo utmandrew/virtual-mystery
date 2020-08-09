@@ -21,7 +21,7 @@ debugLogger = logging.getLogger('debug')
 
 def get_time_string() -> str:
     """Gets the current date and time and returns it as a string format."""
-    return datetime.now().strftime('%I:%M:%S %p, %d %b %Y').lstrip('0')
+    return datetime.now().strftime('%I:%M:%S %p, %d %b %Y')
 
 
 def sanitize_text(data: dict, username: str) -> str:
