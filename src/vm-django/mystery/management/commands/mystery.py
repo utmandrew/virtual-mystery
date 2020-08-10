@@ -2,6 +2,7 @@ import os
 import re
 import chardet
 from shutil import copyfile
+from markdown import markdown
 from django.db import IntegrityError
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
@@ -14,14 +15,12 @@ if not os.path.exists(STATIC_DIR):
     os.makedirs(STATIC_DIR)
 
 
-def decode_bytes(rawdata):
+def decode_bytes(rawdata: bytes) -> str:
     """
-    Returns decoded string from byte data, rawdata.
-    :param rawdata: bytes object
-    :return: string
+    Returns a decoded string from byte data formatted for markdown.
     """
     encoding = chardet.detect(rawdata)['encoding']
-    return rawdata.decode(encoding)
+    return markdown(rawdata.decode(encoding))
 
 
 def get_release_number(rname):
