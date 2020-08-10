@@ -6,7 +6,7 @@ import { HttpService } from '../http.service';
 
 /* Service that allows access to all of comment component functions dealing with api */
 export class CommentService {
-  API_URL = 'http://localhost:8000/api';
+  API_URL = '/api';
 
   constructor(private httpClient: HttpService) { }
 

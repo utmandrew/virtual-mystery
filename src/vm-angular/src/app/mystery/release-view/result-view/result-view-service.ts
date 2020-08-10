@@ -11,7 +11,7 @@ import { HttpService } from '../../../http.service';
 export class ResultViewService {
 
 
-  API_URL = 'http://localhost:8000/api';
+  API_URL = '/api';
 
   constructor(private httpClient: HttpService) { }
 
