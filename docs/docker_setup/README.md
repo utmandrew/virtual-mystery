@@ -12,3 +12,6 @@ This guide will go through deploying Virtual Mystery via docker from a fresh Ubu
 
 4. **Copy in content**  
     Copy in the mystery contents into `virtual-mystery/src/data/vm-data` with the contents formatted according to the [readme](https://github.com/utmandrew/virtual-mystery/blob/master/src/data/vm-data/readme.txt "contents readme").
+
+5. **Copy in SSL certificates**  
+    Obtain SSL certificates for the domain you will be hosting Virtual Mystery on, and copy those certificates into `virtual-mystery/src/data/ssl`. The [readme](https://github.com/utmandrew/virtual-mystery/blob/master/src/data/ssl/readme.txt "ssl certificates readme") has more information about the types of certificates needed.
