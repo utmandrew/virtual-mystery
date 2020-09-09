@@ -1,5 +1,5 @@
 This guide will go through deploying Virtual Mystery via docker from a fresh Ubuntu/WSL2 install, similar to what was done in the [WSL_setup](https://github.com/utmandrew/virtual-mystery/tree/master/docs/WSL_setup "WSL setup documentation") documentation.
 
 1. **Installing docker-cli**  
-    Do not do this through `apt` or `apt-get`. 
+    Do not do this through `apt` or `apt-get`.  
     test
