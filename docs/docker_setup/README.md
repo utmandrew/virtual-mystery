@@ -22,4 +22,4 @@ This guide will go through deploying Virtual Mystery via docker from a fresh Ubu
 
 ### Miscellaneous tips
 1. Enter the django container by running `sudo docker exec -it src_django_1 bash`.  
-    test
+    The apache logs are located at `/var/log/apache2` within the container, for when you need to debug any issues.
