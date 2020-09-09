@@ -6,7 +6,7 @@ Requirements:
 
     C:\Users\haoch>ver
 
-    Microsoft Windows [Version 10.0.19041.264]
+    Microsoft Windows [Version 10.0.19041.508]
 
 1. **Enabling WSL**  
      Go to `Control Panel` > `Programs` > `Programs and Features` > `Turn Windows features on or off`.  
@@ -124,15 +124,21 @@ Requirements:
      ```
      Python 3.8.2
      asgiref==3.2.10
+     bleach==3.1.5
      chardet==3.0.4
      Django==3.0.7
      django-cors-headers==3.4.0
      djangorestframework==3.11.0
+     Markdown==3.2.2
      mod-wsgi==4.7.1
      mod-wsgi-httpd==2.4.41.1
+     packaging==20.4
      psycopg2==2.8.5
+     pyparsing==2.4.7
      pytz==2020.1
+     six==1.15.0
      sqlparse==0.3.1
+     webencodings==0.5.1
      ```
 
 12. **Configure Django settings.py file**
