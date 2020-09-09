@@ -2,4 +2,4 @@ This guide will go through deploying Virtual Mystery via docker from a fresh Ubu
 
 1. **Installing docker-cli**  
     Do not do this through `apt` or `apt-get`.  
-    test
+    Instead, follow the instructions [here](https://docs.docker.com/engine/install/ubuntu/ "Docker Ubuntu setup") to set up docker.
