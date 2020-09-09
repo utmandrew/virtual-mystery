@@ -1,7 +1,7 @@
 This guide will go through setting up Virtual Mystery on a Windows machine from scratch.
 
 Requirements:
-    `Windows 10 version 2004, build 19041 or higher.`
+    `Windows 10 version 2004, build 19041 or higher`.
     Open command prompt and type `ver` to check this.
 
     C:\Users\haoch>ver
