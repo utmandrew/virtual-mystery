@@ -16,7 +16,12 @@ This guide will go through deploying Virtual Mystery via docker from a fresh Ubu
 5. **Copy in SSL certificates**  
     Obtain SSL certificates for the domain you will be hosting Virtual Mystery on, and copy those certificates into `virtual-mystery/src/data/ssl`. The [readme](https://github.com/utmandrew/virtual-mystery/blob/master/src/data/ssl/readme.txt "ssl certificates readme") has more information about the types of certificates needed.
 
-6. **Start up the containers**  
+6. **Building Angular**  
+     Navigate to `virtual-mystery/src/vm-angular`.  
+     Run `sudo npm install`, this takes a while.  
+     Run `ng build --prod`, this also takes a while, and will produce a `dist` folder.
+
+7. **Start up the containers**  
     Make sure docker is running, you can start it by running the command `sudo service docker start`.  
     `cd` to `virtual-mystery/src` and run `sudo docker-compose up --build -d` and the website should begin building.
 
