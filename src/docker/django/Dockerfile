@@ -1,4 +1,4 @@
-FROM python:3.6
+FROM python:3.8
 
 # update linux and install apache2
 RUN apt-get update && apt-get install -y apache2 apache2-dev && apt-get clean
@@ -13,7 +13,7 @@ COPY Requirements.txt /opt
 WORKDIR /opt
 
 # install and create a python virtual environment
-RUN pip3.6 install virtualenv && virtualenv --python=/usr/local/bin/python3.6 djangoenv
+RUN pip3.8 install virtualenv && virtualenv --python=/usr/local/bin/python3.8 djangoenv
 
 # run the rest of the commands in the virtual environment
 WORKDIR djangoenv/bin
@@ -21,7 +21,7 @@ RUN /bin/bash -c "source activate"
 
 # install python packages
 WORKDIR /opt
-RUN pip3.6 install -r Requirements.txt && pip3.6 install mod_wsgi
+RUN pip3.8 install -r Requirements.txt && pip3.8 install mod_wsgi
 
 # Change into django project directory
 WORKDIR /opt/vm-django
@@ -35,9 +35,10 @@ COPY /docker/django/wait-for-it.sh .
 # give permission to execute start.sh and django files
 RUN chmod +x start.sh && chmod o+x /opt
 
+# enable logging
+RUN chmod 622 /opt/vm-django/logs/activity.log
+RUN chmod 622 /opt/vm-django/logs/debug.log
+
 # copies apache .conf files
 COPY docker/django/000-default.conf /etc/apache2/sites-enabled/000-default.conf
 COPY docker/django/000-default.conf /etc/apache2/sites-available/000-default.conf
-
-
-
