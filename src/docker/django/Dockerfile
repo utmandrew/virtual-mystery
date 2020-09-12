@@ -35,10 +35,6 @@ COPY /docker/django/wait-for-it.sh .
 # give permission to execute start.sh and django files
 RUN chmod +x start.sh && chmod o+x /opt
 
-# enable logging
-RUN chmod 622 /opt/vm-django/logs/activity.log
-RUN chmod 622 /opt/vm-django/logs/debug.log
-
 # copies apache .conf files
 COPY docker/django/000-default.conf /etc/apache2/sites-enabled/000-default.conf
 COPY docker/django/000-default.conf /etc/apache2/sites-available/000-default.conf
