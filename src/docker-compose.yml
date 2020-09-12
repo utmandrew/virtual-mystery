@@ -32,6 +32,7 @@ services:
       - ./data/private:/opt/vm-django/system/private
       - ./data/vm-static:/opt/vm-django/static
       - ./data/vm-data:/opt/vm-django/data
+      - ./vm-django/logs:/opt/vm-django/logs
       # mounts migrations files to aid in database persistence 
       - ./data/migrations/authentication/migrations:/opt/vm-django/authentication/migrations
       - ./data/migrations/comments/migrations:/opt/vm-django/comments/migrations
