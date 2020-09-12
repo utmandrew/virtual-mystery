@@ -27,7 +27,7 @@ This guide will go through deploying Virtual Mystery via docker from a fresh Ubu
 
 8. **Change permissions on log files**  
     Navigate to `virtual-mystery/src/vm-django/logs` and run `chmod 622 activity.log debug.log`.  
-    This will enable the container to write to the log files.
+    This will enable the container to write to the log files on the host file system.
 
 ### Miscellaneous tips
 1. Enter the django container by running `sudo docker exec -it src_django_1 bash`.  
