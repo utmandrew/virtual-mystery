@@ -22,3 +22,15 @@
     color: darkgray;
     font-size: small;
 }
+
+.row.rounded.shadow.m-1.p-2 span {
+    display:block;
+    width:650px;
+    word-wrap:break-word;
+}
+
+.lead.rounded.bg-reply.shadow.text-light.mr-2.p-2 span {
+    display:block;
+    width:650px;
+    word-wrap:break-word;
+}
