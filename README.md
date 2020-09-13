@@ -6,5 +6,5 @@ Application for delivering for Virtual Mystery assignments in courses.
 * [src](https://github.com/utmandrew/virtual-mystery/tree/master/src): application site root
 
 ## screenshots
-Virtual Mystery looks like this:
-![](docs/readme_images/login_screen.PNG)
+Some screenshots of Virtual Mystery:
+- Login screen ![](docs/readme_images/login_screen.PNG)
