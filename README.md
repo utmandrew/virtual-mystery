@@ -11,3 +11,7 @@ Some screenshots of Virtual Mystery:
 - **Home page** ![](docs/readme_images/home_page.PNG)
 - **Clue submission** ![](docs/readme_images/clue.PNG)
 - **Comment and reply system** ![](docs/readme_images/discussion.PNG)
+- **TA view** ![](docs/readme_images/ta_view.PNG)
+- **TA grading view** ![](docs/readme_images/grading.PNG)
+- **Student results view** ![](docs/readme_images/grading_student.PNG)
+- **Password reset screen** ![](docs/readme_images/reset_password.PNG)
