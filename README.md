@@ -7,4 +7,4 @@ Application for delivering for Virtual Mystery assignments in courses.
 
 ## screenshots
 Some screenshots of Virtual Mystery:
-- Login screen ![](docs/readme_images/login_screen.PNG)
+- Login screen ![](docs/readme_image/login_screen.PNG)
