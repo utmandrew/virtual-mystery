@@ -2,6 +2,7 @@ import logging
 from datetime import datetime
 
 import bleach
+from markdown import markdown
 from django.core.exceptions import ObjectDoesNotExist
 
 from rest_framework import status, permissions
@@ -26,10 +27,14 @@ def get_time_string() -> str:
 
 def sanitize_text(data: dict, username: str) -> str:
     """
-    Sanitizes text for HTML and logs to debug.log if offending comment found.
-    Returns the sanitized string with newlines replaced with <br>.
+    Sanitizes text for unwanted HTML and logs to debug.log if offending comment found.
+    Returns the sanitized string with newlines replaced with <br> and formatted
+    for Markdown.
+
+    Also sets a hard character limit at 8000 characters to prevent abuse. Anything
+    after 8000 characters is cut off. (fails silently, no warning is given)
     """
-    text = data['text']
+    text = data['text'][:8000]
 
     bleached_text = bleach.clean(text,
                                  tags=['a', 'abbr', 'acronym', 'b', 'blockquote',
@@ -41,7 +46,7 @@ def sanitize_text(data: dict, username: str) -> str:
         # log warning if text contains unwanted HTML
         debugLogger.warning(f'HTML detected in comment or reply ({username}): {data}')
     # change newlines to line breaks to observe paragraph spacing
-    return bleached_text.replace('\n', '<br>')
+    return markdown(bleached_text).replace('\n', '<br />')
 
 
 # Create your views here.
