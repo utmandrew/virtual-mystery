@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpService} from '../http.service';
+import { HttpService } from '../http.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,35 +19,35 @@ export class TAService {
     return this.httpClient.get(`${this.API_URL}/system/practicals/`)
   }
 
-  getGroups(name: string){
+  getGroups(name: string) {
     // Call to get all the groups
     return this.httpClient.get(`${this.API_URL}/system/groups/${name}`)
   }
 
-  getUsers(groupId: number){
+  getUsers(groupId: number) {
     // Call to retrieve all users in groupName
     return this.httpClient.get(`${this.API_URL}/system/users/${groupId}`)
   }
 
-  getComment(userName: string){
+  getComment(userName: string) {
     // Get the top level comments made by a user for this week
     return this.httpClient.get(`${this.API_URL}/system/userComment/${userName}`)
   }
 
-  getGroupsRelases(groupId: number){
+  getGroupsRelases(groupId: number) {
     return this.httpClient.get(`${this.API_URL}/mystery/release/group/${groupId}`)
   }
 
-  getGroupsComments(groupId, release){
+  getGroupsComments(groupId, release) {
     return this.httpClient.get(`${this.API_URL}/comment/${release}/${groupId}`)
   }
 
-  sendResult(data){
-    return this.httpClient.post(`${this.API_URL}/comment/resultCreate`,data);
+  sendResult(data) {
+    return this.httpClient.post(`${this.API_URL}/comment/resultCreate`, data);
   }
 
-  createTaComment(data){
-    return this.httpClient.post(`${this.API_URL}/comment/taCreate`,data);
+  createTaComment(data) {
+    return this.httpClient.post(`${this.API_URL}/comment/taCreate`, data);
   }
 
 
