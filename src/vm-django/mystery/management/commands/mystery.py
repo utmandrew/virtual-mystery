@@ -19,8 +19,10 @@ def decode_bytes(rawdata: bytes) -> str:
     """
     Returns a decoded string from byte data formatted for markdown.
     """
-    encoding = chardet.detect(rawdata)['encoding']
-    return markdown(rawdata.decode(encoding))
+    if rawdata:
+        encoding = chardet.detect(rawdata)['encoding']
+        return markdown(rawdata.decode(encoding))
+    return ''
 
 
 def get_release_number(rname):
@@ -170,9 +172,10 @@ class Command(BaseCommand):
 
                         # release folder
                         if files:
-                            # print(os.path.basename(root))
+                            #print(os.path.basename(root), os.path.basename(os.path.dirname(root)))
                             # for files in release folder
                             for file_path in files:
+                                #print(os.path.basename(file_path))
                                 # text file
                                 if file_path.lower().endswith("clue.txt"):
                                     # clue file
@@ -263,9 +266,10 @@ class Command(BaseCommand):
                                     # mystery name
                                     os.path.basename(root)
                                 )))
-                    except OSError:
+                    except OSError as e:
                         if files:
                             # release being processed
+                            print(e)
                             self.stderr.write(self.style.WARNING(
                                 "(Warning) Processing Problem: {} {}".format(
                                     # mystery name
