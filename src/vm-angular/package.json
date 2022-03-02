@@ -38,7 +38,7 @@
     "popper.js": "^1.15.0",
     "rxjs": "^6.5.2",
     "tar": "^4.4.10",
-    "url-parse": "^1.4.7",
+    "url-parse": "^1.5.9",
     "webpack-dev-server": "^3.5.1",
     "ws": "^7.0.0",
     "zone.js": "^0.9.1"
