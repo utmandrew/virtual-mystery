@@ -35,6 +35,7 @@ export class TAComponent implements OnInit {
 
   invalid: Boolean = false;
 
+  showDiscussion: Boolean = false;
   // the results for a student given by the t.a
   results: Array<Result> = [];
 
@@ -294,4 +295,9 @@ export class TAComponent implements OnInit {
     }
   }
 
+  toggleDiscussion() {
+    this.showDiscussion = this.showDiscussion ?
+      this.showDiscussion = false :
+      this.showDiscussion = true;
+  }
 }

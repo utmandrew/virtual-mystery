@@ -1,5 +1,5 @@
 <div class="col-md-8 offset-md-2">
-    <div>
+    <div class="row">
         <!-- list of practicals in course -->
 
         <div class="btn-group mt-2">
@@ -54,9 +54,26 @@
             </div>
         </div>
 
-        <!-- list of users in that group -->
+        <!-- Toggle between marking and discussion -->
+        <div class="col">
+            <div class="row justify-content-end">
+                <div *ngIf="showDiscussion">
+                    <div class="btn btn-primary btn-sm mt-2 ml-2" (click)="toggleDiscussion()">
+                        Mark
+                    </div>
+                </div>
 
+                <div *ngIf="!showDiscussion">
+                    <div class="btn btn-primary btn-sm mt-2 ml-2" (click)="toggleDiscussion()">
+                        Show discussion
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+
+
     <hr>
 
 
@@ -143,48 +160,51 @@
 
         <!-- Top for this group -->
         <div *ngIf="groups_comments.length > 0">
-            <div class="container m-0 p-0" *ngFor="let comment of groups_comments; let i = index;">
-                <div *ngIf="(comment.username == chosen_user || chosen_user == 'Choose User') && !(comment.is_ta) ">
-                    <!-- Top Level Comments -->
 
-                    <!-- this car contains selected user's comments and ability for a ta to
+            <div *ngIf="!showDiscussion">
+                <div class="container m-0 p-0" *ngFor="let comment of groups_comments; let i = index;">
+                    <div *ngIf="(comment.username == chosen_user || chosen_user == 'Choose User') && !(comment.is_ta) ">
+                        <!-- Top Level Comments -->
+
+                        <!-- this car contains selected user's comments and ability for a ta to
                  submit a mark to the user and some feedback-->
 
-                    <div class="card shadow-sm my-3" [ngClass]="{'bg-info rounded text-white': comment.marked===true}">
+                        <div class="card shadow-sm my-3"
+                            [ngClass]="{'bg-info rounded text-white': comment.marked===true}">
 
-                        <div class="card-body">
-                            <div class="card-title font-weight-bold text-uppercase"> {{ comment.username }}</div>
-                            <p class="card-text font-italic">
-                                " <span [innerHTML]="comment.text | linky"></span> "
-                            </p>
-                            <hr>
-                            <div *ngIf="!comment.marked">
-                                <div class="input-group mb-1">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">Feedback</span>
+                            <div class="card-body">
+                                <div class="card-title font-weight-bold text-uppercase"> {{ comment.username }}</div>
+                                <p class="card-text font-italic">
+                                    " <span [innerHTML]="comment.text | linky"></span> "
+                                </p>
+                                <hr>
+                                <div *ngIf="!comment.marked">
+                                    <div class="input-group mb-1">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Feedback</span>
+                                        </div>
+                                        <textarea class="form-control" rows="1" name="text" required minlength="2"
+                                            [(ngModel)]="results[i].feedback" #text="ngModel"
+                                            placeholder="Your feedback for this student"></textarea>
+
+
                                     </div>
-                                    <textarea class="form-control" rows="1" name="text" required minlength="2"
-                                        [(ngModel)]="results[i].feedback" #text="ngModel"
-                                        placeholder="Your feedback for this student"></textarea>
 
-
-                                </div>
-
-                                <div class="input-group mb-1">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">Mark</span>
+                                    <div class="input-group mb-1">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Mark</span>
+                                        </div>
+                                        <input class="form-control" type="text" placeholder="Your mark" required
+                                            minlength="2" [(ngModel)]="results[i].mark">
                                     </div>
-                                    <input class="form-control" type="text" placeholder="Your mark" required
-                                        minlength="2" [(ngModel)]="results[i].mark">
-                                </div>
-                                <div *ngIf="invalid" class="alert alert-danger" role="alert">
-                                    Marks must be an integer or decimal number.
-                                </div>
-                                <button class="btn btn-outline-danger float-right"
-                                    (click)="sendResult(results[i], comment.id)"> Submit </button>
+                                    <div *ngIf="invalid" class="alert alert-danger" role="alert">
+                                        Marks must be an integer or decimal number.
+                                    </div>
+                                    <button class="btn btn-outline-danger float-right"
+                                        (click)="sendResult(results[i], comment.id)"> Submit </button>
 
 
-                                <!--
+                                    <!--
                     <button type="button" class="btn btn-outline-danger float-right" data-toggle="modal" data-target="#confirmModal">
                         Submit
                     </button>
@@ -213,79 +233,132 @@
                         Button trigger modal -->
 
 
-                            </div>
+                                </div>
 
-                            <div *ngIf="comment.marked">
-                                <p class="card-text font-italic"> Feedback: {{ comment.result[0].feedback }}</p>
-                                <p class="card-text font-italic"> Mark: {{ comment.result[0].mark }}</p>
+                                <div *ngIf="comment.marked">
+                                    <p class="card-text font-italic"> Feedback: {{ comment.result[0].feedback }}</p>
+                                    <p class="card-text font-italic"> Mark: {{ comment.result[0].mark }}</p>
 
-                                <button *ngIf="results[i].edit==false"
-                                    class="btn btn-light shadow-lg btn-sm float-right"
-                                    (click)="toggleEdit(i); selectEdit(comment.result[0].feedback,comment.result[0].mark, i)">
-                                    Edit Marks
-                                </button>
+                                    <button *ngIf="results[i].edit==false"
+                                        class="btn btn-light shadow-lg btn-sm float-right"
+                                        (click)="toggleEdit(i); selectEdit(comment.result[0].feedback,comment.result[0].mark, i)">
+                                        Edit Marks
+                                    </button>
 
-                                <div *ngIf="results[i].edit==true">
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">Feedback</span>
+                                    <div *ngIf="results[i].edit==true">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Feedback</span>
+                                            </div>
+                                            <textarea class="form-control" type="text" rows="1"
+                                                placeholder="Your feedback" required minlength="2"
+                                                [(ngModel)]="results[i].feedback"></textarea>
                                         </div>
-                                        <textarea class="form-control" type="text" rows="1" placeholder="Your feedback"
-                                            required minlength="2" [(ngModel)]="results[i].feedback"></textarea>
-                                    </div>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">Mark</span>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Mark</span>
+                                            </div>
+                                            <input class="form-control" type="text" placeholder="Your mark" required
+                                                minlength="1" [(ngModel)]="results[i].mark">
                                         </div>
-                                        <input class="form-control" type="text" placeholder="Your mark" required
-                                            minlength="1" [(ngModel)]="results[i].mark">
-                                    </div>
-                                    <div *ngIf="invalid" class="alert alert-danger" role="alert">
-                                        Marks must be an integer or decimal number.
-                                    </div>
+                                        <div *ngIf="invalid" class="alert alert-danger" role="alert">
+                                            Marks must be an integer or decimal number.
+                                        </div>
 
-                                    <button class="btn btn-light shadow-lg btn-sm float-right"
-                                        (click)="sendResult(results[i], comment.id);"> Submit </button>
-                                    <button class="btn btn-light shadow-lg btn-sm mr-2 float-right"
-                                        (click)="toggleEdit(i)"> Cancel </button>
+                                        <button class="btn btn-light shadow-lg btn-sm float-right"
+                                            (click)="sendResult(results[i], comment.id);"> Submit </button>
+                                        <button class="btn btn-light shadow-lg btn-sm mr-2 float-right"
+                                            (click)="toggleEdit(i)"> Cancel </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
-
-                    <!-- Toggle Replies Button
-    					<span class="float-right">-->
-                    <!-- Shows replies button only if replies exist <span *ngIf="comment.reply.length" class="float-right">
-    						<button type="button" class="btn btn-sm" (click)="toggleReply(comment.id)" > replies </button>
-                        </span>
-            -->
-
-                    <!-- Replies
-    		<div *ngIf="comment.show_replies" >
-    			<div class="container" *ngFor="let reply of comment.reply" >
-    				<div class="alert alert-secondary p-2 m-1" >
-    					<p class="alert-heading font-weight-bold" >{{ reply.username }}</p>
-    					<div class="pl-4" >
-    						{{ reply.text }}
-    					</div>
-    				</div>
-    			</div>
-             </div>
-            -->
-
                 </div>
-            </div>
-            <div class="container m-0 p-0" *ngFor="let comment of groups_comments">
-                <div class="card shadow-sm my-3" *ngIf="comment.is_ta">
-                    <div class="card-body">
-                        <div class="card-title font-weight-bold text-uppercase"> TA: {{ comment.username }}</div>
-                        <p class="card-text font-italic">
-                            <span [innerHTML]="comment.text | linky"></span>
-                        </p>
+                <div class="container m-0 p-0" *ngFor="let comment of groups_comments">
+                    <div class="card shadow-sm my-3" *ngIf="comment.is_ta">
+                        <div class="card-body">
+                            <div class="card-title font-weight-bold text-uppercase"> TA: {{ comment.username }}</div>
+                            <p class="card-text font-italic">
+                                <span [innerHTML]="comment.text | linky"></span>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
+            <!-- Display discussion  -->
+            <div *ngIf="showDiscussion">
+                <div *ngFor="let comment of groups_comments; let i = index">
+                    <!-- Top Level Comments -->
+                    <div class="media">
+
+                        <div class="media-left mr-2">
+                            <img *ngIf="!comment.is_ta" src="assets/misc/shapeprofile.png" class="media-object"
+                                style="width:40px">
+                            <img *ngIf="comment.is_ta" src="assets/misc/shapetaprofile.png" class="media-object"
+                                style="width:40px">
+                        </div>
+                        <div class="media-body">
+                            <div class="comment-display-2">
+                                <h6 class="text-uppercase font-weight-bold media-heading rounded">
+                                    {{ comment.username }} <span> {{comment.time}} </span>
+                                </h6>
+                            </div>
+                            <div class="row rounded shadow m-1 p-2"
+                                [ngClass]="{' bg-ta': comment.is_ta===true , 'bg-info': comment.is_ta===false}">
+                                <p class="col-12 lead rounded text-light"><span
+                                        [innerHTML]="comment.text | linky"></span></p>
+
+                                <!-- Replies -->
+
+                                <button class="col btn btn-sm text-light"
+                                    [ngClass]="{' bg-ta': comment.is_ta===true , 'btn-info': comment.is_ta===false}"
+                                    data-toggle="collapse"
+                                    [attr.data-target]="'#comment' + i">{{ comment.reply.length }}
+                                    Replies</button>
+                            </div>
+
+                            <div class="collapse mb-3" id="{{ 'comment' + i }}">
+                                <div class="mt-2" *ngFor="let reply of comment.reply">
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <img src="assets/misc/shapeprofile.png" class="media-object"
+                                                style="width:40px">
+                                        </div>
+                                        <div class="media-body ml-2 rounded">
+                                            <div class="comment-display-2">
+                                                <h6 class="text-uppercase font-weight-bold media-heading rounded">
+                                                    {{ reply.username }} <span> {{reply.time}} </span>
+                                                </h6>
+                                            </div>
+                                            <p class="lead rounded bg-reply shadow text-light mr-2 p-2"><span
+                                                    [innerHTML]="reply.text | linky"></span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Create reply -->
+                                <!-- <div class="media">
+                            <div class="media-left">
+                                <img src="assets/misc/shapeprofile.png" class="media-object" style="width:40px">
+                            </div>
+
+                            <div class="media-body rounded">
+                                <app-replycreate [parentId]="comment.id" (replyEvent)="recieveReply($event)">
+                                </app-replycreate>
+                            </div>
+                        </div> -->
+
+                                <!-- ReplyCreate Component -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Display discussion END -->
+
         </div>
+
 
         <!-- release navigation buttons -->
         <div class="btn-toolbar mx-auto my-3" style="width: 200px;">

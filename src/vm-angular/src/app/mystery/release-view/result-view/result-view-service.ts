@@ -15,7 +15,7 @@ export class ResultViewService {
 
   constructor(private httpClient: HttpService) { }
 
-  getComment(){
+  getComment() {
     return this.httpClient.get(`${this.API_URL}/comment/userResult`);
   }
 
